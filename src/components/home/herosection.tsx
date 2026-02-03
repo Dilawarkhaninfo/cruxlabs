@@ -9,73 +9,51 @@ import {
     ChevronLeft,
     ChevronRight,
     Zap,
-    Sparkles,
-    Rocket,
     Code2,
-    Lightbulb
+    Cpu,
+    Shield,
+    Globe,
+    Activity
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 const slides = [
     {
         id: 1,
-        badge: "Next_Gen_Systems",
-        title: "DIGITAL",
-        subtitle: "VELOCITY",
-        description: "Architecting the infrastructure of tomorrow. We build hyper-scalable platforms designed for speed, security, and absolute dominance.",
+        badge: "STRATEGIC_FRAMEWORK_v4",
+        title: "ENGINEERING",
+        subtitle: "SCALABLE_GROWTH",
+        description: "We architect high-performance digital systems that transform complex business challenges into streamlined revenue engines with scientific precision.",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
-        gradient: "from-sky-400 to-white",
         accentColor: "sky-500",
-        icon: Zap,
+        icon: Cpu,
         diagonal: "polygon(0 0, 75% 0, 55% 100%, 0 100%)",
+        id_code: "SYS_001_ALPHA"
     },
     {
         id: 2,
-        badge: "Innovation_Unleashed",
-        title: "CREATIVE",
-        subtitle: "MASTERY",
-        description: "Transform vision into reality with cutting-edge design systems. We craft experiences that captivate, convert, and dominate the digital landscape.",
-        image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=1920&q=80",
-        gradient: "from-purple-400 to-pink-400",
-        accentColor: "purple-500",
-        icon: Sparkles,
+        badge: "INFRASTRUCTURE_MODULE",
+        title: "TECHNICAL",
+        subtitle: "INFRASTRUCTURE",
+        description: "Deploying enterprise-grade architecture engineered for absolute stability, global availability, and impenetrable security protocols.",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
+        accentColor: "sky-500",
+        icon: Code2,
         diagonal: "polygon(0 0, 65% 0, 45% 100%, 0 100%)",
+        id_code: "SYS_002_BETA"
     },
     {
         id: 3,
-        badge: "Performance_Peak",
-        title: "BLAZING",
-        subtitle: "SPEED",
-        description: "Milliseconds matter. Our optimization frameworks deliver lightning-fast performance that leaves competitors in the dust and users amazed.",
+        badge: "DEPLOYMENT_STRATEGY",
+        title: "DIGITAL",
+        subtitle: "DOMINANCE",
+        description: "Executing data-driven marketing logic that bypasses traditional inefficiencies to capture market share with high-velocity precision.",
         image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1920&q=80",
-        gradient: "from-orange-400 to-red-400",
-        accentColor: "orange-500",
-        icon: Rocket,
+        accentColor: "sky-500",
+        icon: Zap,
         diagonal: "polygon(0 0, 70% 0, 50% 100%, 0 100%)",
-    },
-    {
-        id: 4,
-        badge: "Code_Excellence",
-        title: "TECH",
-        subtitle: "SUPREMACY",
-        description: "Built on enterprise-grade architecture with military-level security. Your digital fortress engineered by the world's elite developers.",
-        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
-        gradient: "from-cyan-400 to-blue-400",
-        accentColor: "cyan-500",
-        icon: Code2,
-        diagonal: "polygon(0 0, 68% 0, 48% 100%, 0 100%)",
-    },
-    {
-        id: 5,
-        badge: "Future_Forward",
-        title: "RADICAL",
-        subtitle: "VISION",
-        description: "We don't follow trends—we create them. Pioneering tomorrow's digital experiences with AI-powered solutions and breakthrough innovation.",
-        image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1920&q=80",
-        gradient: "from-emerald-400 to-teal-400",
-        accentColor: "emerald-500",
-        icon: Lightbulb,
-        diagonal: "polygon(0 0, 72% 0, 52% 100%, 0 100%)",
+        id_code: "SYS_003_GAMMA"
     },
 ]
 
@@ -87,7 +65,7 @@ export default function HeroSlider() {
         const timer = setInterval(() => {
             setDirection(1)
             setCurrentSlide((prev) => (prev + 1) % slides.length)
-        }, 7000)
+        }, 8000)
         return () => clearInterval(timer)
     }, [])
 
@@ -106,26 +84,36 @@ export default function HeroSlider() {
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
     }
 
-    const current = slides[currentSlide]
+    const current = slides[currentSlide] || slides[0]
     const Icon = current.icon
 
     const slideVariants = {
         enter: (direction: number) => ({
-            x: direction > 0 ? "100%" : "-100%",
+            x: direction > 0 ? "20%" : "-20%",
             opacity: 0,
+            scale: 1.1
         }),
         center: {
             x: 0,
             opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 1.2,
+                ease: [0.22, 1, 0.36, 1] as any
+            }
         },
         exit: (direction: number) => ({
-            x: direction > 0 ? "-100%" : "100%",
+            x: direction > 0 ? "-10%" : "10%",
             opacity: 0,
+            transition: {
+                duration: 0.8,
+                ease: "easeIn" as any
+            }
         }),
     }
 
     return (
-        <section className="relative h-screen w-full overflow-hidden bg-[#020617] text-white">
+        <section className="relative h-screen w-full overflow-hidden bg-zinc-950 text-white">
 
             {/* BACKGROUND IMAGES WITH ANIMATION */}
             <AnimatePresence initial={false} custom={direction}>
@@ -136,247 +124,209 @@ export default function HeroSlider() {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="absolute inset-0 z-0"
                 >
                     <div
-                        className="absolute inset-0 bg-cover bg-center brightness-50"
+                        className="absolute inset-0 bg-cover bg-center brightness-[0.3] scale-105"
                         style={{ backgroundImage: `url(${current.image})` }}
                     />
-                    {/* Mobile Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/60 to-transparent lg:hidden" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent" />
                 </motion.div>
             </AnimatePresence>
 
-            {/* DIAGONAL OVERLAY WITH GRID TEXTURE */}
+            {/* DIAGONAL TRAPEZOID OVERLAY */}
             <AnimatePresence initial={false}>
                 <motion.div
                     key={`diagonal-${current.id}`}
                     initial={{ x: "-100%" }}
                     animate={{ x: "0%" }}
                     exit={{ x: "-100%" }}
-                    transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0 z-10 hidden lg:block bg-[#020617]"
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 z-10 hidden lg:block bg-zinc-950/20 backdrop-blur-[2px]"
                     style={{ clipPath: current.diagonal }}
                 >
-                    {/* Radial Grid Texture */}
+                    {/* Technical Grid Texture */}
                     <div
-                        className="absolute inset-0 opacity-20"
+                        className="absolute inset-0 opacity-[0.03]"
                         style={{
-                            backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
-                            backgroundSize: "40px 40px",
+                            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+                            backgroundSize: "30px 30px",
                         }}
                     />
 
-                    {/* Accent Glow */}
-                    <div
-                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-${current.accentColor}/10 blur-3xl rounded-full`}
-                    />
+                    {/* Skewed Accent Line */}
+                    <div className="absolute top-0 right-0 w-[1px] h-full bg-sky-500/20 shadow-[0_0_20px_rgba(14,165,233,0.3)]" />
                 </motion.div>
             </AnimatePresence>
 
             {/* MAIN CONTENT CONTAINER */}
-            <div className="relative z-20 mx-auto h-full max-w-7xl px-6 flex items-center pt-20">
+            <div className="relative z-20 mx-auto h-full max-w-7xl px-10 flex items-center pt-12">
 
-                <div className="w-full flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8">
+                <div className="w-full flex flex-col lg:flex-row lg:justify-between lg:items-center">
 
                     {/* LEFT CONTENT */}
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={current.id}
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            transition={{ duration: 0.6 }}
-                            className="max-w-xl lg:max-w-2xl flex flex-col items-start gap-6 lg:gap-8"
-                        >
+                    <div className="max-w-xl lg:max-w-2xl flex flex-col items-start gap-6">
 
-                            {/* BADGE WITH ICON */}
-                            <div className="flex items-center gap-4">
-                                <div className={`h-12 w-12 rounded-none bg-${current.accentColor}/20 border border-${current.accentColor}/30 flex items-center justify-center`}
-                                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
-                                >
-                                    <Icon className={`h-6 w-6 text-${current.accentColor}`} />
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={current.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.5 }}
+                                className="flex flex-col gap-4"
+                            >
+                                {/* BADGE MODULE */}
+                                <div className="flex items-center gap-4">
+                                    <div className="h-10 w-10 bg-zinc-900 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg] shadow-lg shadow-sky-500/5">
+                                        <Icon className="h-5 w-5 text-sky-500 skew-x-[12deg]" />
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <div className="h-[2px] w-12 bg-sky-500 mb-1" />
+                                        <span className="text-sky-500 font-black italic tracking-[0.2em] text-[10px] uppercase">
+                                            {current.badge}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col">
-                                    <div className={`h-[2px] w-16 bg-${current.accentColor} mb-2`} />
-                                    <span className={`text-${current.accentColor} font-bold italic tracking-widest text-xs uppercase`}>
-                                        {current.badge}
-                                    </span>
-                                </div>
-                            </div>
 
-                            {/* MAIN HEADLINES - STAGGER ANIMATION */}
-                            <div className="space-y-0">
-                                <motion.div
-                                    initial={{ x: -100, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.2, duration: 0.8 }}
-                                    className="overflow-hidden"
-                                >
-                                    <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black italic tracking-tighter leading-[0.9] text-white">
+                                {/* HEADLINES - 20% REDUCED SIZE */}
+                                <div className="space-y-1">
+                                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black italic tracking-tighter leading-[0.95] text-white uppercase">
                                         {current.title}
                                     </h1>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{ x: -100, opacity: 0 }}
-                                    animate={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.4, duration: 0.8 }}
-                                    className="overflow-hidden"
-                                >
-                                    <h1
-                                        className={`text-6xl sm:text-7xl lg:text-9xl font-black italic tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r ${current.gradient}`}
-                                    >
+                                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black italic tracking-tighter leading-[0.95] text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-600 uppercase">
                                         {current.subtitle}
                                     </h1>
-                                </motion.div>
-                            </div>
+                                </div>
 
-                            {/* DESCRIPTION */}
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.6 }}
-                                className={`text-zinc-400 italic text-sm sm:text-lg max-w-lg leading-relaxed border-l-4 border-${current.accentColor}/30 pl-6`}
-                            >
-                                {current.description}
-                            </motion.p>
+                                {/* DESCRIPTION */}
+                                <p className="text-zinc-400 italic text-[14px] sm:text-[16px] max-w-lg leading-relaxed border-l-2 border-sky-500/20 pl-6 mt-2 uppercase tracking-wide">
+                                    {current.description}
+                                </p>
 
-                            {/* CTA BUTTONS */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.8 }}
-                                className="flex flex-col sm:flex-row items-start gap-4 mt-4"
-                            >
-                                <Link href="/contact">
-                                    <Button
-                                        className={`relative h-14 px-10 bg-${current.accentColor} hover:bg-white text-white hover:text-black font-black italic uppercase tracking-wider text-xs transition-all duration-300 group overflow-hidden border-0 rounded-none`}
-                                        style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+                                {/* CTA ACTIONS */}
+                                <div className="flex flex-col sm:flex-row items-start gap-4 mt-6">
+                                    <Link href="/contact">
+                                        <Button
+                                            className="relative h-14 px-10 bg-sky-500 hover:bg-white text-zinc-950 font-black italic uppercase tracking-[0.2em] text-[11px] transition-all duration-300 group overflow-hidden border-0 rounded-none shadow-xl shadow-sky-500/10"
+                                            style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+                                        >
+                                            <span className="relative z-10 flex items-center gap-2">
+                                                INITIALIZE_PROJECT <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                                            </span>
+                                            <div className="absolute inset-0 bg-white/40 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12 opacity-0 group-hover:opacity-100" />
+                                        </Button>
+                                    </Link>
+
+                                    <div
+                                        className="flex items-center gap-4 px-6 py-4 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm cursor-pointer hover:bg-zinc-800 transition-all duration-300 group rounded-none"
+                                        style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
                                     >
-                                        <span className="relative z-10 mr-2">Init_Project</span>
-                                        <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-                                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                                    </Button>
-                                </Link>
-
-                                <div
-                                    className="hidden sm:flex items-center gap-4 px-6 py-4 border border-white/10 bg-white/5 backdrop-blur-sm cursor-pointer hover:bg-white/10 transition-all duration-300 group rounded-none"
-                                    style={{ clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0 100%)" }}
-                                >
-                                    <div className={`h-10 w-10 rounded-none border-2 border-${current.accentColor}/50 flex items-center justify-center group-hover:bg-${current.accentColor} group-hover:border-${current.accentColor} transition-all duration-300`}>
-                                        <Play className={`h-4 w-4 fill-${current.accentColor} text-${current.accentColor} group-hover:fill-white group-hover:text-white transition-colors`} />
+                                        <div className="h-8 w-8 bg-zinc-950 border border-sky-500/20 flex items-center justify-center -skew-x-[12deg] group-hover:border-sky-500 group-hover:bg-sky-500 transition-all duration-300">
+                                            <Play className="h-3 w-3 fill-sky-500 text-sky-500 skew-x-[12deg] group-hover:fill-zinc-950 group-hover:text-zinc-950" />
+                                        </div>
+                                        <span className="text-[10px] font-black italic text-zinc-400 tracking-[0.2em] group-hover:text-white transition-colors uppercase">
+                                            VIEW_OPERATIONS
+                                        </span>
                                     </div>
-                                    <span className="text-xs font-bold italic text-zinc-300 tracking-wider group-hover:text-white transition-colors">
-                                        WATCH_DEMO
-                                    </span>
                                 </div>
                             </motion.div>
+                        </AnimatePresence>
+                    </div>
 
-                        </motion.div>
-                    </AnimatePresence>
-
-                    {/* RIGHT SIDE - NAVIGATION DOTS (Desktop) */}
-                    <div className="hidden lg:flex flex-col items-center gap-6">
-                        {slides.map((slide, index) => {
-                            const SlideIcon = slide.icon
-                            return (
-                                <button
-                                    key={slide.id}
-                                    onClick={() => goToSlide(index)}
-                                    className={`group relative transition-all duration-300 ${index === currentSlide ? 'scale-110' : 'scale-100 opacity-60 hover:opacity-100'
-                                        }`}
-                                >
-                                    <div
-                                        className={`relative h-16 w-16 flex items-center justify-center border-2 transition-all duration-300 ${index === currentSlide
-                                                ? `border-${slide.accentColor} bg-${slide.accentColor}/10`
-                                                : 'border-white/20 hover:border-white/40'
-                                            }`}
-                                        style={{ clipPath: "polygon(25% 0, 100% 0, 75% 100%, 0 100%)" }}
-                                    >
-                                        <SlideIcon className={`h-7 w-7 transition-colors ${index === currentSlide ? `text-${slide.accentColor}` : 'text-white/60'
-                                            }`} />
-                                    </div>
-
-                                    {/* Progress Bar */}
+                    {/* RIGHT SIDE - TECHNICAL METRIC INDICATORS */}
+                    <div className="hidden lg:flex flex-col items-end gap-10">
+                        {slides.map((slide, index) => (
+                            <button
+                                key={slide.id}
+                                onClick={() => goToSlide(index)}
+                                className={cn(
+                                    "group relative flex items-center gap-6 transition-all duration-500",
+                                    index === currentSlide ? "opacity-100" : "opacity-30 hover:opacity-60"
+                                )}
+                            >
+                                <div className="flex flex-col items-end">
+                                    <span className="text-[10px] font-mono text-sky-500 tracking-tighter">{slide.id_code}</span>
+                                    <span className="text-[11px] font-black italic uppercase tracking-widest text-white">{slide.title}</span>
+                                </div>
+                                <div className={cn(
+                                    "h-14 w-1 flex items-start justify-center transition-all duration-500",
+                                    index === currentSlide ? "bg-sky-500 scale-y-100" : "bg-zinc-800 scale-y-50"
+                                )}>
                                     {index === currentSlide && (
                                         <motion.div
-                                            initial={{ scaleY: 0 }}
-                                            animate={{ scaleY: 1 }}
-                                            transition={{ duration: 7, ease: "linear" }}
-                                            className={`absolute -left-2 top-0 w-1 h-full bg-${slide.accentColor} origin-top`}
+                                            layoutId="heroIndicator"
+                                            className="h-2 w-4 bg-sky-500 absolute -right-1"
+                                            style={{ clipPath: "polygon(0 0, 100% 50%, 0 100%)" }}
                                         />
                                     )}
-                                </button>
-                            )
-                        })}
+                                </div>
+                            </button>
+                        ))}
                     </div>
 
                 </div>
 
             </div>
 
-            {/* NAVIGATION ARROWS */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 lg:left-10 lg:translate-x-0 flex items-center gap-4 z-30">
-                <button
-                    onClick={prevSlide}
-                    className="group h-12 w-12 border-2 border-white/20 hover:border-white/60 flex items-center justify-center transition-all duration-300 hover:scale-110 rounded-none"
-                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
-                >
-                    <ChevronLeft className="h-6 w-6 text-white group-hover:translate-x-[-2px] transition-transform" />
-                </button>
-
+            {/* NAVIGATION MODULE (Bottom Left) */}
+            <div className="absolute bottom-10 left-10 flex items-center gap-6 z-30">
                 <div className="flex items-center gap-2">
-                    {slides.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => goToSlide(index)}
-                            className={`h-1 transition-all duration-300 ${index === currentSlide
-                                    ? `w-12 bg-${current.accentColor}`
-                                    : 'w-6 bg-white/30 hover:bg-white/50'
-                                }`}
-                        />
-                    ))}
+                    <button
+                        onClick={prevSlide}
+                        className="group h-10 w-10 border border-zinc-800 hover:border-sky-500 flex items-center justify-center transition-all bg-zinc-950/50 -skew-x-[12deg]"
+                    >
+                        <ChevronLeft className="h-4 w-4 text-zinc-500 group-hover:text-sky-500 skew-x-[12deg]" />
+                    </button>
+                    <button
+                        onClick={nextSlide}
+                        className="group h-10 w-10 border border-zinc-800 hover:border-sky-500 flex items-center justify-center transition-all bg-zinc-950/50 -skew-x-[12deg]"
+                    >
+                        <ChevronRight className="h-4 w-4 text-zinc-500 group-hover:text-sky-500 skew-x-[12deg]" />
+                    </button>
                 </div>
 
-                <button
-                    onClick={nextSlide}
-                    className="group h-12 w-12 border-2 border-white/20 hover:border-white/60 flex items-center justify-center transition-all duration-300 hover:scale-110 rounded-none"
-                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
-                >
-                    <ChevronRight className="h-6 w-6 text-white group-hover:translate-x-[2px] transition-transform" />
-                </button>
+                <div className="flex flex-col">
+                    <div className="flex items-baseline gap-1">
+                        <span className="text-xl font-black italic text-white leading-none">0{currentSlide + 1}</span>
+                        <span className="text-[10px] font-mono text-zinc-600 leading-none">/ 0{slides.length}</span>
+                    </div>
+                    <div className="w-24 h-[2px] bg-zinc-800 mt-2 overflow-hidden">
+                        <motion.div
+                            key={currentSlide}
+                            initial={{ x: "-100%" }}
+                            animate={{ x: "0%" }}
+                            transition={{ duration: 8, ease: "linear" }}
+                            className="h-full bg-sky-500 w-full"
+                        />
+                    </div>
+                </div>
             </div>
 
-            {/* STATUS BAR (Bottom Right) */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={current.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    className="absolute bottom-10 right-10 hidden xl:flex items-center gap-4 z-20"
-                >
-                    <div className="flex flex-col items-end">
-                        <span className={`text-xs font-bold italic text-${current.accentColor} tracking-widest`}>
-                            SLIDE_{String(currentSlide + 1).padStart(2, '0')}
-                        </span>
-                        <span className="text-[10px] font-mono text-zinc-500">
-                            AUTO_ROTATE: 7s
-                        </span>
-                    </div>
-                    <div className={`h-10 w-[2px] bg-${current.accentColor} rotate-12`} />
-                    <Icon className={`h-6 w-6 text-${current.accentColor}`} />
-                </motion.div>
-            </AnimatePresence>
+            {/* LIVE DATA STREAM (Bottom Center) */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden xl:flex items-center gap-12 text-zinc-500 z-30 pointer-events-none">
+                <div className="flex items-center gap-3">
+                    <Activity className="h-3 w-3 text-sky-500 animate-pulse" />
+                    <span className="text-[9px] font-black italic uppercase tracking-[0.3em]">System_Pulse_Active</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Globe className="h-3 w-3 text-sky-500" />
+                    <span className="text-[9px] font-black italic uppercase tracking-[0.3em]">Latency: 12ms</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Shield className="h-3 w-3 text-sky-500" />
+                    <span className="text-[9px] font-black italic uppercase tracking-[0.3em]">Security: Grade_AA</span>
+                </div>
+            </div>
 
-            {/* DECORATIVE LINE */}
+            {/* RADIAL SCAN ANIMATION */}
             <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 1, duration: 1.5, ease: "easeInOut" }}
-                className={`absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-${current.accentColor} via-transparent to-transparent z-30`}
+                animate={{
+                    opacity: [0, 0.2, 0],
+                    y: ["0%", "100%", "0%"]
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-transparent via-sky-500/5 to-transparent h-20 w-full"
             />
 
         </section>
