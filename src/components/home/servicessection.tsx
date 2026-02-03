@@ -8,14 +8,10 @@ import {
   Database,
   ShieldCheck,
   Search,
-  TrendingUp,
-  Cloud,
-  Settings,
-  Sparkles,
   ArrowUpRight,
   MoveRight
 } from "lucide-react"
-import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"
+import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
@@ -63,9 +59,18 @@ export default function ServicesSection() {
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
+  // Smooth spring physics for mouse movement
   const springConfig = { damping: 25, stiffness: 150 }
   const x = useSpring(mouseX, springConfig)
   const y = useSpring(mouseY, springConfig)
+
+  // Scroll-based reveal effects
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+  const sectionOpacity = useTransform(scrollYProgress, [0, 0.2, 0.9, 1], [0, 1, 1, 0])
+  const sectionScale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -81,28 +86,30 @@ export default function ServicesSection() {
   }, [mouseX, mouseY])
 
   return (
-    <section
+    <motion.section
       ref={containerRef}
+      style={{ opacity: sectionOpacity, scale: sectionScale }}
       className="relative py-24 sm:py-32 px-6 overflow-hidden bg-[#fafafa] border-t border-slate-200"
     >
-      {/* 1. Global Section Grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
-        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      {/* 1. Unified Engineering Grid (Matching Hero & WhyChooseUs) */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
-      {/* 2. Section Mouse Glow */}
+      {/* 2. Interactive Area Mouse Glow */}
       <motion.div
         style={{ x, y, translateX: "-50%", translateY: "-50%", left: "50%", top: "50%" }}
         className="absolute w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* Header: Technical Specification */}
+        {/* Header: Unified Scaling & Typography */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
               <Badge className="mb-6 rounded-full border-blue-200 bg-blue-50/50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb]">
                 Service Architecture
@@ -131,16 +138,16 @@ export default function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* Services Matrix: Technical Cards */}
+        {/* Services Matrix: Staggered Scroll Entrances */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className="group relative p-8 bg-white border border-slate-200 rounded-3xl transition-all hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
             >
               {/* Card Decoration: Engineering marks */}
@@ -151,7 +158,7 @@ export default function ServicesSection() {
                   Module ID: {index + 1} // {service.tag}
                 </span>
 
-                <div className="mb-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-[#0f172a] group-hover:bg-[#2563eb] group-hover:text-white transition-all duration-300">
+                <div className="mb-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-[#0f172a] border border-slate-100 group-hover:bg-[#2563eb] group-hover:text-white group-hover:border-blue-400 transition-all duration-300">
                   <service.icon className="h-6 w-6" />
                 </div>
 
@@ -166,22 +173,25 @@ export default function ServicesSection() {
 
                 <div className="h-[1px] w-full bg-slate-100 mb-6" />
 
-                <button className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
                   Initialize Integration
                 </button>
               </div>
 
-              {/* Hover Interactive Glow */}
+              {/* Hover Interactive Glow Overlay */}
               <div className="absolute bottom-[-20%] right-[-20%] w-[150px] h-[150px] bg-blue-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Background Marks */}
+      {/* Side Background Markings */}
       <div className="absolute top-1/2 -right-4 translate-y-[-50%] text-[10px] font-mono text-slate-300 tracking-[0.8em] vertical-rl uppercase rotate-180 pointer-events-none opacity-40">
-        Growth Infrastructure Systems // V4.0.1
+        Growth Infrastructure Systems // CRUX_V4.0
       </div>
-    </section>
+      <div className="absolute bottom-10 left-10 text-[10px] font-mono text-slate-200 tracking-widest uppercase pointer-events-none">
+        Integrated Framework [0x2A4C9]
+      </div>
+    </motion.section>
   )
 }
