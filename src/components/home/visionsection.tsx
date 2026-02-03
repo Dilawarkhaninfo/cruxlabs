@@ -1,6 +1,6 @@
 "use client"
 
-import { Target, Lightbulb, Zap, Users, ArrowRight } from "lucide-react"
+import { Target, Lightbulb, Zap, Users, ArrowUpRight, Shield, Activity, Globe } from "lucide-react"
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
 import { useRef, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
@@ -14,17 +14,6 @@ export default function VisionSection() {
   const springConfig = { damping: 30, stiffness: 200 }
   const x = useSpring(mouseX, springConfig)
   const y = useSpring(mouseY, springConfig)
-
-  // Parallax effects for cards
-  const cardX = useTransform(x, [-500, 500], [-20, 20])
-  const cardY = useTransform(y, [-500, 500], [-15, 15])
-
-  // Scroll parallax for background
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -43,131 +32,202 @@ export default function VisionSection() {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-32 lg:py-40 px-6 overflow-hidden bg-[#020617] text-white"
+      className="relative py-24 sm:py-32 lg:py-48 px-6 overflow-hidden bg-[#020617] text-white"
     >
-      {/* 1. Fixed Background Parallax Image */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 z-0 opacity-40 grayscale-[0.5] contrast-125"
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/vision-bg.png")' }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-[#020617]" />
-      </motion.div>
+      {/* 1. DIAGONAL BACKGROUND PARTITION */}
+      <div
+        className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: "linear-gradient(45deg, #0f172a 25%, transparent 25%, transparent 50%, #0f172a 50%, #0f172a 75%, transparent 75%, transparent)",
+          backgroundSize: "100px 100px"
+        }}
+      />
 
-      {/* 2. Technical Grid & Glows */}
-      <div className="absolute inset-0 z-1 z-[1] pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(#2563eb_0.5px,transparent_0.5px)] [background-size:32px_32px] opacity-10" />
+      <motion.div
+        initial={{ x: "100%" }}
+        whileInView={{ x: "0%" }}
+        transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0 z-0 bg-blue-600/5"
+        style={{
+          clipPath: "polygon(100% 0, 100% 100%, 40% 100%, 70% 0)"
+        }}
+      />
+
+      {/* 2. TECHNICAL GRID & MOUSE GLOW */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <motion.div
           style={{ x, y }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[120px]"
         />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* Header: Systematic Approach */}
-        <div className="mx-auto max-w-3xl text-center mb-20">
+
+        {/* Header Block - Diagonal Dynamic Style */}
+        <div className="max-w-4xl mb-24 transform -skew-x-[6deg]">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="flex items-center gap-4 mb-8"
           >
-            <Badge
-              className="mb-6 rounded-full border-white/10 bg-white/5 backdrop-blur-md px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-blue-400"
+            <div className="h-12 w-12 bg-blue-500/10 border-2 border-blue-500/30 flex items-center justify-center -skew-x-[12deg]">
+              <Globe className="h-6 w-6 text-blue-400 skew-x-[12deg]" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="h-[2px] w-20 bg-blue-500" />
+              <span className="text-blue-400 font-bold italic tracking-[0.3em] text-[10px] uppercase">
+                Global_Visionary_Status
+              </span>
+            </div>
+          </motion.div>
+
+          <div className="space-y-0 italic font-black tracking-tighter leading-[0.85] uppercase">
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-6xl sm:text-8xl lg:text-9xl text-white"
             >
-              <Lightbulb className="mr-2 h-3.5 w-3.5" />
-              Macro Vision
-            </Badge>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8">
-              Transforming <br />
-              <span className="text-[#2563eb]">The Growth Logic</span>
-            </h2>
-            <p className="text-lg text-white/60 leading-relaxed font-medium">
-              We don't build projects; we engineer scalable futures. Our vision is to
-              redefine the standard of digital performance through absolute technical mastery.
-            </p>
-          </motion.div>
+              MACRO
+            </motion.h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-6xl sm:text-8xl lg:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400"
+            >
+              INTELLECT
+            </motion.h2>
+          </div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="mt-8 text-lg sm:text-xl text-zinc-400 italic max-w-2xl leading-relaxed border-l-4 border-blue-500/30 pl-8"
+          >
+            Engineering scalable futures through absolute technical mastery. We redefine the growth logic for the world's most ambitious enterprises.
+          </motion.p>
         </div>
 
-        {/* Cards: Dual System Architecture */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* Dual Architecture Core */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 transition-all">
 
-          {/* Vision Card */}
+          {/* Vision Terminal */}
           <motion.div
-            style={{ x: cardX, y: cardY }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             className="group relative"
           >
-            <div className="relative rounded-3xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-2xl p-10 transition-all hover:border-blue-500/50 hover:bg-[#0f172a]/60">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-400 mb-8 border border-blue-500/20 group-hover:scale-110 transition-transform">
-                <Target className="h-7 w-7" />
+            <div className="relative p-10 bg-zinc-900/50 backdrop-blur-3xl border-2 border-white/5 group-hover:border-blue-500/50 transition-all duration-500 -skew-x-[12deg] overflow-hidden">
+              {/* Diagonal Corner Accent */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 pointer-events-none"
+                style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }} />
+
+              <div className="relative flex flex-col items-start gap-8 skew-x-[12deg]">
+                <div className="h-16 w-16 bg-blue-500/10 border-2 border-blue-500/30 flex items-center justify-center -skew-x-[15deg] group-hover:bg-blue-500 group-hover:border-blue-500 transition-all duration-500">
+                  <Target className="h-8 w-8 text-blue-400 group-hover:text-white skew-x-[15deg]" />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-black italic tracking-tighter uppercase text-white">Systemic_Vision</h3>
+                  <p className="text-zinc-400 italic leading-relaxed">
+                    To engineer the world&apos;s most reliable growth infrastructure, enabling businesses to operate with zero-loss efficiency.
+                  </p>
+                </div>
+
+                <ul className="space-y-4 w-full">
+                  {[
+                    "Architectural Scaling Protocol",
+                    "Autonomous Operational Logic",
+                    "Infinite Value Compounding"
+                  ].map((item, i) => (
+                    <li key={item} className="flex items-center justify-between group/item py-3 border-b border-white/5">
+                      <span className="italic font-bold text-sm tracking-wide text-zinc-300 group-hover/item:text-blue-400 transition-colors">
+                        {item}
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-blue-500/50 group-hover/item:text-blue-400 transition-all" />
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tight">Systemic Vision</h3>
-              <p className="text-white/60 mb-10 leading-relaxed font-medium">
-                To engineer the world&apos;s most reliable growth infrastructure,
-                enabling businesses to operate with zero-loss efficiency and
-                compound their digital value infinitely.
-              </p>
-              <ul className="space-y-5">
-                {[
-                  "Architectural Scalability by Design",
-                  "Autonomous Operational Growth",
-                  "Long-term Value Compounding"
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
-                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+
+              {/* Scanning Line */}
+              <motion.div
+                animate={{ left: ["-100%", "200%"] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                className="absolute top-0 w-20 h-full bg-blue-500/5 skew-x-[25deg] pointer-events-none"
+              />
             </div>
           </motion.div>
 
-          {/* Mission Card */}
+          {/* Mission Command */}
           <motion.div
-            style={{
-              x: useTransform(x, [-500, 500], [20, -20]),
-              y: useTransform(y, [-500, 500], [15, -15])
-            }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
             className="group relative"
           >
-            <div className="relative rounded-3xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-2xl p-10 transition-all hover:border-blue-500/50 hover:bg-[#0f172a]/60">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-400 mb-8 border border-blue-500/20 group-hover:scale-110 transition-transform">
-                <Users className="h-7 w-7" />
+            <div className="relative p-10 bg-zinc-900/50 backdrop-blur-3xl border-2 border-white/5 group-hover:border-cyan-500/50 transition-all duration-500 -skew-x-[12deg] overflow-hidden">
+              {/* Diagonal Corner Accent */}
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-cyan-500/10 pointer-events-none"
+                style={{ clipPath: "polygon(0 0, 0 100%, 100% 100%)" }} />
+
+              <div className="relative flex flex-col items-start gap-8 skew-x-[12deg]">
+                <div className="h-16 w-16 bg-cyan-500/10 border-2 border-cyan-500/30 flex items-center justify-center -skew-x-[15deg] group-hover:bg-cyan-500 group-hover:border-cyan-500 transition-all duration-500">
+                  <Activity className="h-8 w-8 text-cyan-400 group-hover:text-white skew-x-[15deg]" />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-black italic tracking-tighter uppercase text-white">Mission_Critical</h3>
+                  <p className="text-zinc-400 italic leading-relaxed">
+                    To solve complex expansion bottlenecks through expert-level logic, delivering hardened digital assets for modern enterprise success.
+                  </p>
+                </div>
+
+                <ul className="space-y-4 w-full">
+                  {[
+                    "Bank-Grade Security Matrix",
+                    "Sub-ms Latency Framework",
+                    "Human-Interface Synergy"
+                  ].map((item, i) => (
+                    <li key={item} className="flex items-center justify-between group/item py-3 border-b border-white/5">
+                      <span className="italic font-bold text-sm tracking-wide text-zinc-300 group-hover/item:text-cyan-400 transition-colors">
+                        {item}
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-cyan-500/50 group-hover/item:text-cyan-400 transition-all" />
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tight">Mission Critical</h3>
-              <p className="text-white/60 mb-10 leading-relaxed font-medium">
-                To solve complex growth bottlenecks through expert-level engineering,
-                delivering hardened digital assets that serve as the backbone
-                for modern enterprise success.
-              </p>
-              <ul className="space-y-5">
-                {[
-                  "Bank-Grade Digital Security",
-                  "Sub-Millisecond System Performance",
-                  "Human-Centric Engineering Logic"
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
-                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+
+              {/* Status Bar */}
+              <div className="absolute top-4 right-8 flex items-center gap-2 skew-x-[12deg]">
+                <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" />
+                <span className="text-[9px] font-mono text-cyan-500/60 uppercase tracking-widest">Active_Link</span>
+              </div>
             </div>
           </motion.div>
 
         </div>
       </div>
 
-      {/* Background Engineering Markings */}
-      <div className="absolute bottom-20 left-20 text-[10px] font-mono text-white/10 tracking-[0.5em] vertical-rl uppercase pointer-events-none">
-        CruxLabs Systemic Framework v2.0
+      {/* Extreme Decorative Footers */}
+      <div className="absolute bottom-12 left-12 hidden xl:block z-20 pointer-events-none opacity-20 transform -skew-x-[12deg]">
+        <div className="flex flex-col font-mono text-[10px] tracking-widest text-white italic">
+          <span>CRUX_VISION_MODULE_V4.2</span>
+          <span>AUTH: MASTER_ARCHITECT</span>
+        </div>
       </div>
-      <div className="absolute top-20 right-20 text-[10px] font-mono text-white/10 tracking-[0.5em] uppercase pointer-events-none">
-        Est. MMXXVI // Growth Infrastructure
-      </div>
+
+      <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+
     </section>
   )
 }
