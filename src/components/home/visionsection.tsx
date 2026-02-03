@@ -1,112 +1,172 @@
-import { Target, Lightbulb, Zap, Users, } from "lucide-react"
+"use client"
+
+import { Target, Lightbulb, Zap, Users, ArrowRight } from "lucide-react"
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
+import { useRef, useEffect } from "react"
+import { Badge } from "@/components/ui/badge"
 
 export default function VisionSection() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  // Smooth spring physics for mouse movement
+  const springConfig = { damping: 30, stiffness: 200 }
+  const x = useSpring(mouseX, springConfig)
+  const y = useSpring(mouseY, springConfig)
+
+  // Parallax effects for cards
+  const cardX = useTransform(x, [-500, 500], [-20, 20])
+  const cardY = useTransform(y, [-500, 500], [-15, 15])
+
+  // Scroll parallax for background
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      mouseX.set(e.clientX - centerX)
+      mouseY.set(e.clientY - centerY)
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [mouseX, mouseY])
+
   return (
-    <section className="relative py-20 sm:py-24 lg:py-32 px-4 sm:px-6 overflow-hidden bg-gradient-to-b from-[#020617] via-[#020617] to-[#020617] text-white">
+    <section
+      ref={containerRef}
+      className="relative py-24 sm:py-32 lg:py-40 px-6 overflow-hidden bg-[#020617] text-white"
+    >
+      {/* 1. Fixed Background Parallax Image */}
+      <motion.div
+        style={{ y: bgY }}
+        className="absolute inset-0 z-0 opacity-40 grayscale-[0.5] contrast-125"
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url("/images/vision-bg.png")' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-[#020617]" />
+      </motion.div>
 
-      {/* Subtle Grid Pattern */}
-      <div
-        className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"
-        aria-hidden="true"
-      />
+      {/* 2. Technical Grid & Glows */}
+      <div className="absolute inset-0 z-1 z-[1] pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(#2563eb_0.5px,transparent_0.5px)] [background-size:32px_32px] opacity-10" />
+        <motion.div
+          style={{ x, y }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]"
+        />
+      </div>
 
-      {/* Glow Orbs */}
-      <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#2563eb]/20 rounded-full blur-3xl -translate-y-1/2" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2" />
-
-      <div className="relative mx-auto max-w-7xl">
-
-        {/* Header */}
-        <div className="mx-auto max-w-3xl text-center mb-14 sm:mb-20">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur px-3 py-1.5 text-[13px] font-medium text-white/80 mb-6">
-            <Lightbulb className="h-3.5 w-3.5 text-[#60a5fa]" />
-            Our Philosophy
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-5">
-            Vision & <span className="text-[#60a5fa]">Mission</span>
-          </h2>
-
-          <p className="text-base sm:text-lg text-white/70 leading-relaxed">
-            We design digital ecosystems that operate as revenue-generating machines —
-            not surface-level websites.
-          </p>
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* Header: Systematic Approach */}
+        <div className="mx-auto max-w-3xl text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <Badge
+              className="mb-6 rounded-full border-white/10 bg-white/5 backdrop-blur-md px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-blue-400"
+            >
+              <Lightbulb className="mr-2 h-3.5 w-3.5" />
+              Macro Vision
+            </Badge>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-8">
+              Transforming <br />
+              <span className="text-[#2563eb]">The Growth Logic</span>
+            </h2>
+            <p className="text-lg text-white/60 leading-relaxed font-medium">
+              We don't build projects; we engineer scalable futures. Our vision is to
+              redefine the standard of digital performance through absolute technical mastery.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* Cards: Dual System Architecture */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-          {/* Vision */}
-          <div className="relative group">
-            <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 sm:p-10 transition-all hover:border-[#2563eb]/40 hover:shadow-[0_0_40px_#2563eb33]">
-
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#2563eb]/20 text-[#60a5fa] mb-6">
+          {/* Vision Card */}
+          <motion.div
+            style={{ x: cardX, y: cardY }}
+            className="group relative"
+          >
+            <div className="relative rounded-3xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-2xl p-10 transition-all hover:border-blue-500/50 hover:bg-[#0f172a]/60">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-400 mb-8 border border-blue-500/20 group-hover:scale-110 transition-transform">
                 <Target className="h-7 w-7" />
               </div>
-
-              <h3 className="text-2xl sm:text-3xl font-semibold mb-4">
-                Our Vision
-              </h3>
-
-              <p className="text-[15px] leading-relaxed text-white/70 mb-8">
-                To become the trusted growth partner for businesses worldwide by engineering
-                systems that eliminate operational chaos and unlock scalable revenue.
+              <h3 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tight">Systemic Vision</h3>
+              <p className="text-white/60 mb-10 leading-relaxed font-medium">
+                To engineer the world&apos;s most reliable growth infrastructure,
+                enabling businesses to operate with zero-loss efficiency and
+                compound their digital value infinitely.
               </p>
-
-              <div className="space-y-4">
+              <ul className="space-y-5">
                 {[
-                  "Build systems that compound value over time",
-                  "Transform complexity into clarity and control",
-                  "Engineer growth through automation and intelligence",
-                ].map((text) => (
-                  <div key={text} className="flex items-start gap-3">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#2563eb]/20 mt-0.5">
-                      <Zap className="h-3.5 w-3.5 text-[#60a5fa]" />
-                    </div>
-                    <p className="text-[14px] text-white/85">{text}</p>
-                  </div>
+                  "Architectural Scalability by Design",
+                  "Autonomous Operational Growth",
+                  "Long-term Value Compounding"
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
+                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+                    {item}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Mission */}
-          <div className="relative group">
-            <div className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 sm:p-10 transition-all hover:border-blue-500/40 hover:shadow-[0_0_40px_#3b82f633]">
-
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-blue-500/20 text-blue-400 mb-6">
+          {/* Mission Card */}
+          <motion.div
+            style={{
+              x: useTransform(x, [-500, 500], [20, -20]),
+              y: useTransform(y, [-500, 500], [15, -15])
+            }}
+            className="group relative"
+          >
+            <div className="relative rounded-3xl border border-white/10 bg-[#0f172a]/40 backdrop-blur-2xl p-10 transition-all hover:border-blue-500/50 hover:bg-[#0f172a]/60">
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-400 mb-8 border border-blue-500/20 group-hover:scale-110 transition-transform">
                 <Users className="h-7 w-7" />
               </div>
-
-              <h3 className="text-2xl sm:text-3xl font-semibold mb-4">
-                Our Mission
-              </h3>
-
-              <p className="text-[15px] leading-relaxed text-white/70 mb-8">
-                To solve the hardest operational and growth challenges businesses face by
-                delivering engineeblue digital systems that work as strategic business assets.
+              <h3 className="text-2xl sm:text-3xl font-bold mb-6 tracking-tight">Mission Critical</h3>
+              <p className="text-white/60 mb-10 leading-relaxed font-medium">
+                To solve complex growth bottlenecks through expert-level engineering,
+                delivering hardened digital assets that serve as the backbone
+                for modern enterprise success.
               </p>
-
-              <div className="space-y-4">
+              <ul className="space-y-5">
                 {[
-                  "Identify and eliminate critical business bottlenecks",
-                  "Automate operations with zero-loss precision",
-                  "Build scalable systems that drive measurable ROI",
-                ].map((text) => (
-                  <div key={text} className="flex items-start gap-3">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/20 mt-0.5">
-                      <Zap className="h-3.5 w-3.5 text-blue-400" />
-                    </div>
-                    <p className="text-[14px] text-white/85">{text}</p>
-                  </div>
+                  "Bank-Grade Digital Security",
+                  "Sub-Millisecond System Performance",
+                  "Human-Centric Engineering Logic"
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-sm font-semibold text-white/80">
+                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+                    {item}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
+          </motion.div>
+
         </div>
+      </div>
 
-
-
+      {/* Background Engineering Markings */}
+      <div className="absolute bottom-20 left-20 text-[10px] font-mono text-white/10 tracking-[0.5em] vertical-rl uppercase pointer-events-none">
+        CruxLabs Systemic Framework v2.0
+      </div>
+      <div className="absolute top-20 right-20 text-[10px] font-mono text-white/10 tracking-[0.5em] uppercase pointer-events-none">
+        Est. MMXXVI // Growth Infrastructure
       </div>
     </section>
   )
