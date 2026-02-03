@@ -8,9 +8,11 @@ import Link from "next/link"
 
 const techCategories = [
   {
-    title: "Frontend Architecture",
+    title: "FRONTEND_CORE",
+    subtitle: "Architecture",
     icon: Layout,
-    tag: "UI Engine",
+    tag: "UI_ENGINE_V15",
+    color: "sky-500",
     techs: [
       { name: "Next.js 15", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
       { name: "React 19", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
@@ -21,9 +23,11 @@ const techCategories = [
     ]
   },
   {
-    title: "Backend Infrastructure",
+    title: "BACKEND_GRID",
+    subtitle: "Infrastructure",
     icon: Database,
-    tag: "Data Pipeline",
+    tag: "DATA_PIPELINE_H3",
+    color: "purple-500",
     techs: [
       { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
       { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
@@ -34,9 +38,11 @@ const techCategories = [
     ]
   },
   {
-    title: "Systems & Intelligence",
+    title: "NEURAL_SYSTEMS",
+    subtitle: "Intelligence",
     icon: Cpu,
-    tag: "Workflow Logic",
+    tag: "WORKFLOW_LOGIC_AI",
+    color: "orange-500",
     techs: [
       { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
       { name: "TensorFlow", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" },
@@ -83,57 +89,78 @@ export default function TechStackSection() {
       ref={containerRef}
       style={{ opacity: sectionOpacity, scale: sectionScale }}
       id="tech-stack"
-      className="relative py-28 sm:py-36 px-6 overflow-hidden bg-white border-t border-slate-200"
+      className="relative py-28 sm:py-36 px-6 overflow-hidden bg-white"
     >
-      {/* 1. Global Engineering Grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-
-      {/* 2. Interactive Mouse Glow */}
-      <motion.div
-        style={{ x, y, translateX: "-50%", translateY: "-50%", left: "50%", top: "50%" }}
-        className="absolute w-[1000px] h-[1000px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"
-      />
+      {/* 1. DIAGONAL BACKGROUND ACCENT */}
+      <div
+        className="absolute top-0 right-0 w-1/4 h-full bg-zinc-50 -z-10 hidden lg:block"
+        style={{ clipPath: "polygon(40% 0, 100% 0, 100% 100%, 0 100%)" }}
+      >
+        <div className="absolute inset-0 opacity-20"
+          style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* Header: Unified Left-Aligned Typography (Matching Services) */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
-          <div className="max-w-2xl">
+        {/* Header: Diagonal Dynamic Style */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-28">
+          <div className="max-w-3xl transform -skew-x-[6deg]">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="flex items-center gap-4 mb-8"
             >
-              <Badge className="mb-6 rounded-full border-blue-200 bg-blue-50/50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb]">
-                Technical Stack Architecture
-              </Badge>
-              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#0f172a] leading-[1.1] mb-6">
-                Scalable <br />
-                <span className="text-[#2563eb]">Technology Matrix</span>
+              <div className="h-12 w-12 bg-sky-500/10 border-2 border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+                <Cpu className="h-6 w-6 text-sky-500 skew-x-[12deg]" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="h-[2px] w-20 bg-sky-500" />
+                <span className="text-sky-500 font-black italic tracking-[0.3em] text-[10px] uppercase">
+                  Technical_Stack_Architecture
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter text-zinc-950 leading-[0.85] mb-4">
+                TECHNOLOGY
               </h2>
-              <p className="text-lg text-[#64748b] leading-relaxed font-medium">
-                We engineer solutions using only high-frequency, hardened technologies.
-                Every node in our stack is selected for radical stability and performance.
-              </p>
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-500">
+                CORE_MATRIX
+              </h2>
             </motion.div>
           </div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col items-start lg:items-end gap-6"
           >
+            <p className="text-lg text-zinc-500 italic font-medium max-w-sm lg:text-right border-r-4 border-sky-500/30 pr-6">
+              We engineer solutions using only high-frequency, hardened technologies selected for radical stability.
+            </p>
             <Link href="/services">
-              <button className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full text-sm font-bold text-[#0f172a] hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm">
-                Explore Technical Core
-                <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button
+                className="h-14 px-10 bg-zinc-900 border-2 border-sky-500/30 hover:bg-sky-500 hover:text-white text-white font-black italic uppercase tracking-wider text-xs transition-all duration-300 group"
+                style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+              >
+                EXPLORE_CORE
+                <MoveRight className="inline-block ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             </Link>
           </motion.div>
         </div>
 
         {/* Tech Matrix: Engineering Categories */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8">
           {techCategories.map((category, catIdx) => (
             <motion.div
               key={category.title}
@@ -141,16 +168,16 @@ export default function TechStackSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: catIdx * 0.1 }}
-              className="group relative"
+              className="relative"
             >
-              {/* Category Header */}
-              <div className="flex items-center gap-4 mb-10 pb-4 border-b border-slate-100">
-                <div className="h-12 w-12 flex items-center justify-center rounded-2xl bg-slate-50 text-[#0f172a] border border-slate-100 group-hover:bg-[#2563eb] group-hover:text-white group-hover:border-blue-400 transition-all shadow-sm">
-                  <category.icon className="h-6 w-6" />
+              {/* Category Header: Sharp & Skewed */}
+              <div className="flex items-center gap-5 mb-12 transform -skew-x-[12deg]">
+                <div className={`h-16 w-16 flex items-center justify-center bg-white border-2 border-zinc-200 group-hover:border-zinc-950 transition-all shadow-xl`}>
+                  <category.icon className={`h-8 w-8 text-zinc-950 skew-x-[12deg]`} />
                 </div>
-                <div>
-                  <h3 className="text-xl font-extrabold text-[#0f172a] tracking-tight">{category.title}</h3>
-                  <span className="text-[10px] font-mono font-bold text-[#2563eb] uppercase tracking-[0.2em]">{category.tag}</span>
+                <div className="skew-x-[12deg]">
+                  <h3 className="text-2xl font-black italic text-zinc-950 tracking-tighter leading-none">{category.title}</h3>
+                  <span className={`text-[10px] font-black italic text-zinc-400 uppercase tracking-[0.3em] mt-2 block`}>{category.tag}</span>
                 </div>
               </div>
 
@@ -159,20 +186,25 @@ export default function TechStackSection() {
                 {category.techs.map((tech, techIdx) => (
                   <motion.div
                     key={tech.name}
-                    whileHover={{ y: -4, scale: 1.02 }}
-                    className="relative p-5 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-500/20 transition-all overflow-hidden group/tech flex flex-col items-center text-center"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: catIdx * 0.1 + techIdx * 0.05 }}
+                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                    className="relative p-6 bg-white border-2 border-zinc-100 group/tech flex flex-col items-center text-center overflow-hidden hover:border-zinc-900 transition-all duration-300"
+                    style={{ clipPath: "polygon(10% 0, 100% 0, 90% 100%, 0 100%)" }}
                   >
-                    <div className="relative z-10 w-10 h-10 mb-3 flex items-center justify-center grayscale group-hover/tech:grayscale-0 transition-all duration-500 ease-out">
+                    {/* Hover Gradient */}
+                    <div className={`absolute inset-0 bg-gradient-to-br from-zinc-50 to-white opacity-0 group-hover/tech:opacity-100 transition-opacity duration-300`} />
+
+                    <div className="relative z-10 w-12 h-12 mb-4 flex items-center justify-center grayscale group-hover/tech:grayscale-0 transition-all duration-500 hover:scale-110">
                       <img src={tech.icon} alt={tech.name} className="w-full h-full object-contain p-1" />
                     </div>
-                    <span className="text-xs font-bold text-[#64748b] group-hover/tech:text-[#0f172a] transition-colors">{tech.name}</span>
+                    <span className="relative z-10 text-[11px] font-black italic text-zinc-400 group-hover/tech:text-zinc-900 uppercase tracking-wider transition-colors">{tech.name}</span>
 
-                    {/* Precision Engineering Marks */}
-                    <div className="absolute top-0 right-0 p-1 opacity-0 group-hover/tech:opacity-100 transition-opacity">
-                      <div className="w-2 h-2 border-t border-r border-blue-500" />
-                    </div>
-                    <div className="absolute bottom-0 left-0 p-1 opacity-0 group-hover/tech:opacity-100 transition-opacity">
-                      <div className="w-2 h-2 border-b border-l border-blue-500" />
+                    {/* Architectural Mark */}
+                    <div className={`absolute top-0 right-0 w-6 h-6 border-t font-mono text-[8px] text-zinc-200 p-0.5 group-hover/tech:text-${category.color}`}>
+                      {"["}
                     </div>
                   </motion.div>
                 ))}
@@ -181,46 +213,57 @@ export default function TechStackSection() {
           ))}
         </div>
 
-        {/* Performance Stat Footer */}
+        {/* Performance Stat Footer: Terminal Style */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-28 py-10 px-8 border-y border-dashed border-slate-200 bg-slate-50/50 rounded-lg flex flex-wrap justify-center lg:justify-between gap-12 items-center"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-32 p-10 bg-zinc-900 border-2 border-sky-500/30 relative overflow-hidden"
+          style={{ clipPath: "polygon(5% 0, 100% 0, 95% 100%, 0 100%)" }}
         >
-          <div className="flex items-center gap-6">
-            <div className="flex flex-col">
-              <span className="text-2xl font-black text-[#0f172a]">Core 15.2</span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Runtime Environment</span>
-            </div>
-            <div className="h-8 w-[1px] bg-slate-200 hidden sm:block" />
-            <div className="flex flex-col">
-              <span className="text-2xl font-black text-[#0f172a]">Multi-Reg</span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Deployment Coverage</span>
-            </div>
-          </div>
+          {/* Animated Background Scan */}
+          <motion.div
+            animate={{ left: ["-100%", "200%"] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 w-1/2 h-full bg-gradient-to-r from-transparent via-sky-500/5 to-transparent skew-x-[30deg] pointer-events-none"
+          />
 
-          <Link href="/contact" className="hidden lg:block">
-            <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb] hover:text-[#1d4ed8] transition-colors cursor-pointer group">
-              Initialize Technical Consultation
-              <ArrowUpRight className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          <div className="relative flex flex-wrap justify-center lg:justify-between gap-12 items-center">
+            <div className="flex items-center gap-10">
+              <div className="flex flex-col">
+                <span className="text-3xl font-black italic text-white tracking-widest uppercase">CORE_15.2</span>
+                <span className="text-[10px] font-black italic text-sky-500 uppercase tracking-[0.4em] mt-2">Runtime Environment</span>
+              </div>
+              <div className="h-12 w-[2px] bg-zinc-800 rotate-12 hidden sm:block" />
+              <div className="flex flex-col">
+                <span className="text-3xl font-black italic text-white tracking-widest uppercase">MULTI_REG</span>
+                <span className="text-[10px] font-black italic text-purple-500 uppercase tracking-[0.4em] mt-2">Deployment Coverage</span>
+              </div>
             </div>
-          </Link>
 
-          <div className="flex flex-col items-center lg:items-end text-[#2563eb]">
-            <span className="text-2xl font-black">Sub-100ms</span>
-            <span className="text-[10px] font-bold uppercase tracking-widest mt-1">Target Engine Latency</span>
+            <div className="flex flex-col items-center lg:items-end">
+              <span className="text-4xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">SUB_100MS</span>
+              <span className="text-[10px] font-black italic text-zinc-500 uppercase tracking-[0.4em] mt-2">Target Engine Latency</span>
+            </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Architecture Annotation Overlays */}
-      <div className="absolute top-[15%] -left-8 text-[9px] font-mono text-slate-300 tracking-[1.2em] vertical-rl uppercase pointer-events-none opacity-50">
-        Crux_Stack_Spec // v.4.0.1_release
+      {/* Extreme Decorative Overlays */}
+      <div className="absolute top-[20%] -left-10 text-[9px] font-mono text-zinc-300 tracking-[1em] vertical-rl uppercase pointer-events-none opacity-30 italic">
+        CRUX_STACK_SPEC_//_v.4.0.1_STABLE
       </div>
-      <div className="absolute bottom-12 right-12 text-[10px] font-mono text-slate-200 tracking-[0.4em] uppercase pointer-events-none">
-        Verified Architectural Node // 2026
+      <div className="absolute bottom-12 right-12 text-[10px] font-mono text-zinc-400 tracking-[0.4em] uppercase pointer-events-none italic opacity-40">
+        AUTH_MASTER_ARCHITECT_//_2026
       </div>
+
+      {/* BOTTOM SCAN LINE */}
+      <motion.div
+        animate={{ scaleX: [0, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-500 to-transparent z-30 opacity-50"
+      />
     </motion.section>
   )
 }
