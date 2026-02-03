@@ -1,60 +1,52 @@
 "use client"
 
 import { useRef, useEffect } from "react"
-import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
-import { Sparkles, ArrowUpRight, MoveRight, Monitor, Smartphone, Tablet, ExternalLink } from "lucide-react"
+import { motion, useSpring, useMotionValue, useTransform, useScroll, AnimatePresence } from "framer-motion"
+import { Sparkles, ArrowUpRight, MoveRight, Monitor, Smartphone, Tablet, ExternalLink, Activity, Terminal, Shield, Cpu, Zap, Globe } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 
 const projects = [
   {
-    id: 1,
-    title: "ECO_INDUSTRIAL",
-    subtitle: "Operating System",
-    tag: "ENTERPRISE_CORE",
-    desc: "A high-performance management architecture for sustainable production lines, optimized for sub-second data synchronization.",
-    image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?w=1200",
-    metrics: ["99.8% Uptime", "Next_15", "PostgreSQL"],
-    type: "WEB_ARCHITECTURE",
-    gradient: "from-sky-400 to-blue-600",
-    color: "sky-500"
+    id: "DEPL_001_ALPHA",
+    title: "SYSTEM_CORE",
+    subtitle: "INDUSTRIAL_OS",
+    tag: "ENTERPRISE_ARCH",
+    desc: "A high-performance management infrastructure for high-scale production systems, optimized for sub-second data synchronization and massive throughput.",
+    image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?w=1200&q=80",
+    metrics: ["99.9% UPTIME", "NEXT_15_RT", "POSTGRES_SQL"],
+    type: "INFRASTRUCTURE_CORE",
   },
   {
-    id: 2,
-    title: "QUANTUM_BANK",
-    subtitle: "Mobile Matrix",
-    tag: "FINTECH_MODULE",
-    desc: "Secure, real-time transaction engine with biometric zero-trust authentication layers and high-frequency API connectivity.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200",
-    metrics: ["Bank-Grade", "Go + Flutter", "Secure_01"],
-    type: "MOBILE_SYSTEM",
-    gradient: "from-purple-400 to-pink-600",
-    color: "purple-500"
+    id: "DEPL_002_BETA",
+    title: "QUANTUM_GRID",
+    subtitle: "FINANCIAL_MATRIX",
+    desc: "Secure, real-time transaction engine with biometric absolute-trust authentication layers and high-frequency global API connectivity.",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&q=80",
+    tag: "FINTECH_ENGINE",
+    metrics: ["SECURE_LAYER_01", "GO_RUNTIME", "ELK_STACK"],
+    type: "FINANCIAL_SYSTEM",
   },
   {
-    id: 3,
-    title: "NEXUS_VISUAL",
-    subtitle: "Analytics Deck",
-    tag: "DATA_VIS_ENGINE",
-    desc: "Real-time analytical infrastructure for global supply chains, featuring advanced nodal mapping and predictive modeling.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200",
-    metrics: ["10k Events/s", "Rust_Core", "Redis"],
-    type: "TECHNICAL_DASHBOARD",
-    gradient: "from-orange-400 to-red-600",
-    color: "orange-500"
+    id: "DEPL_003_GAMMA",
+    title: "NEXUS_ANALYTICS",
+    subtitle: "DATA_VIS_DECK",
+    desc: "Real-time analytical infrastructure for global supply chains, featuring advanced nodal mapping, predictive modeling, and live metrics visualization.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80",
+    tag: "INTELLIGENCE_UNIT",
+    metrics: ["10K_EPS", "RUST_CORE", "REDIS_CACHE"],
+    type: "ANALYTICS_PLATFORM",
   },
   {
-    id: 4,
+    id: "DEPL_004_DELTA",
     title: "STRATOS_CLOUD",
-    subtitle: "SaaS Core",
-    tag: "CLOUD_INFRA",
-    desc: "Modular cloud architecture for distributed enterprise teams, focusing on zero-latency document collaborative logic.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200",
-    metrics: ["Zero_Latency", "Node_H3", "Docker"],
-    type: "SAAS_ECOSYSTEM",
-    gradient: "from-cyan-400 to-blue-600",
-    color: "cyan-500"
+    subtitle: "COLLAB_SAAS",
+    desc: "Modular cloud architecture for distributed enterprise environments, focusing on zero-latency collaborative logic and elastic resource management.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80",
+    tag: "CLOUD_MODULE",
+    metrics: ["ZERO_LATENCY", "DOCKER_V3", "K8S_ORCH"],
+    type: "SAAS_ARCHITECTURE",
   }
 ]
 
@@ -74,12 +66,12 @@ export default function ProjectShowcase() {
     target: targetRef
   })
 
-  // Horizontal translation mapping: 0 to -100% (plus some buffer)
-  const x = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "-70%"])
+  // Horizontal translation mapping: Adjusted for better traversal
+  const x = useTransform(scrollYProgress, [0.05, 0.95], ["0%", "-75%"])
 
   // Header and elements fade out as we scroll deep
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0.8])
-  const headerY = useTransform(scrollYProgress, [0, 0.1], [0, -20])
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.95])
+  const headerScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.98])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -95,17 +87,30 @@ export default function ProjectShowcase() {
   }, [mouseX, mouseY])
 
   return (
-    <section ref={targetRef} className="relative h-[400vh] bg-white">
+    <section ref={targetRef} className="relative h-[450vh] bg-white">
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen flex flex-col items-center overflow-hidden">
 
-        {/* DIAGONAL BACKGROUND ACCENT */}
+        {/* DIAGONAL BACKGROUND ACCENT (TECHNICAL SIDEBAR) */}
         <div
-          className="absolute top-0 right-0 w-1/4 h-full bg-zinc-50 -z-10 hidden lg:block"
-          style={{ clipPath: "polygon(35% 0, 100% 0, 100% 100%, 0 100%)" }}
+          className="absolute top-0 right-0 w-1/4 h-full bg-zinc-950 -z-10 hidden lg:block"
+          style={{ clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0 100%)" }}
         >
-          <div className="absolute inset-0 opacity-20"
-            style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          {/* Technical Grid Texture */}
+          <div
+            className="absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+              backgroundSize: "30px 30px"
+            }}
+          />
+
+          {/* Vertical Scan Line */}
+          <motion.div
+            animate={{ y: ["-100%", "100%"] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute left-0 top-0 w-[1px] h-40 bg-sky-500/20 blur-sm"
+          />
         </div>
 
         {/* Global Engineering Grid */}
@@ -118,73 +123,80 @@ export default function ProjectShowcase() {
           className="absolute w-[1200px] h-[1200px] bg-sky-500/5 rounded-full blur-[150px] pointer-events-none"
         />
 
-        {/* 1. Header: Diagonal Dynamic Style */}
+        {/* 1. Header Block - Redesigned for standard professional aesthetic */}
         <motion.div
-          style={{ opacity: headerOpacity, y: headerY }}
-          className="relative z-30 w-full pt-16 sm:pt-24 px-6 sm:px-12 mx-auto max-w-7xl"
+          style={{ opacity: headerOpacity, scale: headerScale }}
+          className="relative z-30 w-full pt-20 sm:pt-32 px-10 mx-auto max-w-7xl"
         >
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
-            <div className="max-w-3xl transform -skew-x-[6deg]">
+            <div className="max-w-3xl">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
               >
-                {/* Badge */}
-                <div className="flex items-center gap-4 mb-8">
+                {/* SECTION REGISTRY BADGE */}
+                <div className="flex items-center gap-4 mb-10">
                   <div
-                    className="h-12 w-12 bg-sky-500/10 border-2 border-sky-500/30 flex items-center justify-center -skew-x-[12deg]"
+                    className="h-12 w-12 bg-zinc-950 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg] shadow-lg shadow-sky-500/5"
                   >
-                    <Sparkles className="h-6 w-6 text-sky-500 skew-x-[12deg]" />
+                    <Activity className="h-5 w-5 text-sky-500 skew-x-[12deg]" />
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <div className="h-[2px] w-20 bg-sky-500" />
-                    <span className="text-sky-500 font-black italic tracking-[0.3em] text-[10px] uppercase">
-                      Deployment_Registry_v4
+                  <div className="flex flex-col">
+                    <div className="h-[2.5px] w-20 bg-sky-500 mb-1" />
+                    <span className="text-zinc-400 font-black italic tracking-[0.3em] text-[10px] uppercase">
+                      REGISTRY://DEPLOYMENT_LOG_v4
                     </span>
                   </div>
                 </div>
 
-                <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter text-zinc-950 leading-[0.85] mb-4">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black italic tracking-tighter text-zinc-950 leading-[0.9] uppercase mb-1">
                   FEATURED
                 </h2>
-                <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-500">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black italic tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-700 uppercase">
                   DEPLOYMENTS
                 </h2>
               </motion.div>
             </div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col items-start lg:items-end gap-6"
             >
+              <p className="text-[15px] text-zinc-500 italic font-medium max-w-sm lg:text-right border-r-2 border-sky-500/20 pr-8 uppercase tracking-wide">
+                Reviewing high-fidelity <span className="text-zinc-950 font-bold">architectural deployments</span> engineered for elite enterprise integration.
+              </p>
               <Link href="/portfolio">
-                <button
-                  className="h-14 px-10 bg-zinc-900 border-2 border-sky-500/30 hover:bg-sky-500 hover:text-white text-white font-black italic uppercase tracking-wider text-[11px] transition-all duration-300 group"
-                  style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
-                >
-                  FULL_SYSTEM_REGISTRY
-                  <MoveRight className="inline-block ml-3 h-4 w-4 transition-transform group-hover:translate-x-2" />
-                </button>
+                <div className="group relative">
+                  <div
+                    className="relative px-10 py-5 bg-zinc-950 text-white font-black italic uppercase tracking-[0.2em] text-[11px] transition-all duration-300 overflow-hidden shadow-2xl shadow-sky-500/5 group-hover:shadow-sky-500/10"
+                    style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+                  >
+                    <div className="absolute inset-0 bg-sky-500/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                    <div className="relative flex items-center gap-3">
+                      <span>FULL_SYSTEM_REGISTRY</span>
+                      <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-2" />
+                    </div>
+                  </div>
+                </div>
               </Link>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* 2. Horizontal Project Strip */}
-        <div className="flex-grow flex items-center w-full mt-12 md:mt-24">
+        {/* 2. Horizontal Project Strip - Enhanced Card Logic */}
+        <div className="flex-grow flex items-center w-full mt-10">
           <motion.div
             style={{ x }}
-            className="flex gap-8 md:gap-12 items-center justify-start px-6 md:px-24"
+            className="flex gap-10 md:gap-20 items-center justify-start px-10 md:px-32 pr-[50vw]"
           >
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                className="relative group flex-shrink-0 w-[85vw] md:w-[800px] aspect-[16/10] overflow-hidden border-2 border-zinc-200 hover:border-zinc-950 transition-colors duration-500"
-                style={{ clipPath: "polygon(0 0, 100% 0, 96% 100%, 4% 100%)" }}
+                className="relative group flex-shrink-0 w-[85vw] md:w-[750px] aspect-[16/10] overflow-hidden bg-zinc-950 border border-zinc-800 shadow-2xl"
+                style={{ clipPath: "polygon(5% 0, 100% 0, 95% 100%, 0 100%)" }}
               >
                 {/* Visual Image Layer */}
                 <div className="absolute inset-0 overflow-hidden transform scale-[1.05] group-hover:scale-100 transition-transform duration-[1.5s] ease-out">
@@ -192,33 +204,28 @@ export default function ProjectShowcase() {
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 transition-all duration-700"
+                    className="object-cover grayscale group-hover:grayscale-0 opacity-30 group-hover:opacity-60 transition-all duration-700"
                   />
-                  {/* Diagonal Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-20 transition-opacity duration-700`} />
-                  <div className="absolute inset-0 bg-zinc-950/60 group-hover:bg-zinc-950/40 transition-colors duration-700" />
+                  <div className="absolute inset-0 bg-zinc-950/40 group-hover:bg-transparent transition-colors duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
                 </div>
 
                 {/* Annotation Labels - Technical Style */}
-                <div className="absolute top-8 left-8 flex gap-4 z-20">
-                  <div className="h-10 px-4 bg-zinc-900 border border-sky-500/30 flex items-center justify-center"
-                    style={{ clipPath: "polygon(15% 0, 100% 0, 85% 100%, 0 100%)" }}
-                  >
-                    <span className="text-[10px] font-black italic text-white uppercase tracking-widest leading-none">
-                      ID:00{project.id}
+                <div className="absolute top-10 left-12 flex gap-4 z-20">
+                  <div className="h-10 px-6 bg-sky-500 border border-sky-600 flex items-center justify-center -skew-x-[12deg]">
+                    <span className="text-[10px] font-black italic text-zinc-950 uppercase tracking-widest skew-x-[12deg]">
+                      ID:{project.id}
                     </span>
                   </div>
-                  <div className="h-10 px-4 bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center"
-                    style={{ clipPath: "polygon(15% 0, 100% 0, 85% 100%, 0 100%)" }}
-                  >
-                    <span className="text-[10px] font-black italic text-white uppercase tracking-widest leading-none">
+                  <div className="h-10 px-6 bg-zinc-900/80 backdrop-blur-md border border-white/10 flex items-center justify-center -skew-x-[12deg]">
+                    <span className="text-[10px] font-black italic text-zinc-400 uppercase tracking-widest skew-x-[12deg]">
                       {project.tag}
                     </span>
                   </div>
                 </div>
 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 p-10 md:p-16 flex flex-col justify-end z-20">
+                <div className="absolute inset-0 p-12 md:p-16 flex flex-col justify-end z-20">
                   <div className="max-w-xl">
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
@@ -226,75 +233,83 @@ export default function ProjectShowcase() {
                       viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                      <span className={`text-[10px] font-black italic text-${project.color} uppercase tracking-[0.4em] mb-4 block`}>
+                      <span className="text-[10px] font-black italic text-sky-500 uppercase tracking-[0.4em] mb-4 block">
                         {project.type}
                       </span>
-                      <h3 className="text-4xl md:text-6xl font-black italic text-white mb-2 leading-[0.9] tracking-tighter">
+                      <h3 className="text-4xl md:text-6xl font-black italic text-white mb-2 leading-[0.9] tracking-tighter uppercase">
                         {project.title}
                       </h3>
                       <h4 className="text-lg md:text-xl font-bold italic text-zinc-400 uppercase tracking-widest mb-6">
                         {project.subtitle}
                       </h4>
-                      <p className="text-zinc-300 text-sm md:text-base leading-relaxed italic font-medium mb-10 line-clamp-3">
+                      <p className="text-zinc-500 text-sm md:text-[15px] leading-relaxed italic font-medium mb-10 line-clamp-3 uppercase tracking-wide border-l-2 border-sky-500/20 pl-6">
                         {project.desc}
                       </p>
 
-                      {/* Technical Metrics */}
-                      <div className="flex flex-wrap gap-4 mb-10">
+                      {/* Technical Metrics GRID */}
+                      <div className="flex flex-wrap gap-3 mb-10">
                         {project.metrics.map((metric, i) => (
-                          <div key={metric} className="flex items-center gap-3 px-4 py-2 bg-zinc-900 border border-zinc-800"
-                            style={{ clipPath: "polygon(10% 0, 100% 0, 90% 100%, 0 100%)" }}
-                          >
-                            <div className={`w-2 h-2 rounded-full bg-${project.color} animate-pulse`} />
-                            <span className="text-[10px] font-black italic text-white uppercase tracking-widest leading-none">{metric}</span>
+                          <div key={metric} className="flex items-center gap-3 px-4 py-2 bg-zinc-900 border border-zinc-800 -skew-x-[12deg]">
+                            <div className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse skew-x-[12deg]" />
+                            <span className="text-[9px] font-mono font-black italic text-zinc-400 uppercase tracking-widest leading-none skew-x-[12deg]">{metric}</span>
                           </div>
                         ))}
                       </div>
 
-                      <button className="group/btn flex items-center gap-4 text-[11px] font-black italic uppercase tracking-[0.3em] text-white hover:text-sky-400 transition-colors">
+                      <button className="group/btn flex items-center gap-5 text-[11px] font-black italic uppercase tracking-[0.3em] text-white hover:text-sky-500 transition-colors">
                         INITIALIZE_INTERFACE
-                        <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:-translate-y-1 group-hover/btn:translate-x-1" />
+                        <div className="h-8 w-8 bg-white/5 border border-white/10 flex items-center justify-center -skew-x-[12deg] group-hover/btn:bg-sky-500 group-hover/btn:border-sky-500 transition-all">
+                          <ArrowUpRight className="h-4 w-4 text-white group-hover/btn:text-zinc-950 skew-x-[12deg] transition-transform group-hover/btn:-translate-y-1 group-hover/btn:translate-x-1" />
+                        </div>
                       </button>
                     </motion.div>
                   </div>
                 </div>
 
                 {/* Decorative Sharp Accents */}
-                <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-700`}
-                  style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }}
-                />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 -skew-y-12 translate-x-16 -translate-y-16 group-hover:bg-sky-500/10 transition-colors" />
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-sky-500/20 group-hover:bg-sky-500 transition-all duration-700" />
               </motion.div>
             ))}
 
             {/* End Registry Node */}
             <div className="flex-shrink-0 w-[40vw] flex flex-col items-center justify-center transform -skew-x-[12deg]">
-              <div className="relative w-32 h-32 flex items-center justify-center bg-zinc-900 border-2 border-sky-500/30">
-                <div className="absolute inset-[4px] border border-dashed border-sky-500/20 animate-spin-slow" />
-                <Sparkles className="h-10 w-10 text-sky-500/40 skew-x-[12deg]" />
+              <div className="relative w-32 h-32 flex items-center justify-center bg-zinc-950 border border-sky-500/20">
+                <div className="absolute inset-[4px] border border-dashed border-sky-500/10 animate-spin-slow" />
+                <Globe className="h-10 w-10 text-sky-500/30 skew-x-[12deg]" />
               </div>
-              <span className="mt-10 text-[10px] font-black italic text-zinc-400 uppercase tracking-[1em] text-center skew-x-[12deg]">
-                REGISTRY_EOF
+              <span className="mt-12 text-[10px] font-black italic text-zinc-600 uppercase tracking-[0.8em] text-center skew-x-[12deg]">
+                REGISTRY_EOF_DONE
               </span>
             </div>
           </motion.div>
         </div>
 
-        {/* Progress Indicator */}
-        <div className="absolute bottom-16 right-12 flex flex-col items-center gap-6">
-          <div className="h-[150px] w-[2px] bg-zinc-100 relative overflow-hidden">
+        {/* Progress Indicator - HUD STYLE */}
+        <div className="absolute bottom-12 right-12 flex items-center gap-8 z-40">
+          <div className="flex flex-col items-end">
+            <span className="text-[10px] font-black italic text-sky-500 uppercase tracking-widest">TRAVERSAL_DATA</span>
+            <span className="text-[9px] font-mono text-zinc-600 uppercase">OFFSET: {Math.round(scrollYProgress.get() * 100)}%</span>
+          </div>
+          <div className="h-1 w-48 bg-zinc-100 relative overflow-hidden">
             <motion.div
-              style={{ scaleY: scrollYProgress, originY: 0 }}
-              className="absolute inset-0 bg-zinc-950"
+              style={{ scaleX: scrollYProgress, originX: 0 }}
+              className="absolute inset-0 bg-sky-500"
             />
           </div>
-          <span className="text-[9px] font-mono font-black italic text-zinc-400 uppercase tracking-[0.5em] vertical-rl rotate-180">
-            TRAVERSAL_STATUS
-          </span>
         </div>
 
         {/* Side Markings */}
-        <div className="absolute top-1/2 -right-6 -translate-y-1/2 text-[9px] font-mono text-zinc-200 tracking-[1.5em] vertical-rl uppercase rotate-180 opacity-40 italic">
-          CRUX_DEPLOYMENT_ARCHITECTURE_//_2026
+        <div className="absolute top-1/2 -right-10 -translate-y-1/2 text-[10px] font-mono text-zinc-200 tracking-[1.5em] vertical-rl uppercase rotate-180 opacity-20 italic pointer-events-none">
+          CRUX_DEPLOYMENT_SYSTEM_LOG_//_2026
+        </div>
+
+        {/* HUD FOOTER MARKER */}
+        <div className="absolute bottom-10 left-10 flex items-center gap-10 opacity-30 pointer-events-none hidden xl:flex">
+          <div className="flex items-center gap-3">
+            <Terminal className="h-3 w-3 text-sky-500" />
+            <span className="text-[8px] font-black italic uppercase tracking-[0.4em] text-zinc-400">NODE_ACK: MASTER_LINK</span>
+          </div>
         </div>
       </div>
     </section>
