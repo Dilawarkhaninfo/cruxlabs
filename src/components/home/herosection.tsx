@@ -1,283 +1,384 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion"
-import { MoveRight, Activity, Server, Database } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+    ArrowUpRight,
+    Play,
+    ChevronLeft,
+    ChevronRight,
+    Zap,
+    Sparkles,
+    Rocket,
+    Code2,
+    Lightbulb
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 
-// --- Expert Visual Components ---
+const slides = [
+    {
+        id: 1,
+        badge: "Next_Gen_Systems",
+        title: "DIGITAL",
+        subtitle: "VELOCITY",
+        description: "Architecting the infrastructure of tomorrow. We build hyper-scalable platforms designed for speed, security, and absolute dominance.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80",
+        gradient: "from-sky-400 to-white",
+        accentColor: "sky-500",
+        icon: Zap,
+        diagonal: "polygon(0 0, 75% 0, 55% 100%, 0 100%)",
+    },
+    {
+        id: 2,
+        badge: "Innovation_Unleashed",
+        title: "CREATIVE",
+        subtitle: "MASTERY",
+        description: "Transform vision into reality with cutting-edge design systems. We craft experiences that captivate, convert, and dominate the digital landscape.",
+        image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=1920&q=80",
+        gradient: "from-purple-400 to-pink-400",
+        accentColor: "purple-500",
+        icon: Sparkles,
+        diagonal: "polygon(0 0, 65% 0, 45% 100%, 0 100%)",
+    },
+    {
+        id: 3,
+        badge: "Performance_Peak",
+        title: "BLAZING",
+        subtitle: "SPEED",
+        description: "Milliseconds matter. Our optimization frameworks deliver lightning-fast performance that leaves competitors in the dust and users amazed.",
+        image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1920&q=80",
+        gradient: "from-orange-400 to-red-400",
+        accentColor: "orange-500",
+        icon: Rocket,
+        diagonal: "polygon(0 0, 70% 0, 50% 100%, 0 100%)",
+    },
+    {
+        id: 4,
+        badge: "Code_Excellence",
+        title: "TECH",
+        subtitle: "SUPREMACY",
+        description: "Built on enterprise-grade architecture with military-level security. Your digital fortress engineered by the world's elite developers.",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
+        gradient: "from-cyan-400 to-blue-400",
+        accentColor: "cyan-500",
+        icon: Code2,
+        diagonal: "polygon(0 0, 68% 0, 48% 100%, 0 100%)",
+    },
+    {
+        id: 5,
+        badge: "Future_Forward",
+        title: "RADICAL",
+        subtitle: "VISION",
+        description: "We don't follow trends—we create them. Pioneering tomorrow's digital experiences with AI-powered solutions and breakthrough innovation.",
+        image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=1920&q=80",
+        gradient: "from-emerald-400 to-teal-400",
+        accentColor: "emerald-500",
+        icon: Lightbulb,
+        diagonal: "polygon(0 0, 72% 0, 52% 100%, 0 100%)",
+    },
+]
 
-function GridBackground() {
-    return (
-        <div className="absolute inset-0 z-0 pointer-events-none">
-            {/* Dynamic skewed grid */}
-            <div
-                className="absolute inset-0 opacity-20"
-                style={{
-                    backgroundImage: `linear-gradient(to right, #334155 1px, transparent 1px),
-                                     linear-gradient(to bottom, #334155 1px, transparent 1px)`,
-                    backgroundSize: '40px 40px',
-                    transform: 'perspective(1000px) rotateX(60deg) scale(2)',
-                    transformOrigin: 'top center',
-                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)'
-                }}
-            />
-            {/* Radial glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.15),transparent_70%)]" />
-        </div>
-    )
-}
-
-function FloatingParticles() {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+export default function HeroSlider() {
+    const [currentSlide, setCurrentSlide] = useState(0)
+    const [direction, setDirection] = useState(0)
 
     useEffect(() => {
-        const canvas = canvasRef.current
-        if (!canvas) return
-        const ctx = canvas.getContext("2d")
-        if (!ctx) return
-
-        let width = canvas.width = window.innerWidth
-        let height = canvas.height = window.innerHeight
-
-        // Expert mode: fewer, sharper particles
-        const particleCount = 40
-        const particles: { x: number, y: number, speed: number, length: number }[] = []
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                speed: Math.random() * 2 + 1,
-                length: Math.random() * 20 + 5
-            })
-        }
-
-        const animate = () => {
-            if (!ctx) return
-            ctx.clearRect(0, 0, width, height)
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)' // Sky-400 equivalent
-
-            particles.forEach(p => {
-                p.y += p.speed
-                if (p.y > height) p.y = 0
-
-                ctx.fillRect(p.x, p.y, 1, p.length)
-            })
-            requestAnimationFrame(animate)
-        }
-
-        const animationId = requestAnimationFrame(animate)
-        const handleResize = () => {
-            width = canvas.width = window.innerWidth
-            height = canvas.height = window.innerHeight
-        }
-        window.addEventListener('resize', handleResize)
-        return () => {
-            cancelAnimationFrame(animationId)
-            window.removeEventListener('resize', handleResize)
-        }
+        const timer = setInterval(() => {
+            setDirection(1)
+            setCurrentSlide((prev) => (prev + 1) % slides.length)
+        }, 7000)
+        return () => clearInterval(timer)
     }, [])
 
-    return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-40 z-0" />
-}
+    const goToSlide = (index: number) => {
+        setDirection(index > currentSlide ? 1 : -1)
+        setCurrentSlide(index)
+    }
 
-export default function HeroSection() {
-    const containerRef = useRef<HTMLElement>(null)
-    const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] })
+    const nextSlide = () => {
+        setDirection(1)
+        setCurrentSlide((prev) => (prev + 1) % slides.length)
+    }
 
-    // Mouse Interaction for 3D Tilt
-    const mouseX = useMotionValue(0)
-    const mouseY = useMotionValue(0)
-    const springConfig = { damping: 25, stiffness: 150 }
-    const tiltX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), springConfig)
-    const tiltY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), springConfig)
+    const prevSlide = () => {
+        setDirection(-1)
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+    }
 
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            const { innerWidth, innerHeight } = window
-            mouseX.set((e.clientX / innerWidth) - 0.5)
-            mouseY.set((e.clientY / innerHeight) - 0.5)
-        }
-        window.addEventListener("mousemove", handleMouseMove)
-        return () => window.removeEventListener("mousemove", handleMouseMove)
-    }, [mouseX, mouseY])
+    const current = slides[currentSlide]
+    const Icon = current.icon
 
-    const expertSystems = [
-        { id: 1, title: "CORE_ANALYTICS", status: "ONLINE", img: "/hero-image-1.jpg", pos: "left-[5%] top-[20%]" },
-        { id: 2, title: "NETWORK_GRID", status: "ACTIVE", img: "/hero-image-2.jpg", pos: "right-[5%] top-[15%]" },
-        { id: 3, title: "SECURITY_MAIN", status: "LOCKED", img: "/hero-image-3.jpg", pos: "left-[15%] bottom-[15%]" },
-        { id: 4, title: "DATA_STREAM", status: "SYNCING", img: "/hero-image-4.jpg", pos: "right-[15%] bottom-[20%]" },
-        { id: 5, title: "CLOUD_NODE", status: "HEALTHY", img: "/hero-image-5.jpg", pos: "left-[50%] -translate-x-1/2 bottom-[10%]" },
-    ]
+    const slideVariants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? "100%" : "-100%",
+            opacity: 0,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+        },
+        exit: (direction: number) => ({
+            x: direction > 0 ? "-100%" : "100%",
+            opacity: 0,
+        }),
+    }
 
     return (
-        <section
-            ref={containerRef}
-            className="relative min-h-screen bg-[#020617] overflow-hidden flex flex-col items-center justify-center pt-10"
-        >
-            <GridBackground />
-            <FloatingParticles />
+        <section className="relative h-screen w-full overflow-hidden bg-[#020617] text-white">
 
-            {/* --- Diagonal Expert Systems Layer --- */}
-            <div className="absolute inset-0 z-10 perspective-[2000px] pointer-events-none hidden lg:block">
+            {/* BACKGROUND IMAGES WITH ANIMATION */}
+            <AnimatePresence initial={false} custom={direction}>
                 <motion.div
-                    style={{ rotateX: tiltX, rotateY: tiltY }}
-                    className="w-full h-full relative preserve-3d"
+                    key={current.id}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 z-0"
                 >
-                    {expertSystems.map((sys, i) => (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center brightness-50"
+                        style={{ backgroundImage: `url(${current.image})` }}
+                    />
+                    {/* Mobile Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/60 to-transparent lg:hidden" />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* DIAGONAL OVERLAY WITH GRID TEXTURE */}
+            <AnimatePresence initial={false}>
+                <motion.div
+                    key={`diagonal-${current.id}`}
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "0%" }}
+                    exit={{ x: "-100%" }}
+                    transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 z-10 hidden lg:block bg-[#020617]"
+                    style={{ clipPath: current.diagonal }}
+                >
+                    {/* Radial Grid Texture */}
+                    <div
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                            backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
+                            backgroundSize: "40px 40px",
+                        }}
+                    />
+
+                    {/* Accent Glow */}
+                    <div
+                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-${current.accentColor}/10 blur-3xl rounded-full`}
+                    />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* MAIN CONTENT CONTAINER */}
+            <div className="relative z-20 mx-auto h-full max-w-7xl px-6 flex items-center pt-20">
+
+                <div className="w-full flex flex-col lg:flex-row lg:justify-between lg:items-center gap-8">
+
+                    {/* LEFT CONTENT */}
+                    <AnimatePresence mode="wait">
                         <motion.div
-                            key={sys.id}
-                            className={`absolute ${sys.pos} w-[240px] md:w-[280px] aspect-video group`}
-                            initial={{ opacity: 0, scale: 0, y: 100 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            transition={{ delay: 0.5 + (i * 0.1), duration: 0.8, ease: "backOut" }}
+                            key={current.id}
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -40 }}
+                            transition={{ duration: 0.6 }}
+                            className="max-w-xl lg:max-w-2xl flex flex-col items-start gap-6 lg:gap-8"
                         >
-                            {/* System Card Container with Diagonal Styling */}
-                            <div className="relative w-full h-full bg-slate-900/60 backdrop-blur-md border border-slate-700/50 rounded-lg overflow-hidden transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(14,165,233,0.3)] will-change-transform">
 
-                                {/* Header Bar */}
-                                <div className="absolute top-0 left-0 right-0 h-8 bg-slate-950/80 border-b border-slate-700 flex items-center justify-between px-3 z-20">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                        <span className="text-[10px] font-mono text-sky-400 tracking-wider font-bold">{sys.title}</span>
-                                    </div>
-                                    <span className="text-[9px] font-mono text-slate-500">{sys.status}</span>
+                            {/* BADGE WITH ICON */}
+                            <div className="flex items-center gap-4">
+                                <div className={`h-12 w-12 rounded-none bg-${current.accentColor}/20 border border-${current.accentColor}/30 flex items-center justify-center`}
+                                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
+                                >
+                                    <Icon className={`h-6 w-6 text-${current.accentColor}`} />
                                 </div>
-
-                                {/* Diagonal Scanline Overlay */}
-                                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent,rgba(255,255,255,0.03),transparent)] z-20 bg-[length:200%_200%] animate-shine pointer-events-none" />
-
-                                {/* Image Content */}
-                                <div className="relative w-full h-full pt-8">
-                                    <Image
-                                        src={sys.img}
-                                        alt={sys.title}
-                                        fill
-                                        className="object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
-                                    />
-                                    {/* Tech Overlay lines */}
-                                    <div className="absolute inset-0 border-[0.5px] border-sky-500/10 z-10" />
-                                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
-                                        <div className="flex flex-col gap-0.5">
-                                            <div className="h-0.5 w-12 bg-sky-500/50" />
-                                            <div className="h-0.5 w-8 bg-sky-500/30" />
-                                        </div>
-                                        <Activity className="w-4 h-4 text-sky-400/70" />
-                                    </div>
+                                <div className="flex flex-col">
+                                    <div className={`h-[2px] w-16 bg-${current.accentColor} mb-2`} />
+                                    <span className={`text-${current.accentColor} font-bold italic tracking-widest text-xs uppercase`}>
+                                        {current.badge}
+                                    </span>
                                 </div>
                             </div>
 
-                            {/* Decorative angled bracket */}
-                            <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-sky-500 rounded-br-lg opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                            {/* MAIN HEADLINES - STAGGER ANIMATION */}
+                            <div className="space-y-0">
+                                <motion.div
+                                    initial={{ x: -100, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.2, duration: 0.8 }}
+                                    className="overflow-hidden"
+                                >
+                                    <h1 className="text-6xl sm:text-7xl lg:text-9xl font-black italic tracking-tighter leading-[0.9] text-white">
+                                        {current.title}
+                                    </h1>
+                                </motion.div>
+
+                                <motion.div
+                                    initial={{ x: -100, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.4, duration: 0.8 }}
+                                    className="overflow-hidden"
+                                >
+                                    <h1
+                                        className={`text-6xl sm:text-7xl lg:text-9xl font-black italic tracking-tighter leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r ${current.gradient}`}
+                                    >
+                                        {current.subtitle}
+                                    </h1>
+                                </motion.div>
+                            </div>
+
+                            {/* DESCRIPTION */}
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.6 }}
+                                className={`text-zinc-400 italic text-sm sm:text-lg max-w-lg leading-relaxed border-l-4 border-${current.accentColor}/30 pl-6`}
+                            >
+                                {current.description}
+                            </motion.p>
+
+                            {/* CTA BUTTONS */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.8 }}
+                                className="flex flex-col sm:flex-row items-start gap-4 mt-4"
+                            >
+                                <Link href="/contact">
+                                    <Button
+                                        className={`relative h-14 px-10 bg-${current.accentColor} hover:bg-white text-white hover:text-black font-black italic uppercase tracking-wider text-xs transition-all duration-300 group overflow-hidden border-0 rounded-none`}
+                                        style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+                                    >
+                                        <span className="relative z-10 mr-2">Init_Project</span>
+                                        <ArrowUpRight className="relative z-10 h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                                    </Button>
+                                </Link>
+
+                                <div
+                                    className="hidden sm:flex items-center gap-4 px-6 py-4 border border-white/10 bg-white/5 backdrop-blur-sm cursor-pointer hover:bg-white/10 transition-all duration-300 group rounded-none"
+                                    style={{ clipPath: "polygon(8% 0, 100% 0, 92% 100%, 0 100%)" }}
+                                >
+                                    <div className={`h-10 w-10 rounded-none border-2 border-${current.accentColor}/50 flex items-center justify-center group-hover:bg-${current.accentColor} group-hover:border-${current.accentColor} transition-all duration-300`}>
+                                        <Play className={`h-4 w-4 fill-${current.accentColor} text-${current.accentColor} group-hover:fill-white group-hover:text-white transition-colors`} />
+                                    </div>
+                                    <span className="text-xs font-bold italic text-zinc-300 tracking-wider group-hover:text-white transition-colors">
+                                        WATCH_DEMO
+                                    </span>
+                                </div>
+                            </motion.div>
+
                         </motion.div>
-                    ))}
-                </motion.div>
-            </div>
+                    </AnimatePresence>
 
+                    {/* RIGHT SIDE - NAVIGATION DOTS (Desktop) */}
+                    <div className="hidden lg:flex flex-col items-center gap-6">
+                        {slides.map((slide, index) => {
+                            const SlideIcon = slide.icon
+                            return (
+                                <button
+                                    key={slide.id}
+                                    onClick={() => goToSlide(index)}
+                                    className={`group relative transition-all duration-300 ${index === currentSlide ? 'scale-110' : 'scale-100 opacity-60 hover:opacity-100'
+                                        }`}
+                                >
+                                    <div
+                                        className={`relative h-16 w-16 flex items-center justify-center border-2 transition-all duration-300 ${index === currentSlide
+                                                ? `border-${slide.accentColor} bg-${slide.accentColor}/10`
+                                                : 'border-white/20 hover:border-white/40'
+                                            }`}
+                                        style={{ clipPath: "polygon(25% 0, 100% 0, 75% 100%, 0 100%)" }}
+                                    >
+                                        <SlideIcon className={`h-7 w-7 transition-colors ${index === currentSlide ? `text-${slide.accentColor}` : 'text-white/60'
+                                            }`} />
+                                    </div>
 
-            {/* --- Main Center Content --- */}
-            <div className="relative z-30 container mx-auto px-4 flex flex-col items-center text-center">
-
-                {/* Expert Status Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-8 relative group"
-                >
-                    <div className="absolute inset-0 bg-sky-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative flex items-center gap-3 px-4 py-2 bg-slate-900/60 border border-sky-500/30 rounded-full backdrop-blur-md">
-                        <span className="flex h-2 w-2 relative">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-                        </span>
-                        <span className="text-xs font-mono font-bold text-sky-300 tracking-[0.2em] uppercase">
-                            System_Architecture v5.0
-                        </span>
+                                    {/* Progress Bar */}
+                                    {index === currentSlide && (
+                                        <motion.div
+                                            initial={{ scaleY: 0 }}
+                                            animate={{ scaleY: 1 }}
+                                            transition={{ duration: 7, ease: "linear" }}
+                                            className={`absolute -left-2 top-0 w-1 h-full bg-${slide.accentColor} origin-top`}
+                                        />
+                                    )}
+                                </button>
+                            )
+                        })}
                     </div>
-                </motion.div>
 
-                {/* Hero Typing Heading */}
-                <motion.h1
-                    initial={{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
-                    animate={{ opacity: 1, clipPath: 'inset(0 0% 0 0)' }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-[0.9] mb-8 relative z-30"
-                >
-                    <span className="block drop-shadow-2xl">HYPER</span>
-                    <span className="block text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-300 to-slate-600">
-                        SCALABLE
-                    </span>
-                    <span className="relative inline-block mt-2 px-1">
-                        <span className="relative z-10 bg-gradient-to-r from-sky-400 to-blue-600 bg-clip-text text-transparent">LOGIC</span>
-                        <div className="absolute -inset-2 -skew-x-12 bg-blue-900/20 -z-10 border border-blue-500/20 rounded-sm" />
-                    </span>
-                </motion.h1>
-
-
-                {/* Interactive CTA Cluster */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="flex flex-col sm:flex-row items-center gap-6"
-                >
-                    <Link href="/contact">
-                        <Button className="h-14 px-8 bg-sky-500 hover:bg-sky-600 text-white rounded-none -skew-x-12 group relative overflow-hidden transition-all shadow-[0_0_40px_rgba(14,165,233,0.3)]">
-                            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-                            <div className="flex items-center gap-3 skew-x-12">
-                                <span className="font-bold tracking-widest text-sm uppercase">Initialize</span>
-                                <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </div>
-                        </Button>
-                    </Link>
-
-                    <Button variant="outline" className="h-14 px-8 border-slate-700 hover:border-sky-500/50 bg-slate-950/50 text-slate-300 rounded-none -skew-x-12 group transition-all">
-                        <div className="skew-x-12 flex items-center gap-3">
-                            <Server className="w-4 h-4 text-slate-500 group-hover:text-sky-400 transition-colors" />
-                            <span className="font-mono text-xs">VIEW_DOCS</span>
-                        </div>
-                    </Button>
-                </motion.div>
-            </div>
-
-            {/* --- Improved Footer / Status Bar --- */}
-            <div className="absolute bottom-0 w-full z-40">
-                {/* Tech Ticker */}
-                <div className="w-full h-12 bg-[#000510]/95 border-t border-slate-800 flex items-center overflow-hidden">
-                    <div className="container mx-auto px-4 flex justify-between items-center text-[10px] font-mono text-slate-500">
-                        {/* Left Status */}
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-2 text-emerald-500">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                <span>ALL_SYSTEMS_GO</span>
-                            </div>
-                            <span className="hidden sm:inline text-slate-700 text-xs">|</span>
-                            <span className="hidden sm:flex items-center gap-2">
-                                <Database className="w-3 h-3 text-slate-600" />
-                                <span>DB_SHARD_01: ACTIVE</span>
-                            </span>
-                        </div>
-
-                        {/* Center Ticker (Mobile Hidden) */}
-                        <div className="hidden lg:flex items-center gap-12 opacity-50">
-                            <span>ENCRYPTION: QUANTUM_SAFE</span>
-                            <span>LATENCY: 12ms</span>
-                            <span>NODES: 4,096</span>
-                        </div>
-
-                        {/* Right Controls */}
-                        <div className="flex items-center gap-4">
-                            <span className="text-slate-600 cursor-pointer hover:text-sky-400 transition-colors">CONFIG</span>
-                            <div className="w-[1px] h-4 bg-slate-800" />
-                            <span className="text-slate-600 cursor-pointer hover:text-sky-400 transition-colors">TERMINAL</span>
-                        </div>
-                    </div>
                 </div>
+
             </div>
+
+            {/* NAVIGATION ARROWS */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 lg:left-10 lg:translate-x-0 flex items-center gap-4 z-30">
+                <button
+                    onClick={prevSlide}
+                    className="group h-12 w-12 border-2 border-white/20 hover:border-white/60 flex items-center justify-center transition-all duration-300 hover:scale-110 rounded-none"
+                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
+                >
+                    <ChevronLeft className="h-6 w-6 text-white group-hover:translate-x-[-2px] transition-transform" />
+                </button>
+
+                <div className="flex items-center gap-2">
+                    {slides.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => goToSlide(index)}
+                            className={`h-1 transition-all duration-300 ${index === currentSlide
+                                    ? `w-12 bg-${current.accentColor}`
+                                    : 'w-6 bg-white/30 hover:bg-white/50'
+                                }`}
+                        />
+                    ))}
+                </div>
+
+                <button
+                    onClick={nextSlide}
+                    className="group h-12 w-12 border-2 border-white/20 hover:border-white/60 flex items-center justify-center transition-all duration-300 hover:scale-110 rounded-none"
+                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
+                >
+                    <ChevronRight className="h-6 w-6 text-white group-hover:translate-x-[2px] transition-transform" />
+                </button>
+            </div>
+
+            {/* STATUS BAR (Bottom Right) */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={current.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    className="absolute bottom-10 right-10 hidden xl:flex items-center gap-4 z-20"
+                >
+                    <div className="flex flex-col items-end">
+                        <span className={`text-xs font-bold italic text-${current.accentColor} tracking-widest`}>
+                            SLIDE_{String(currentSlide + 1).padStart(2, '0')}
+                        </span>
+                        <span className="text-[10px] font-mono text-zinc-500">
+                            AUTO_ROTATE: 7s
+                        </span>
+                    </div>
+                    <div className={`h-10 w-[2px] bg-${current.accentColor} rotate-12`} />
+                    <Icon className={`h-6 w-6 text-${current.accentColor}`} />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* DECORATIVE LINE */}
+            <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ delay: 1, duration: 1.5, ease: "easeInOut" }}
+                className={`absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-${current.accentColor} via-transparent to-transparent z-30`}
+            />
+
         </section>
     )
 }

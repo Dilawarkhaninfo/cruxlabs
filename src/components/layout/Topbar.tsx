@@ -32,7 +32,7 @@ export default function Topbar() {
                     {/* Diagonal Accent - Subtler & Constrained */}
                     <div className="absolute top-0 right-[-20px] h-full w-32 bg-sky-500/10 -skew-x-[20deg] hidden md:block" />
 
-                    <div className="container mx-auto px-4 md:px-6 py-2 flex items-center justify-between relative z-10">
+                    <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-between relative z-10">
 
                         {/* LEFT: Contact Information (Icons Only on Mobile) */}
                         <div className="flex items-center gap-4 sm:gap-6">
@@ -43,7 +43,7 @@ export default function Topbar() {
                                 aria-label="Email Us"
                             >
                                 <Mail className="h-3.5 w-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
-                                <span className="hidden sm:block text-[11px] font-medium tracking-wide group-hover:text-white transition-colors">
+                                <span className="hidden sm:block text-[11px] italic font-medium tracking-wide group-hover:text-white transition-colors">
                                     contact@cruxlabs.io
                                 </span>
                             </a>
@@ -56,7 +56,7 @@ export default function Topbar() {
                                 aria-label="Call Us"
                             >
                                 <Phone className="h-3.5 w-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
-                                <span className="hidden sm:block text-[11px] font-medium tracking-wide group-hover:text-white transition-colors">
+                                <span className="hidden sm:block text-[11px] italic font-medium tracking-wide group-hover:text-white transition-colors">
                                     +1 (555) 000-0000
                                 </span>
                             </a>
@@ -87,10 +87,10 @@ export default function Topbar() {
                             {/* System Status */}
                             <div className="flex items-center gap-2">
                                 <span className="relative flex h-1.5 w-1.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-emerald-500 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-none h-1.5 w-1.5 bg-emerald-500"></span>
                                 </span>
-                                <span className="hidden sm:block text-[10px] font-bold text-zinc-300 uppercase tracking-wider">
+                                <span className="hidden sm:block text-[10px] italic font-bold text-zinc-300 uppercase tracking-wider">
                                     System Online
                                 </span>
                             </div>
