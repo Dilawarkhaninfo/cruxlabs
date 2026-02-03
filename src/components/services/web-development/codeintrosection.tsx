@@ -89,7 +89,7 @@ const getColorClass = (type: string) => {
 export default function CodeIntroSection() {
   const [displayedChars, setDisplayedChars] = useState(0);
 
-  const totalChars = codeLines.blueuce((acc, line) => acc + line.text.length, 0);
+  const totalChars = codeLines.reduce((acc, line) => acc + line.text.length, 0);
   const isComplete = displayedChars >= totalChars;
 
   useEffect(() => {
