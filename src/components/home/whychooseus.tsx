@@ -1,108 +1,140 @@
+"use client"
+
 import {
   CheckCircle2,
   Zap,
   Shield,
   Users,
   Clock,
+  ArrowUpRight,
 } from "lucide-react"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 import { InteractiveImageAccordion } from "../ui/interactive-image-accordion"
+import { Badge } from "@/components/ui/badge"
 
 const reasons = [
   {
     icon: Users,
-    title: "Senior talent on every project",
-    description: "No outsourcing. Work directly with experienced engineers who understand your business goals."
+    title: "Vetted Senior Intelligence",
+    description: "Zero junior overhead. Work exclusively with senior engineers who understand business logic as deeply as they understand code."
   },
   {
     icon: Zap,
-    title: "Fast delivery, zero compromises",
-    description: "Battle-tested processes and automation help us ship production-ready systems in 3-6 weeks."
+    title: "High-Frequency Delivery",
+    description: "Our proprietary CI/CD pipelines allow us to ship architectural foundations in days, not months. We build at the speed of thought."
   },
   {
     icon: Shield,
-    title: "Security & performance built-in",
-    description: "Enterprise-grade architecture, authentication, and optimization from day one."
+    title: "Resilient Architecture",
+    description: "Security isn't a feature; it's the foundation. We build hardened, bank-grade systems that scale horizontally without friction."
   },
   {
     icon: Clock,
-    title: "On-time, every time",
-    description: "Clear milestones, weekly updates, and realistic planning. Zero missed deadlines."
+    title: "Predictable Velocity",
+    description: "Weekly sprints, transparent roadmaps, and 100% adherence to deadlines. We engineer certainty into every project lifecycle."
   }
 ]
 
-
-
 export default function WhyChooseUsSection() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  })
+
   return (
-    <section className="relative py-20 sm:py-24 lg:py-32 px-4 sm:px-6 bg-gradient-to-b from-white via-gray-50/30 to-white overflow-hidden">
-
-      {/* Subtle animated background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" aria-hidden="true" />
-
-      {/* Floating gradient orbs */}
-      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-[#2563eb]/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} aria-hidden="true" />
-      <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-[#2563eb]/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} aria-hidden="true" />
+    <section
+      ref={containerRef}
+      className="relative py-24 sm:py-32 px-6 bg-[#fafafa] overflow-hidden border-t border-slate-200"
+    >
+      {/* 1. Engineering Grid Overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
       <div className="relative mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* Left Column - Content */}
-          <div className="space-y-8">
-
-            {/* Section Header */}
-            <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-white/50 backdrop-blur-sm px-3 py-1.5 text-[13px] font-medium text-muted-foreground mb-6 shadow-sm">
-                <CheckCircle2 className="h-3.5 w-3.5 text-[#2563eb]" />
-                The CruxLabs Difference
-              </div>
-
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
-                Why Choose Us
+          {/* Left Column: Technical Value Proposition */}
+          <div className="relative flex flex-col items-start gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <Badge
+                variant="outline"
+                className="mb-4 rounded-full border-blue-200 bg-blue-50/50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb]"
+              >
+                Operational Excellence
+              </Badge>
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#0f172a] leading-[1.1] mb-6">
+                Engineered for <br />
+                <span className="text-[#2563eb]">The Crux of Success</span>
               </h2>
-
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                We don&apos;t just build websites—we engineer growth systems. Every project is architected
-                for performance, security, and scalability from day one.
+              <p className="max-w-xl text-lg text-[#64748b] leading-relaxed font-medium">
+                We eliminate the gap between strategy and execution. CruxLabs provides the technical
+                infrastructure that turns ambitious ideas into dominant market positions.
               </p>
-            </div>
+            </motion.div>
 
-            {/* Reasons List */}
-            <div className="space-y-6">
-              {reasons.map((reason) => (
-                <div
+            {/* Reasons Grid: Modern Service Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full mt-4">
+              {reasons.map((reason, index) => (
+                <motion.div
                   key={reason.title}
-                  className="flex items-start gap-4 group"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group relative p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#2563eb]/30 transition-all hover:shadow-xl hover:shadow-[#2563eb]/5"
                 >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#2563eb]/10 text-[#2563eb] group-hover:bg-[#2563eb]/20 transition-colors">
+                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-[#2563eb] group-hover:bg-[#2563eb] group-hover:text-white transition-all duration-300">
                     <reason.icon className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h3 className="text-base font-semibold text-foreground mb-1">
-                      {reason.title}
-                    </h3>
-                    <p className="text-[14px] text-muted-foreground leading-relaxed">
-                      {reason.description}
-                    </p>
-                  </div>
-                </div>
+                  <h3 className="text-[15px] font-bold text-[#0f172a] mb-2 flex items-center gap-2">
+                    {reason.title}
+                    <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-[13px] text-[#64748b] leading-relaxed">
+                    {reason.description}
+                  </p>
+                </motion.div>
               ))}
             </div>
-
-
-
           </div>
 
-          {/* Right Column - Dashboard Visual */}
-          <div className="relative">
+          {/* Right Column: Visual System Logic */}
+          <motion.div
+            style={{
+              opacity: useTransform(scrollYProgress, [0, 0.3], [0, 1]),
+              scale: useTransform(scrollYProgress, [0, 0.3], [0.95, 1])
+            }}
+            className="relative"
+          >
+            {/* Background Decoration: Engineering Marks */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 border-t border-r border-[#2563eb]/10 pointer-events-none hidden lg:block" />
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 border-b border-l border-[#2563eb]/10 pointer-events-none hidden lg:block" />
 
+            <div className="relative z-10 rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-2xl">
+              <InteractiveImageAccordion />
+            </div>
 
-            <InteractiveImageAccordion />
-          </div>
+            {/* Floating Technical Overlay */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-6 -right-6 lg:-right-12 p-6 bg-[#0f172a] z-50 rounded-2xl border border-white/10 shadow-2xl hidden md:block"
+            >
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Active Velocity</span>
+                <span className="text-2xl font-bold text-white tracking-tight">184% Faster</span>
+              </div>
+            </motion.div>
+          </motion.div>
 
         </div>
-
       </div>
     </section>
   )
