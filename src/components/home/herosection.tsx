@@ -1,95 +1,130 @@
 "use client"
 
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Sparkles, Play, ShieldCheck, Zap } from "lucide-react"
+import { ArrowRight, Sparkles, MoveRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"
 import ClientsSlider from "./clientsslider"
-import { motion } from "framer-motion"
 
 export default function HeroSection() {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const mouseX = useMotionValue(0)
+    const mouseY = useMotionValue(0)
+
+    // Smooth spring physics for mouse movement
+    const springConfig = { damping: 25, stiffness: 150 }
+    const x = useSpring(mouseX, springConfig)
+    const y = useSpring(mouseY, springConfig)
+
+    // Parallax effects for different layers
+    const textX = useTransform(x, [-500, 500], [-15, 15])
+    const textY = useTransform(y, [-500, 500], [-10, 10])
+    const glowX = useTransform(x, [-500, 500], [-50, 50])
+    const glowY = useTransform(y, [-500, 500], [-50, 50])
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!containerRef.current) return
+            const rect = containerRef.current.getBoundingClientRect()
+            const centerX = rect.left + rect.width / 2
+            const centerY = rect.top + rect.height / 2
+            mouseX.set(e.clientX - centerX)
+            mouseY.set(e.clientY - centerY)
+        }
+
+        window.addEventListener("mousemove", handleMouseMove)
+        return () => window.removeEventListener("mousemove", handleMouseMove)
+    }, [mouseX, mouseY])
+
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#ffffff]">
-            {/* Background elements */}
-            <div className="absolute inset-0 z-0">
-                <div
-                    className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#2563eb]/5 blur-[120px] rounded-full"
-                    aria-hidden="true"
+        <section
+            ref={containerRef}
+            className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-[#fafafa] pt-20 pb-12"
+        >
+            {/* 1. Engineering Grid Background with Animated Movement */}
+            <div className="absolute inset-0 pointer-events-none">
+                <motion.div
+                    style={{ x: glowX, y: glowY }}
+                    className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:40px_40px] opacity-40"
                 />
-                <div
-                    className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#2563eb]/5 blur-[120px] rounded-full"
-                    aria-hidden="true"
-                />
-                <div
-                    className="absolute inset-0 bg-[linear-gradient(to_right,#8881_1px,transparent_1px),linear-gradient(to_bottom,#8881_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"
-                    aria-hidden="true"
+                {/* 2. Interactive Cursor Glow */}
+                <motion.div
+                    style={{
+                        x,
+                        y,
+                        translateX: "-50%",
+                        translateY: "-50%",
+                        left: "50%",
+                        top: "50%"
+                    }}
+                    className="absolute w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] mix-blend-multiply"
                 />
             </div>
 
-            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-24 lg:py-32">
-                <div className="flex flex-col items-center text-center">
+            <div className="relative z-10 container mx-auto px-6">
+                <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
 
-                    {/* Animated Badge */}
+                    {/* Badge: Technical Precision */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.6 }}
                     >
                         <Badge
                             variant="secondary"
-                            className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#2563eb]/10 bg-[#2563eb]/5 px-4 py-2 text-[14px] font-semibold text-[#2563eb] backdrop-blur-sm shadow-sm"
+                            className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-[#2563eb] shadow-sm"
                         >
-                            <Sparkles className="h-4 w-4" />
-                            Next-Gen Growth Systems
+                            <Sparkles className="h-3 w-3" />
+                            Next-Generation Systems
                         </Badge>
                     </motion.div>
 
-                    {/* Main Heading */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="text-5xl font-bold tracking-tight text-[#0f172a] sm:text-6xl md:text-7xl lg:text-8xl max-w-5xl leading-[1.1]"
+                    {/* Headline: Refined Scale */}
+                    <motion.div
+                        style={{ x: textX, y: textY }}
+                        className="relative"
                     >
-                        We Engineer{" "}
-                        <span className="relative inline-block text-[#2563eb]">
-                            Digital Dominance
-                            <motion.span
-                                initial={{ width: 0 }}
-                                animate={{ width: "100%" }}
-                                transition={{ duration: 1, delay: 0.5 }}
-                                className="absolute -bottom-2 left-0 h-1.5 bg-[#2563eb]/20 rounded-full"
-                            />
-                        </span>
-                        <br />
-                        for Modern Business
-                    </motion.h1>
+                        <motion.h1
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                            className="text-[2.75rem] leading-[1.1] font-extrabold tracking-[-0.03em] text-[#0f172a] sm:text-5xl md:text-6xl"
+                        >
+                            Engineering
+                            <span className="block text-[#2563eb]">Digital Authority</span>
+                            for Global Leaders
+                        </motion.h1>
+                    </motion.div>
 
-                    {/* Subheading */}
+                    {/* Description: Tighter Spacing */}
                     <motion.p
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="mt-8 text-lg leading-relaxed text-[#475569] sm:text-xl md:text-2xl max-w-3xl mx-auto font-medium"
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="mt-6 text-base leading-relaxed text-[#64748b] sm:text-lg max-w-2xl font-medium"
                     >
-                        CruxLabs builds high-performance digital infrastructure that
-                        converts attention into revenue and complexity into growth.
+                        We translate complex business logic into high-frequency digital systems.
+                        No fluff. No decorators. Just scalable growth infrastructure.
                     </motion.p>
 
-                    {/* CTA Buttons */}
+                    {/* Primary Actions: Modern & Professional */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto"
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
                     >
                         <Link href="/contact" className="w-full sm:w-auto">
                             <Button
                                 size="lg"
-                                className="group h-14 w-full sm:w-auto rounded-2xl bg-[#0f172a] px-10 text-[16px] font-bold text-white hover:bg-[#2563eb] shadow-[0_20px_40px_-10px_rgba(15,23,42,0.3)] transition-all duration-300 hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] hover:-translate-y-1"
+                                className="group relative overflow-hidden h-12 w-full sm:w-auto rounded-full bg-[#0f172a] px-8 text-sm font-bold text-white transition-all hover:bg-[#2563eb] hover:shadow-xl hover:shadow-blue-500/20"
                             >
-                                Get Started
-                                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Start Engineering
+                                    <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </span>
                             </Button>
                         </Link>
 
@@ -97,68 +132,58 @@ export default function HeroSection() {
                             <Button
                                 size="lg"
                                 variant="outline"
-                                className="group h-14 w-full sm:w-auto rounded-2xl border-slate-200 px-10 text-[16px] font-bold text-[#1e293b] hover:bg-slate-50 transition-all duration-300 backdrop-blur-sm"
+                                className="h-12 w-full sm:w-auto rounded-full border-slate-200 bg-white/50 backdrop-blur-md px-8 text-sm font-bold text-[#1e293b] hover:bg-slate-50 transition-all"
                             >
-                                <Play className="mr-2 h-4 w-4 fill-current" />
-                                Our Work
+                                Technical Portfolio
                             </Button>
                         </Link>
                     </motion.div>
 
-                    {/* Features Grid (Modern Classical Touch) */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8 text-left max-w-4xl w-full"
-                    >
-                        <div className="flex items-start gap-4 p-4 rounded-2xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 transition-all">
-                            <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-[#2563eb]/10 text-[#2563eb]">
-                                <Zap className="h-5 w-5" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1e293b]">Rapid Growth</h3>
-                                <p className="text-sm text-[#64748b]">Engineered for scale and speed.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4 p-4 rounded-2xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 transition-all">
-                            <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-[#2563eb]/10 text-[#2563eb]">
-                                <ShieldCheck className="h-5 w-5" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1e293b]">Bank-Grade Security</h3>
-                                <p className="text-sm text-[#64748b]">Protecing your digital assets.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4 p-4 rounded-2xl border border-transparent hover:border-slate-100 hover:bg-slate-50/50 transition-all">
-                            <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-[#2563eb]/10 text-[#2563eb]">
-                                <Sparkles className="h-5 w-5" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-[#1e293b]">Expert AI Integration</h3>
-                                <p className="text-sm text-[#64748b]">Future-proofing your systems.</p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Trust Indicators */}
+                    {/* Functional Stats: Built for Trust */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 0.6 }}
-                        className="mt-24 w-full pt-12 border-t border-slate-100"
+                        className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-8 border-y border-dashed border-slate-200 py-6 w-full"
                     >
-                        <p className="mb-10 text-[12px] font-bold uppercase tracking-[0.2em] text-[#94a3b8]">
-                            Powering growth for global innovators
+                        <div>
+                            <p className="text-2xl font-bold text-[#0f172a]">99.8%</p>
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-[#94a3b8]">Uptime Ratio</p>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-[#0f172a]">24/7</p>
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-[#94a3b8]">Support Latency</p>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-[#0f172a]">2x</p>
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-[#94a3b8]">Revenue Growth</p>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-[#0f172a]">12+</p>
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-[#94a3b8]">Global Systems</p>
+                        </div>
+                    </motion.div>
+
+                    {/* Trust Bar */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1, delay: 0.8 }}
+                        className="mt-12 w-full"
+                    >
+                        <p className="mb-6 text-[10px] font-bold uppercase tracking-[0.2em] text-[#cbd5e1]">
+                            Deployed for market leaders
                         </p>
-                        <ClientsSlider />
+                        <div className="opacity-60 hover:opacity-100 transition-opacity">
+                            <ClientsSlider />
+                        </div>
                     </motion.div>
                 </div>
             </div>
 
-            {/* Background Decoration */}
-            <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[#2563eb]/3 blur-[150px] -z-10 animate-pulse" />
-            <div className="absolute bottom-[20%] left-[-10%] w-[400px] h-[400px] bg-[#2563eb]/2 blur-[130px] -z-10" />
+            {/* Corner Indicators: Purely Aesthetic Engineering Marks */}
+            <div className="absolute top-10 left-10 w-8 h-8 border-t border-l border-slate-200 pointer-events-none hidden md:block" />
+            <div className="absolute bottom-10 right-10 w-8 h-8 border-b border-r border-slate-200 pointer-events-none hidden md:block" />
         </section>
     )
 }

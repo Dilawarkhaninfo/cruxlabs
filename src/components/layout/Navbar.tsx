@@ -100,19 +100,22 @@ export default function Navbar() {
   return (
     <motion.header
       className={cn(
-        "sticky top-0 left-0 right-0 z-[100] transition-all duration-300 px-4",
-        scrolled ? "pt-4" : "pt-0"
+        "sticky top-0 left-0 right-0 z-[100] transition-all duration-500",
+        scrolled ? "pt-4 px-4" : "pt-0 px-0"
       )}
     >
       <div
         className={cn(
-          "container mx-auto max-w-7xl transition-all duration-500 rounded-2xl",
+          "mx-auto transition-all duration-500",
           scrolled
-            ? "bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)]"
-            : "bg-white border-b border-slate-100 rounded-none max-w-full"
+            ? "container max-w-7xl bg-white/80 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] rounded-2xl"
+            : "max-w-full bg-white border-b border-slate-100 rounded-none"
         )}
       >
-        <div className="flex h-16 items-center justify-between px-6">
+        <div className={cn(
+          "flex h-16 items-center justify-between transition-all duration-500",
+          scrolled ? "px-6" : "container mx-auto max-w-7xl px-4 sm:px-6"
+        )}>
           {/* Logo */}
           <Link
             href="/"
