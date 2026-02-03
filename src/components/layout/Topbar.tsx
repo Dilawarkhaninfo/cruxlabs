@@ -1,8 +1,9 @@
 "use client"
 
-import { Phone, Mail, Instagram, Linkedin, Twitter, Clock } from "lucide-react"
+import { Phone, Mail, Clock, ChevronRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
 export default function Topbar() {
     const [scrolled, setScrolled] = useState(false)
@@ -23,42 +24,52 @@ export default function Topbar() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0, overflow: "hidden" }}
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-[110] bg-[#2563eb] text-white py-2 text-[12px] font-medium"
+                    className="relative z-[110] bg-[#020617] border-b border-white/5 text-slate-400 py-2.5 text-[11px] font-medium tracking-wide"
                 >
-                    <div className="container mx-auto px-6 flex items-center justify-between gap-4">
+                    {/* Top Glow Line */}
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-50" />
+
+                    <div className="container mx-auto px-6 h-full flex items-center justify-between gap-4">
+
+                        {/* Left: Contact Info (Technical/Mono feel) */}
                         <div className="flex items-center gap-6">
                             <a
                                 href="mailto:contact@cruxlabs.io"
-                                className="flex items-center gap-2 group transition-opacity hover:opacity-80"
+                                className="flex items-center gap-2.5 group hover:text-white transition-colors"
                             >
-                                <Mail className="h-3.5 w-3.5 text-blue-100" />
-                                <span className="hidden sm:inline text-blue-50 group-hover:text-white transition-colors">contact@cruxlabs.io</span>
+                                <Mail className="h-3 w-3 text-sky-500" />
+                                <span className="font-mono opacity-80 group-hover:opacity-100 transition-opacity">
+                                    CONTACT@CRUXLABS.IO
+                                </span>
                             </a>
-                            <div className="h-3 w-[1px] bg-white/20 hidden sm:block" />
+                            <div className="h-3 w-[1px] bg-white/10 hidden sm:block rotate-12" />
                             <a
                                 href="tel:+1234567890"
-                                className="flex items-center gap-2 group transition-opacity hover:opacity-80"
+                                className="flex items-center gap-2.5 group hover:text-white transition-colors"
                             >
-                                <Phone className="h-3.5 w-3.5 text-blue-100" />
-                                <span className="hidden sm:inline text-blue-50 group-hover:text-white transition-colors uppercase">+1 (234) 567-890</span>
+                                <Phone className="h-3 w-3 text-sky-500" />
+                                <span className="font-mono opacity-80 group-hover:opacity-100 transition-opacity">
+                                    +1 (234) 567-890
+                                </span>
                             </a>
                         </div>
 
-                        <div className="flex items-center gap-5">
-                            <div className="hidden lg:flex items-center gap-2 text-blue-100/90 font-semibold tracking-tight">
-                                <Clock className="h-3.5 w-3.5" />
-                                <span>MON - FRI: 09:00 - 18:00</span>
+                        {/* Right: Hours & Status */}
+                        <div className="flex items-center gap-6">
+                            <div className="hidden lg:flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                <span className="uppercase tracking-wider text-[10px] font-bold text-emerald-500">
+                                    Systems Operational
+                                </span>
                             </div>
-                            <div className="flex items-center gap-4 sm:border-l sm:border-white/20 sm:pl-5">
-                                <a href="#" className="text-blue-100 hover:text-white transition-all transform hover:scale-110">
-                                    <Linkedin className="h-4 w-4" />
-                                </a>
-                                <a href="#" className="text-blue-100 hover:text-white transition-all transform hover:scale-110">
-                                    <Instagram className="h-4 w-4" />
-                                </a>
-                                <a href="#" className="text-blue-100 hover:text-white transition-all transform hover:scale-110">
-                                    <Twitter className="h-4 w-4" />
-                                </a>
+
+                            <div className="h-3 w-[1px] bg-white/10 hidden lg:block rotate-12" />
+
+                            <div className="flex items-center gap-2 group cursor-pointer hover:text-sky-400 transition-colors">
+                                <Clock className="h-3 w-3 text-slate-500 group-hover:text-sky-500 transition-colors" />
+                                <span className="uppercase text-[10px] font-bold">
+                                    Mon-Fri: 0900 - 1800
+                                </span>
                             </div>
                         </div>
                     </div>

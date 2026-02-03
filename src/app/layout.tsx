@@ -5,6 +5,7 @@ import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import Topbar from "@/components/layout/Topbar"
+import GlobalEffects from "@/components/layout/GlobalEffects"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,16 +45,17 @@ export default function RootLayout({
           ${geistSans.variable}
           ${geistMono.variable}
           min-h-screen
-          bg-background
-          text-foreground
+          bg-[#020617]
+          text-slate-200
           antialiased
           flex
           flex-col
         `}
       >
+        <GlobalEffects />
         <Topbar />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 relative z-10">{children}</main>
         <Footer />
       </body>
     </html>
