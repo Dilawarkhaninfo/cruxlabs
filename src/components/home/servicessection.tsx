@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef, useEffect } from "react"
 import {
   Layers,
   Server,
@@ -11,301 +12,175 @@ import {
   Cloud,
   Settings,
   Sparkles,
-  CheckCircle2
+  ArrowUpRight,
+  MoveRight
 } from "lucide-react"
-import { motion } from "framer-motion"
-import { Spotlight } from "@/components/ui/spotlight"
-import {
-  CardHoverReveal,
-  CardHoverRevealContent,
-  CardHoverRevealMain,
-} from "@/components/ui/reveal-on-hover"
+import { motion, useSpring, useMotionValue, useTransform } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
+import Link from "next/link"
 
 const services = [
   {
-    id: "enterprise-web",
     icon: Layers,
-    title: "Enterprise Web Applications",
-    description: "High-performance Next.js applications built as business tools with real-time functionality and seamless user experiences.",
-    features: [
-      "Real-time dashboards & analytics",
-      "Server-side rendering for SEO",
-      "TypeScript & best practices"
-    ],
-    type: "Web Development",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-600",
+    title: "Enterprise Web Systems",
+    desc: "Engineered with Next.js 15 for sub-second performance and radical scalability.",
+    tag: "Primary Infrastructure"
   },
   {
-    id: "backend-systems",
     icon: Server,
-    title: "Backend Systems & APIs",
-    description: "Scalable Node.js backends and secure REST APIs designed for reliability, performance, and long-term growth.",
-    features: [
-      "RESTful & GraphQL APIs",
-      "Microservices architecture",
-      "Load balancing & caching"
-    ],
-    type: "Backend",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-600",
+    title: "High-Frequency APIs",
+    desc: "Robust Node.js & Go backends optimized for low-latency data throughput.",
+    tag: "Data Pipeline"
   },
   {
-    id: "crm-automation",
     icon: Workflow,
-    title: "CRM & Lead Automation",
-    description: "Custom CRM workflows with zero lead loss, automated follow-ups, and intelligent pipeline management.",
-    features: [
-      "Automated lead nurturing",
-      "Pipeline visualization",
-      "Email & SMS integration"
-    ],
-    type: "Automation",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-    gradient: "from-blue-600 to-blue-500",
+    title: "Intelligent Automation",
+    desc: "Eliminating operational friction through custom AI-driven workflow engines.",
+    tag: "Core Systems"
   },
   {
-    id: "database-architecture",
     icon: Database,
-    title: "Database Architecture",
-    description: "PostgreSQL & Supabase poweblue data systems with optimized queries, migrations, and backup strategies.",
-    features: [
-      "Database design & normalization",
-      "Query optimization",
-      "Automated backups"
-    ],
-    type: "Infrastructure",
-    image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2036&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-400",
+    title: "Relational Architecture",
+    desc: "Hardened PostgreSQL systems designed for data integrity and complex logic.",
+    tag: "Persistence"
   },
   {
-    id: "security-auth",
     icon: ShieldCheck,
-    title: "Authentication & Security",
-    description: "Enterprise-grade auth systems with role-based access control, JWT tokens, and secure session management.",
-    features: [
-      "OAuth & SSO integration",
-      "Role-based permissions",
-      "2FA & biometric auth"
-    ],
-    type: "Security",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-600",
+    title: "Hardened Security",
+    desc: "Bank-grade authentication frameworks and zero-trust security layers.",
+    tag: "Resilience"
   },
   {
-    id: "seo-systems",
     icon: Search,
-    title: "SEO & Content Systems",
-    description: "SEO engineeblue at architecture level with structublue data, performance optimization, and content strategies.",
-    features: [
-      "Technical SEO audits",
-      "Schema markup",
-      "Core Web Vitals optimization"
-    ],
-    type: "SEO & Marketing",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=1251&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    gradient: "from-blue-500 to-blue-600",
-  },
-  {
-    id: "performance-marketing",
-    icon: TrendingUp,
-    title: "Performance Marketing",
-    description: "Tracking-accurate paid growth systems with conversion optimization, analytics, and attribution modeling.",
-    features: [
-      "Conversion tracking",
-      "A/B testing frameworks",
-      "Analytics integration"
-    ],
-    type: "Marketing",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-600",
-  },
-  {
-    id: "cloud-deployment",
-    icon: Cloud,
-    title: "Cloud & Deployment",
-    description: "Vercel-based CI/CD pipelines with automated deployments, global edge delivery, and monitoring.",
-    features: [
-      "Zero-downtime deployments",
-      "Edge computing & CDN",
-      "Performance monitoring"
-    ],
-    type: "DevOps",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
-    gradient: "from-blue-600 to-blue-500",
-  },
-  {
-    id: "automation",
-    icon: Settings,
-    title: "Automation & Integrations",
-    description: "Business process automation across tools with webhooks, APIs, and seamless third-party integrations.",
-    features: [
-      "Workflow automation",
-      "Third-party integrations",
-      "Custom webhooks"
-    ],
-    type: "Integration",
-    image: "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=2074&auto=format&fit=crop",
-    gradient: "from-blue-500 to-blue-400",
-  },
+    title: "Technical SEO",
+    desc: "Architecture-level optimization for maximum indexability and authority.",
+    tag: "Growth Engine"
+  }
 ]
 
 export default function ServicesSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.4, 0, 0.2, 1] as const,
-      },
-    },
-  }
+  const springConfig = { damping: 25, stiffness: 150 }
+  const x = useSpring(mouseX, springConfig)
+  const y = useSpring(mouseY, springConfig)
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      mouseX.set(e.clientX - centerX)
+      mouseY.set(e.clientY - centerY)
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [mouseX, mouseY])
 
   return (
-    <section className="relative py-20 sm:py-24 lg:py-32 px-4 sm:px-6 bg-white dark:bg-black overflow-hidden">
-      {/* Spotlight Effect */}
-      <Spotlight
-        className="from-blue-600 via-blue-500 to-blue-400 blur-3xl dark:from-blue-900 dark:via-blue-700 dark:to-blue-900"
-        size={600}
+    <section
+      ref={containerRef}
+      className="relative py-24 sm:py-32 px-6 overflow-hidden bg-[#fafafa] border-t border-slate-200"
+    >
+      {/* 1. Global Section Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+      {/* 2. Section Mouse Glow */}
+      <motion.div
+        style={{ x, y, translateX: "-50%", translateY: "-50%", left: "50%", top: "50%" }}
+        className="absolute w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"
       />
 
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 opacity-20">
-        <svg className="h-full w-full">
-          <defs>
-            <pattern
-              id="services-grid-pattern"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* Header: Technical Specification */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
             >
-              <path
-                d="M0 20H20M20 20V0M20 20H40M20 20V40"
-                stroke="currentColor"
-                strokeOpacity="0.1"
-                className="stroke-zinc-400 dark:stroke-zinc-600"
-              />
-              <rect
-                x="18"
-                y="18"
-                width="4"
-                height="4"
-                fill="currentColor"
-                fillOpacity="0.05"
-                className="fill-zinc-500 dark:fill-zinc-400"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#services-grid-pattern)" />
-        </svg>
-      </div>
-
-      <div className="relative mx-auto max-w-7xl z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-3xl text-center mb-12 sm:mb-16"
-        >
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm px-3 py-1.5 text-[13px] font-medium text-muted-foreground mb-6 shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-            What We Build
+              <Badge className="mb-6 rounded-full border-blue-200 bg-blue-50/50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb]">
+                Service Architecture
+              </Badge>
+              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#0f172a] leading-[1.1] mb-6">
+                Professional <br />
+                <span className="text-[#2563eb]">Engineering Modules</span>
+              </h2>
+              <p className="text-lg text-[#64748b] leading-relaxed font-medium">
+                We don't provide services; we install growth systems. Each module is
+                integrated to work as a unified engine for your business success.
+              </p>
+            </motion.div>
           </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link href="/services">
+              <button className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full text-sm font-bold text-[#0f172a] hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm">
+                Explore All Systems
+                <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+            </Link>
+          </motion.div>
+        </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-5">
-            Core <span className="bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] bg-clip-text text-transparent">Services</span>
-          </h2>
-
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Engineeblue systems focused on performance, scalability, and measurable growth—not surface-level implementations.
-          </p>
-        </motion.div>
-
-        {/* Services Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
-        >
+        {/* Services Matrix: Technical Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
-              key={service.id}
-              variants={itemVariants}
-              custom={index}
+              key={service.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="group relative p-8 bg-white border border-slate-200 rounded-3xl transition-all hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
             >
-              <CardHoverReveal className="h-full shadow-2xl border-2 border-blue-200/50 rounded-2xl overflow-hidden">
-                <CardHoverRevealMain>
-                  <div className="size-full aspect-[3/4] relative">
-                    <Image
-                      alt={service.title}
-                      src={service.image}
-                      fill
-                      className="object-cover"
-                    />
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+              {/* Card Decoration: Engineering marks */}
+              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-slate-100 rounded-tr-3xl" />
 
-                    {/* Always Visible Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-                      {/* Icon */}
-                      <div className="inline-flex p-2.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 mb-3">
-                        <service.icon className="h-5 w-5 text-white" strokeWidth={2} />
-                      </div>
+              <div className="relative z-10">
+                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-6 px-3 py-1 bg-slate-50 rounded-lg w-fit border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 group-hover:text-blue-500 transition-colors">
+                  Module ID: {index + 1} // {service.tag}
+                </span>
 
-                      {/* Title */}
-                      <h3 className="text-lg sm:text-xl font-bold text-white mb-2 line-clamp-2">
-                        {service.title}
-                      </h3>
+                <div className="mb-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-[#0f172a] group-hover:bg-[#2563eb] group-hover:text-white transition-all duration-300">
+                  <service.icon className="h-6 w-6" />
+                </div>
 
-                      {/* Type Badge */}
-                      <Badge className={`capitalize rounded-full bg-gradient-to-r ${service.gradient} text-white border-0 text-xs`}>
-                        {service.type}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHoverRevealMain>
+                <h3 className="text-xl font-bold text-[#0f172a] mb-3 group-hover:text-blue-600 transition-colors flex items-center gap-2">
+                  {service.title}
+                  <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </h3>
 
-                <CardHoverRevealContent className="space-y-3 rounded-2xl bg-[rgba(0,0,0,.85)] backdrop-blur-3xl p-5">
-                  {/* Description */}
-                  <p className="text-white/90 text-xs sm:text-sm leading-relaxed line-clamp-3">
-                    {service.description}
-                  </p>
+                <p className="text-sm text-[#64748b] leading-relaxed font-medium mb-8">
+                  {service.desc}
+                </p>
 
-                  {/* Features */}
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-semibold text-white/80">Key Features</h4>
-                    <ul className="space-y-1.5">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-white/70">
-                          <CheckCircle2 className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-blue-400" />
-                          <span className="line-clamp-1">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardHoverRevealContent>
-              </CardHoverReveal>
+                <div className="h-[1px] w-full bg-slate-100 mb-6" />
+
+                <button className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb] opacity-0 group-hover:opacity-100 transition-opacity">
+                  Initialize Integration
+                </button>
+              </div>
+
+              {/* Hover Interactive Glow */}
+              <div className="absolute bottom-[-20%] right-[-20%] w-[150px] h-[150px] bg-blue-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
+      </div>
+
+      {/* Background Marks */}
+      <div className="absolute top-1/2 -right-4 translate-y-[-50%] text-[10px] font-mono text-slate-300 tracking-[0.8em] vertical-rl uppercase rotate-180 pointer-events-none opacity-40">
+        Growth Infrastructure Systems // V4.0.1
       </div>
     </section>
   )
