@@ -1,9 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion, useScroll, useSpring, useTransform, useMotionValueEvent } from "framer-motion"
-import { Terminal, Shield, Cpu, Activity } from "lucide-react"
-
+import { motion, useScroll, useSpring,  useMotionValueEvent } from "framer-motion"
+ 
 export default function GlobalEffects() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
     const { scrollYProgress } = useScroll()
@@ -48,15 +47,7 @@ export default function GlobalEffects() {
                     </div>
                 </div>
 
-                {/* Left Side Status Trace */}
-                <div className="absolute top-2 left-6 flex items-center gap-4 opacity-40">
-                    <div className="h-6 w-6 bg-zinc-950 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
-                        <Activity className="h-3 w-3 text-sky-500 skew-x-[12deg]" />
-                    </div>
-                    <span className="text-[9px] font-black italic text-zinc-400 uppercase tracking-[0.3em]">
-                        SYSTEM_LINK_STABLE
-                    </span>
-                </div>
+               
             </div>
 
             {/* GLOBAL MOUSE SPOTLIGHT (TECHNICAL FLARE) */}
