@@ -156,10 +156,7 @@ export default function GlobalLoader() {
                         />
                     </div>
 
-                    {/* SIDE MARKINGS */}
-                    <div className="absolute bottom-10 left-10 text-[9px] font-mono text-zinc-500 tracking-[1em] uppercase vertical-rl rotate-180 opacity-30 italic">
-                        SYSTEM_BOOTLOADER_v4.2.0_CRUX
-                    </div>
+                
                 </motion.div>
             )}
         </AnimatePresence>
