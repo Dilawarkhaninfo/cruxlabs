@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer"
 import Topbar from "@/components/layout/Topbar"
 import GlobalLoader from "@/components/layout/GlobalLoader"
 import GlobalEffects from "@/components/layout/GlobalEffects"
+import TechnicalChatbot from "@/components/layout/TechnicalChatbot"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,6 +60,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1 relative z-10">{children}</main>
         <Footer />
+        <TechnicalChatbot />
       </body>
     </html>
   )

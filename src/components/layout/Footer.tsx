@@ -2,33 +2,41 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion"
-import { Github, Linkedin, Twitter, Mail, MapPin, Phone, Globe, Cpu, Shield, Zap, ArrowUpRight, MoveRight, Terminal } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, MapPin, Phone, Globe, Cpu, Shield, Zap, ArrowUpRight, MoveRight, Terminal, Activity, Database, Layout } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import LogoImage from "../../../public/logo.png"
+import { cn } from "@/lib/utils"
 
 const services = [
-  { name: "Enterprise Systems", href: "/services/enterprise-web-apps", id: "01" },
-  { name: "Backend Infrastructure", href: "/services/backend-systems", id: "02" },
-  { name: "Business Automation", href: "/services/crm-automation", id: "03" },
-  { name: "Technical SEO", href: "/services/seo-systems", id: "04" },
+  { name: "ENTERPRISE_SYSTEMS", href: "/services/enterprise-web-apps", id: "SRV_01" },
+  { name: "BACKEND_INFRASTRUCTURE", href: "/services/backend-systems", id: "SRV_02" },
+  { name: "BUSINESS_AUTOMATION", href: "/services/crm-automation", id: "SRV_03" },
+  { name: "TECHNICAL_SEO", href: "/services/seo-systems", id: "SRV_04" },
 ]
 
 const technologies = [
-  { name: "Next.js 15 Core", icon: Zap },
-  { name: "PostgreSQL Logic", icon: Cpu },
-  { name: "AES-256 Security", icon: Shield },
+  { name: "NEXTJS_15_RUNTIME", icon: Zap, id: "TK_01" },
+  { name: "POSTGRESQL_CORE", icon: Database, id: "TK_02" },
+  { name: "AES_256_HARDENING", icon: Shield, id: "TK_03" },
 ]
 
 const socialLinks = [
-  { name: "GitHub", href: "https://github.com/cruxlabs", icon: Github },
-  { name: "LinkedIn", href: "https://linkedin.com/company/cruxlabs", icon: Linkedin },
-  { name: "Twitter", href: "https://twitter.com/cruxlabs", icon: Twitter },
+  { name: "GITHUB", href: "https://github.com/cruxlabs", icon: Github },
+  { name: "LINKEDIN", href: "https://linkedin.com/company/cruxlabs", icon: Linkedin },
+  { name: "TWITTER", href: "https://twitter.com/cruxlabs", icon: Twitter },
 ]
 
 export default function Footer() {
   const globeRef = useRef<HTMLCanvasElement>(null)
   const [isMounted, setIsMounted] = useState(false)
+
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  const springConfig = { damping: 25, stiffness: 150 }
+  const x = useSpring(mouseX, springConfig)
+  const y = useSpring(mouseY, springConfig)
 
   useEffect(() => {
     setIsMounted(true)
@@ -77,7 +85,7 @@ export default function Footer() {
         const opacity = (z1 + 1) / 2
         ctx.beginPath()
         ctx.arc(xi, yi, 1.5 * scale, 0, 2 * Math.PI)
-        ctx.fillStyle = `rgba(14, 165, 233, ${opacity * 0.6})`
+        ctx.fillStyle = `rgba(14, 165, 233, ${opacity * 0.4})`
         ctx.fill()
       })
       requestAnimationFrame(animate)
@@ -90,86 +98,114 @@ export default function Footer() {
       canvas.width = width * 2
       canvas.height = height * 2
     }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = window.document.body.getBoundingClientRect()
+      mouseX.set(e.clientX - rect.width / 2)
+      mouseY.set(e.clientY - rect.height / 2)
+    }
+
     window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("mousemove", handleMouseMove)
+    }
   }, [])
 
   return (
-    <footer className="relative bg-zinc-950 pt-32 pb-12 overflow-hidden border-t border-zinc-900">
-      {/* 1. DIAGONAL BACKGROUND ACCENT */}
+    <footer className="relative bg-zinc-950 pt-32 pb-12 overflow-hidden border-t border-white/5">
+      {/* DIAGONAL BACKGROUND ACCENT (TECHNICAL SIDEBAR REVERSED) */}
       <div
-        className="absolute top-0 right-0 w-1/3 h-full bg-zinc-900/50 -z-10 hidden lg:block"
-        style={{ clipPath: "polygon(40% 0, 100% 0, 100% 100%, 0 100%)" }}
+        className="absolute top-0 right-0 w-1/4 h-full bg-zinc-900/30 -z-10 hidden lg:block"
+        style={{ clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0 100%)" }}
       >
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        {/* Technical Grid Texture */}
+        <div
+          className="absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
+            backgroundSize: "30px 30px"
+          }}
+        />
+
+        {/* Vertical Scan Line */}
+        <motion.div
+          animate={{ y: ["-100%", "100%"] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute left-0 top-0 w-[1px] h-40 bg-sky-500/10 blur-sm"
+        />
       </div>
 
-      {/* Global Engineering Grid Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+      {/* Global Engineering Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
         style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
-      {/* Construction Line-Art Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-[400px] opacity-[0.05] pointer-events-none overflow-hidden">
-        <svg width="100%" height="100%" viewBox="0 0 1200 400" preserveAspectRatio="none">
-          <path d="M0 400 L100 320 L200 350 L300 280 L400 340 L500 290 L600 330 L700 260 L800 310 L900 250 L1000 300 L1100 270 L1200 350 V400 H0 Z" fill="none" stroke="white" strokeWidth="1" />
-          <path d="M0 400 L50 350 L150 310 L250 340 L350 290 L450 320 L550 270 L650 300 L750 250 L850 290 L950 240 L1050 280 L1150 230 L1200 280" fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="5,5" />
-        </svg>
-      </div>
+      {/* Interactive Mouse Glow */}
+      <motion.div
+        style={{ x, y, translateX: "-50%", translateY: "-50%", left: "50%", top: "50%" }}
+        className="absolute w-[1200px] h-[1200px] bg-sky-500/5 rounded-full blur-[150px] pointer-events-none"
+      />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-          {/* Brand Architecture: Diagonal Style */}
-          <div className="lg:col-span-5 space-y-12 transform -skew-x-[6deg]">
-            <Link href="/" className="flex items-center gap-4 group transition-all skew-x-[6deg]">
-              <div className="h-10 w-10 bg-sky-500/10 border-2 border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+          {/* Brand Architecture: Redesigned for standard professional aesthetic */}
+          <div className="lg:col-span-5 space-y-12">
+            <Link href="/" className="flex items-center gap-4 group transition-all">
+              <div className="h-10 w-10 bg-zinc-900 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg] shadow-lg shadow-sky-500/5 group-hover:bg-sky-500 transition-colors">
                 <Image src={LogoImage} alt="CruxLabs" width={24} height={24} className="h-6 w-6 object-contain skew-x-[12deg]" />
               </div>
-              <span className="text-2xl font-black italic tracking-tighter text-white uppercase leading-none">CruxLabs</span>
+              <span className="text-2xl font-black italic tracking-tighter text-white uppercase leading-none">CRUXLABS</span>
             </Link>
 
-            <div className="space-y-4">
-              <h3 className="text-5xl sm:text-6xl font-black italic text-white leading-[0.85] tracking-tighter">
+            <div className="space-y-2">
+              <h3 className="text-5xl sm:text-6xl font-black italic text-white leading-[0.9] tracking-tighter uppercase">
                 ENGINEERING
               </h3>
-              <h3 className="text-5xl sm:text-6xl font-black italic leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">
-                INFRASTRUCTURE
+              <h3 className="text-5xl sm:text-6xl font-black italic leading-[0.9] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-700 uppercase">
+                FINALITY
               </h3>
             </div>
 
-            <p className="text-lg text-zinc-500 italic font-medium max-w-sm border-l-4 border-sky-500/30 pl-8 skew-x-[6deg]">
-              We architect high-frequency systems that bridge the gap between complex logic
-              and digital authority. Worldwide deployment, local impact.
+            <p className="text-[15px] text-zinc-500 leading-relaxed italic font-bold uppercase tracking-wide max-w-sm border-l-2 border-sky-500/20 pl-8">
+              We architect <span className="text-white">high-frequency systems</span> that bridge the gap between complex logic and digital authority. Worldwide deployment, absolute stability.
             </p>
 
             {/* Technical Node Metrics: Skewed Status */}
-            <div className="flex flex-wrap gap-10 pt-4 skew-x-[6deg]">
+            <div className="flex flex-wrap gap-8 pt-4">
               {technologies.map((tech) => (
                 <div key={tech.name} className="flex flex-col gap-3 group">
                   <div className="flex items-center gap-3">
-                    <tech.icon className="h-4 w-4 text-sky-500 transform group-hover:rotate-12 transition-transform" />
-                    <span className="text-[10px] font-black italic text-zinc-400 group-hover:text-white uppercase tracking-[0.2em]">{tech.name}</span>
+                    <div className="h-8 w-8 bg-zinc-900 border border-white/5 flex items-center justify-center -skew-x-[12deg] group-hover:border-sky-500/50 transition-colors">
+                      <tech.icon className="h-4 w-4 text-sky-500 skew-x-[12deg]" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">{tech.id}</span>
+                      <span className="text-[10px] font-black italic text-zinc-400 group-hover:text-white uppercase tracking-[0.2em] transition-colors">{tech.name}</span>
+                    </div>
                   </div>
-                  <div className="h-[2px] w-20 bg-zinc-800 relative overflow-hidden">
+                  <div className="h-[2px] w-24 bg-zinc-900 relative overflow-hidden">
                     <motion.div
-                      initial={{ left: "-100%" }}
-                      whileInView={{ left: "0%" }}
+                      initial={{ x: "-100%" }}
+                      whileInView={{ x: "0%" }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.5 }}
-                      className="absolute inset-y-0 left-0 w-2/3 bg-sky-500"
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="absolute inset-0 bg-sky-500/30"
                     />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Social Matrix */}
-            <div className="flex flex-wrap items-center gap-8 pt-6 skew-x-[6deg]">
+            {/* Social Matrix: Technical Style */}
+            <div className="flex flex-wrap items-center gap-6 pt-6">
               {socialLinks.map((social) => (
-                <a key={social.name} href={social.href} className="text-zinc-500 hover:text-sky-500 transition-all flex items-center gap-3 group">
-                  <social.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span className="text-[11px] font-black italic uppercase tracking-[0.3em] group-hover:translate-x-1 duration-300">{social.name}</span>
+                <a key={social.name} href={social.href} className="flex items-center gap-3 group">
+                  <div className="h-10 w-10 bg-zinc-900 border border-white/5 flex items-center justify-center -skew-x-[12deg] group-hover:bg-white group-hover:border-white transition-all duration-300">
+                    <social.icon className="h-4 w-4 text-zinc-500 group-hover:text-zinc-950 skew-x-[12deg] transition-colors" />
+                  </div>
+                  <span className="text-[11px] font-black italic text-zinc-500 uppercase tracking-[0.3em] group-hover:text-white transition-colors">{social.name}</span>
                 </a>
               ))}
             </div>
@@ -178,18 +214,23 @@ export default function Footer() {
           {/* Navigation Matrix: Skewed Subsystems */}
           <div className="lg:col-span-4 grid grid-cols-2 gap-12 pt-10">
             <div>
-              <div className="flex flex-col gap-1 mb-10">
-                <div className="h-[2px] w-12 bg-sky-500" />
-                <h4 className="text-[11px] font-black italic text-sky-500 uppercase tracking-[0.4em]">SYSTEM_SERVICES</h4>
+              <div className="flex items-center gap-3 mb-10">
+                <div className="h-8 w-8 bg-zinc-900 border border-sky-500/20 flex items-center justify-center -skew-x-[12deg]">
+                  <Terminal className="h-4 w-4 text-sky-500 skew-x-[12deg]" />
+                </div>
+                <div className="flex flex-col">
+                  <div className="h-[2px] w-12 bg-sky-500 mb-1" />
+                  <h4 className="text-[10px] font-black italic text-sky-500 uppercase tracking-[0.4em]">SYSTEM_SERVICES</h4>
+                </div>
               </div>
               <ul className="space-y-6">
                 {services.map((service) => (
                   <li key={service.name}>
-                    <Link href={service.href} className="flex items-center gap-4 group">
-                      <div className="h-7 w-7 bg-zinc-900 border border-zinc-800 group-hover:border-sky-500/50 flex items-center justify-center -skew-x-[12deg] transition-all">
-                        <span className="text-[9px] font-black italic text-zinc-600 group-hover:text-sky-500 skew-x-[12deg]">{service.id}</span>
+                    <Link href={service.href} className="flex items-center gap-5 group">
+                      <div className="h-7 w-7 bg-zinc-900 border border-white/5 group-hover:border-sky-500/50 flex items-center justify-center -skew-x-[12deg] transition-all">
+                        <span className="text-[9px] font-mono font-black text-zinc-600 group-hover:text-sky-500 skew-x-[12deg] transition-colors">{service.id}</span>
                       </div>
-                      <span className="text-[13px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-wider">
+                      <span className="text-[12px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-widest">
                         {service.name}
                       </span>
                     </Link>
@@ -198,21 +239,26 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <div className="flex flex-col gap-1 mb-10">
-                <div className="h-[2px] w-12 bg-purple-500" />
-                <h4 className="text-[11px] font-black italic text-purple-500 uppercase tracking-[0.4em]">COMPANY_LOGIC</h4>
+              <div className="flex items-center gap-3 mb-10">
+                <div className="h-8 w-8 bg-zinc-900 border border-sky-500/20 flex items-center justify-center -skew-x-[12deg]">
+                  <Activity className="h-4 w-4 text-sky-500 skew-x-[12deg]" />
+                </div>
+                <div className="flex flex-col">
+                  <div className="h-[2px] w-12 bg-sky-500 mb-1" />
+                  <h4 className="text-[10px] font-black italic text-sky-500 uppercase tracking-[0.4em]">COMPANY_LOGIC</h4>
+                </div>
               </div>
               <ul className="space-y-6">
                 {[
-                  { name: "About_Core", href: "/about" },
-                  { name: "Technical_Portfolio", href: "/portfolio" },
-                  { name: "Contact_Architect", href: "/contact" },
-                  { name: "System_Status", href: "/status" }
+                  { name: "ABOUT_CORE", href: "/about" },
+                  { name: "TECHNICAL_PORTFOLIO", href: "/portfolio" },
+                  { name: "CONTACT_ARCHITECT", href: "/contact" },
+                  { name: "SYSTEM_STATUS", href: "/status" }
                 ].map((item) => (
                   <li key={item.name}>
-                    <Link href={item.href} className="flex items-center gap-4 group">
-                      <div className="w-2 h-2 bg-zinc-800 group-hover:bg-purple-500 transform rotate-45 transition-colors" />
-                      <span className="text-[13px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-wider">
+                    <Link href={item.href} className="flex items-center gap-5 group">
+                      <div className="w-1.5 h-1.5 bg-zinc-800 group-hover:bg-sky-500 -skew-x-[12deg] transition-colors" />
+                      <span className="text-[12px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-widest">
                         {item.name}
                       </span>
                     </Link>
@@ -222,81 +268,87 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 3D Global Infrastructure Monitor */}
+          {/* 3D Global Infrastructure Monitor: High Fidelity */}
           <div className="lg:col-span-3 flex flex-col items-center lg:items-end pt-10">
-            <div className="relative w-64 h-64 md:w-80 md:h-80 group">
+            <div className="relative w-72 h-72 group">
               <div className="absolute inset-0 bg-sky-500/5 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <canvas ref={globeRef} className="relative z-10 w-full h-full cursor-grab active:cursor-grabbing grayscale group-hover:grayscale-0 transition-all duration-1000" />
+              <canvas ref={globeRef} className="relative z-10 w-full h-full cursor-pointer grayscale group-hover:grayscale-0 transition-all duration-1000 opacity-60 group-hover:opacity-100" />
 
               {/* Technical Annotations */}
-              <div className="absolute top-0 right-0 p-4 border-t-2 border-r-2 border-zinc-800 group-hover:border-sky-500/50 transition-colors">
+              <div className="absolute top-0 right-0 p-4 border-t border-r border-white/10 group-hover:border-sky-500/30 transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-black italic text-zinc-500 uppercase tracking-widest leading-none">GLOBAL_NODES_ONLINE</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[9px] font-black italic text-zinc-600 uppercase tracking-widest leading-none">GLOBAL_NODES_ACTIVE</span>
                 </div>
               </div>
 
               <div className="absolute bottom-4 left-0 -skew-x-[12deg]">
-                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800">
-                  <span className="text-[9px] font-black italic text-zinc-400 uppercase tracking-[0.2em] skew-x-[12deg] block">TRAJECTORY_STABLE_[0X01]</span>
+                <div className="px-5 py-2 bg-zinc-950 border border-white/5 group-hover:border-sky-500/20 transition-colors">
+                  <span className="text-[9px] font-mono font-black italic text-zinc-600 uppercase tracking-[0.2em] skew-x-[12deg] block group-hover:text-sky-500">TRAJECTORY_STABLE_[0X01]</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-12 text-right space-y-4">
-              <p className="text-[11px] font-mono text-zinc-500 uppercase tracking-[0.3em] leading-relaxed max-w-[200px] border-r-2 border-zinc-800 pr-4">
-                Global Subsystem Registry <br />
-                <span className="text-white">REF: 2026_CRUX_V4</span>
+            <div className="mt-12 text-center lg:text-right space-y-4">
+              <p className="text-[11px] font-mono text-zinc-600 uppercase tracking-[0.4em] leading-relaxed max-w-[200px] lg:border-r-2 border-zinc-900 lg:pr-6">
+                GLOBAL_SUBSYSTEM_REGISTRY <br />
+                <span className="text-zinc-400 italic font-bold">REG_ID: 2026_CRUX_V4</span>
               </p>
-              <div className="flex items-center justify-end gap-3 text-sky-500">
+              <div className="flex items-center justify-center lg:justify-end gap-3 text-sky-500">
                 <Globe className="h-4 w-4 animate-spin-slow" />
-                <span className="text-[10px] font-black italic uppercase tracking-[0.4em]">MULTI_REGION_DEPLOYMENT</span>
+                <span className="text-[10px] font-black italic uppercase tracking-[0.5em]">MULTI_REGION_SYNERGY</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar: Unified Deployment Protocol */}
-        <div className="mt-32 pt-12 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-10">
+        <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-10">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-8">
-            <p className="text-[11px] font-black italic text-zinc-500 uppercase tracking-[0.3em]">
-              © {new Date().getFullYear()} CRUXLABS_INFRASTRUCTURE
+            <p className="text-[10px] font-black italic text-zinc-600 uppercase tracking-[0.4em]">
+              © {new Date().getFullYear()} CRUXLABS_CORE_ARCHITECTURE
             </p>
-            <div className="h-4 w-[1px] bg-zinc-800 rotate-12 hidden md:block" />
-            <div className="flex gap-8">
-              <Link href="/privacy" className="text-[11px] font-black italic text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">PRIVACY_PROTOCOL</Link>
-              <Link href="/terms" className="text-[11px] font-black italic text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">USAGE_AGREEMENT</Link>
+            <div className="h-4 w-[1px] bg-zinc-900 rotate-12 hidden md:block" />
+            <div className="flex gap-10">
+              <Link href="/privacy" className="text-[10px] font-black italic text-zinc-500 hover:text-sky-500 uppercase tracking-widest transition-colors">PRIVACY_PROTOCOL</Link>
+              <Link href="/terms" className="text-[10px] font-black italic text-zinc-500 hover:text-sky-500 uppercase tracking-widest transition-colors">USAGE_AGREEMENT</Link>
             </div>
           </div>
 
           <div className="flex items-center gap-10">
-            <div className="text-[10px] font-mono font-black italic text-zinc-600 uppercase tracking-[0.6em] hidden xl:block">
+            <div className="text-[9px] font-mono font-black italic text-zinc-700 uppercase tracking-[0.5em] hidden xl:block">
               LAT: 37.7749 // LONG: -122.4194
             </div>
             <Link href="/contact">
-              <button
-                className="group relative h-14 px-10 bg-zinc-900 border-2 border-zinc-800 hover:border-sky-500 hover:bg-sky-500 hover:text-zinc-950 text-white font-black italic uppercase tracking-[0.3em] text-[10px] transition-all duration-300"
-                style={{ clipPath: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)" }}
-              >
-                <span className="flex items-center gap-4">
-                  INITIALIZE_CONSULTATION
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </span>
-              </button>
+              <div className="group relative">
+                <div
+                  className="relative px-10 py-5 bg-zinc-900 border border-white/10 text-white font-black italic uppercase tracking-[0.3em] text-[10px] transition-all duration-300 overflow-hidden group-hover:border-sky-500/50"
+                  style={{ clipPath: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)" }}
+                >
+                  <div className="absolute inset-0 bg-sky-500/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                  <span className="relative z-10 flex items-center gap-4">
+                    INITIALIZE_CONSULTATION
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-sky-500" />
+                  </span>
+                </div>
+              </div>
             </Link>
           </div>
         </div>
       </div>
 
       {/* Extreme Decorative Tracing Overlay */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[9px] font-mono text-zinc-800 tracking-[2.5em] vertical-rl uppercase pointer-events-none opacity-20 italic">
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[10px] font-mono text-zinc-900 tracking-[3em] vertical-rl uppercase pointer-events-none opacity-20 italic">
         ARCHITECTURAL_FINALITY_//_MMXXVI
       </div>
 
+      {/* BOTTOM SCAN LINE */}
       <motion.div
-        animate={{ scaleX: [0, 1, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-500/30 to-transparent z-10"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 2, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 w-full h-[1px] bg-sky-500/20"
       />
     </footer>
   )
