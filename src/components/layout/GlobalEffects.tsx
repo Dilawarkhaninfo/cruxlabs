@@ -73,12 +73,7 @@ export default function GlobalEffects() {
                 </svg>
             </div>
 
-            {/* SIDE MARKINGS (GLOBAL) */}
-            <div className="fixed top-1/2 left-0 -translate-y-1/2 z-[80] pointer-events-none hidden xl:block">
-                <div className="text-[9px] font-mono text-zinc-600 tracking-[1.5em] vertical-rl uppercase rotate-180 opacity-20 italic">
-                    CRUX_RUNTIME_v4.2_ENGINE
-                </div>
-            </div>
+      
 
             {/* SCAN LINE ANIMATION (SUBTLE) */}
             <motion.div
