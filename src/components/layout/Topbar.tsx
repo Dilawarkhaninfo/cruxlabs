@@ -1,15 +1,15 @@
 "use client"
 
-import { Phone, Mail, Clock, ChevronRight } from "lucide-react"
+import { Phone, Mail, Twitter, Linkedin, Github } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
 
 export default function Topbar() {
     const [scrolled, setScrolled] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => {
+            // Hide topbar on scroll to give more space to sticky navbar
             setScrolled(window.scrollY > 50)
         }
         window.addEventListener("scroll", handleScroll)
@@ -22,55 +22,79 @@ export default function Topbar() {
                 <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0, overflow: "hidden" }}
+                    exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-[110] bg-[#020617] border-b border-white/5 text-slate-400 py-2.5 text-[11px] font-medium tracking-wide"
+                    className="relative z-[110] bg-[#0A0A0A] text-zinc-400 border-b border-white/5 overflow-hidden"
                 >
-                    {/* Top Glow Line */}
-                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-50" />
+                    {/* Background Pattern - Consistent Deep Black */}
+                    <div className="absolute inset-0 bg-[#0A0A0A]" />
 
-                    <div className="container mx-auto px-6 h-full flex items-center justify-between gap-4">
+                    {/* Diagonal Accent - Subtler & Constrained */}
+                    <div className="absolute top-0 right-[-20px] h-full w-32 bg-sky-500/10 -skew-x-[20deg] hidden md:block" />
 
-                        {/* Left: Contact Info (Technical/Mono feel) */}
-                        <div className="flex items-center gap-6">
+                    <div className="container mx-auto px-4 md:px-6 py-2 flex items-center justify-between relative z-10">
+
+                        {/* LEFT: Contact Information (Icons Only on Mobile) */}
+                        <div className="flex items-center gap-4 sm:gap-6">
+
                             <a
                                 href="mailto:contact@cruxlabs.io"
-                                className="flex items-center gap-2.5 group hover:text-white transition-colors"
+                                className="flex items-center gap-2 group"
+                                aria-label="Email Us"
                             >
-                                <Mail className="h-3 w-3 text-sky-500" />
-                                <span className="font-mono opacity-80 group-hover:opacity-100 transition-opacity">
-                                    CONTACT@CRUXLABS.IO
+                                <Mail className="h-3.5 w-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
+                                <span className="hidden sm:block text-[11px] font-medium tracking-wide group-hover:text-white transition-colors">
+                                    contact@cruxlabs.io
                                 </span>
                             </a>
+
                             <div className="h-3 w-[1px] bg-white/10 hidden sm:block rotate-12" />
+
                             <a
                                 href="tel:+1234567890"
-                                className="flex items-center gap-2.5 group hover:text-white transition-colors"
+                                className="flex items-center gap-2 group"
+                                aria-label="Call Us"
                             >
-                                <Phone className="h-3 w-3 text-sky-500" />
-                                <span className="font-mono opacity-80 group-hover:opacity-100 transition-opacity">
-                                    +1 (234) 567-890
+                                <Phone className="h-3.5 w-3.5 text-sky-500 group-hover:scale-110 transition-transform" />
+                                <span className="hidden sm:block text-[11px] font-medium tracking-wide group-hover:text-white transition-colors">
+                                    +1 (555) 000-0000
                                 </span>
                             </a>
                         </div>
 
-                        {/* Right: Hours & Status */}
-                        <div className="flex items-center gap-6">
-                            <div className="hidden lg:flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                                <span className="uppercase tracking-wider text-[10px] font-bold text-emerald-500">
-                                    Systems Operational
+                        {/* RIGHT: Socials & Status */}
+                        <div className="flex items-center gap-4">
+
+                            {/* Social Icons */}
+                            <div className="flex items-center gap-3">
+                                {[
+                                    { Icon: Linkedin, href: "#" },
+                                    { Icon: Twitter, href: "#" },
+                                    { Icon: Github, href: "#" }
+                                ].map((item, index) => (
+                                    <a
+                                        key={index}
+                                        href={item.href}
+                                        className="text-zinc-500 hover:text-sky-400 transition-colors"
+                                    >
+                                        <item.Icon className="h-3.5 w-3.5" />
+                                    </a>
+                                ))}
+                            </div>
+
+                            <div className="h-3 w-[1px] bg-white/10 rotate-12" />
+
+                            {/* System Status */}
+                            <div className="flex items-center gap-2">
+                                <span className="relative flex h-1.5 w-1.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                </span>
+                                <span className="hidden sm:block text-[10px] font-bold text-zinc-300 uppercase tracking-wider">
+                                    System Online
                                 </span>
                             </div>
 
-                            <div className="h-3 w-[1px] bg-white/10 hidden lg:block rotate-12" />
-
-                            <div className="flex items-center gap-2 group cursor-pointer hover:text-sky-400 transition-colors">
-                                <Clock className="h-3 w-3 text-slate-500 group-hover:text-sky-500 transition-colors" />
-                                <span className="uppercase text-[10px] font-bold">
-                                    Mon-Fri: 0900 - 1800
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </motion.div>
