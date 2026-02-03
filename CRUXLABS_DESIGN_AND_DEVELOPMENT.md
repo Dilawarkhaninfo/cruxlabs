@@ -1,119 +1,112 @@
-# CruxLabs | Engineering & Design Specification
-## Strategic Frontend Architecture for Systemic Growth
+# CruxLabs | Diagonal Design System & Engineering Specification
 
-### 1. Executive Summary
-CruxLabs is a systems engineering and digital growth firm. We do not build "marketing brochures"; we engineer **digital growth systems**. This specification defines the visual and technical foundation for all CruxLabs interfaces, ensuring every pixel serves a functional purpose in communicating clarity, authority, and scalability.
+## 1. Executive Vision
+CruxLabs is adopting a **"Diagonal Dynamic"** visual identity. This design breaks away from the traditional boxy grid of the web, introducing energy, motion, and a futuristic edge through diagonal lines and slanted layouts. 
 
----
-
-### 2. Design Philosophy: The Crux Framework
-
-#### 2.1 System-First Thinking
-Design exists to explain complex systems. We prioritize **Information Architecture** over aesthetic decoration.
-- **Hierarchy:** Radical clarity in content priority.
-- **Predictability:** Consistent placement of functional elements.
-- **Engineering Aesthetic:** The UI should feel built, not just styled.
-
-#### 2.2 Modern Classical Aesthetic
-A synthesis of Silicon Valley's technical precision and classical design restraint.
-- **Inspiration:** Linear (Depth), Stripe (Clarity), Vercel (Precision), Supabase (Structure).
-- **Tone:** Professional, objective, and authoritative.
+The goal is to create an interface that feels **alive, unique, and premium**, distinguishing CruxLabs from every other "square" competitor. It combines the maturity of a professional firm with the forward-thinking energy of a tech leader.
 
 ---
 
-### 3. Visual Language (Design Tokens)
+## 2. Design Philosophy: "The Diagonal Shift"
 
-#### 3.1 Typography
-- **Primary Typeface:** `Geist Sans` (High-performance, technical legibility).
-- **Mono Typeface:** `Geist Mono` (Used for data, metadata, and technical specifications).
-- **Rules:**
-  - **H1-H3:** Short, decisive positioning statements.
-  - **Body Text:** Minimum 16px, optimized line-height (1.6) for sustained reading.
-  - **Scale:** Modular scale approach to ensure consistent rhythm.
+### 2.1 Core Concept
+- **Desktop:** Bold diagonal section dividers, slanted image containers, and asymmetric layouts. The user flow should feel like sliding down a dynamic path rather than stepping down a ladder.
+- **Mobile:** Elements naturally stack for readability, but the "Diagonal" brand DNA is preserved through background gradients, subtle angled separators, and icon geometry. No broken layouts; functionality matches the desktop wow-factor.
 
-#### 3.2 Color System (The "Signal" Palette)
-- **Neutral Base:** A grayscale foundation ranging from high-contrast white (`#FFFFFF`) to deep charcoal (`#0A0A0A`).
-- **Primary Brand Color:** **Technical Blue** (`#0066FF` or similar) — Used exclusively for interaction signals (CTAs, focus states, active indicators).
-- **Functional Accents:** Used sparingly for status (success, warning, error) only.
-
-#### 3.3 Depth & Texture (Glassmorphism)
-We use depth to communicate hierarchy, not for decoration.
-- **Surface Elevation:** Subtle `backdrop-blur` (8px-12px) on sticky components.
-- **Depth Layers:** Use of soft borders (`1px`) and contrast-based elevation rather than heavy drop shadows.
-- **Micro-Textures:** Subtle grain or grid patterns to represent "engineering" foundations.
-
-#### 3.4 Motion & Dynamics (Physiological Timing)
-Motion is a feedback mechanism.
-- **Reveals:** Subtle `y-axis` translation (10-20px) + opacity fade (duration: 400ms, ease: [0.22, 1, 0.36, 1]).
-- **Micro-interactions:** Instant feedback on hover/click to reduce perceived latency.
-- **Rule:** If an animation delays the retrieval of information, it is removed.
+### 2.2 Aesthetic Principles
+- **Less Content, More Vision:** We prioritize high-impact imagery over long paragraphs. Text is concise, punchy, and minimal.
+- **Eye-Catching & Smoothing:** Animations and transitions should be fluid ("smoothing"). The eye should glide across the page.
+- **Mature & Clean:** Despite the unique geometry, the design remains uncluttered. No chaos. Just clean lines and purposeful space.
 
 ---
 
-### 4. Component Architecture
+## 3. Visual Language (Design Tokens)
 
-#### 4.1 Folder Structure
-```text
-src/
-├── components/
-│   ├── ui/             # shadcn/ui primitives
-│   ├── shared/         # Reusable site-wide components (Navbar, Footer, CTA)
-│   ├── sections/       # Page-specific block sections
-│   └── icons/          # Lucide-wrapped custom iconography
-├── lib/
-│   ├── utils.ts        # Tailwind merge & utility functions
-│   └── constants.ts    # Design tokens & static data
-└── app/                # Next.js App Router (Layouts & Pages)
-```
+### 3.1 Color Palette
+A high-contrast, fresh, and sharp palette designed to pop.
 
-#### 4.2 Engineering Principles
-- **Server-First:** All data-heavy components are Server Components (RSC) by default.
-- **Interaction Boundaries:** Client islands (`'use client'`) are strictly limited to leaf nodes (buttons, sliders, forms).
-- **Composability:** Components are designed as building blocks (slots/children pattern) to avoid prop drilling.
+| Color Name | Hex Code | Usage |
+| :--- | :--- | :--- |
+| **Sky Blue** | `#0EA5E9` (Tailwind `sky-500`) | Primary accents, buttons, diagonal overlays, gradients. |
+| **Crisp White** | `#FFFFFF` | Primary background, main text on dark sections, clean space. |
+| **Dark Black** | `#09090B` (Tailwind `zinc-950`) | Deep emphasis sections, footers, primary text on white. |
+| **Soft Gray** | `#F4F4F5` (Tailwind `zinc-100`) | Subtle backgrounds to create depth between diagonals. |
+
+### 3.2 Typography
+- **Font Family:** `Geist Sans` or `Inter`. Clean, modern, sans-serif.
+- **Sizing:**
+  - **Headings:** Bold but not overpowering. Avoid massive "shouting" fonts.
+  - **Body:** Simple, readable, highly legible. 
+  - **Style:** Clean and aesthetic. No decorative serifs.
+
+### 3.3 Imagery Strategy
+**Critical Requirement:** Every image slot MUST have a descriptive `alt` tag. This serves two purposes: accessibility and acting as a prompt for AI image generation.
+
+*Example:* 
+`<img src="..." alt="Futuristic glass office building with sky blue neon diagonal lighting, cinematic angle, 8k resolution" />`
 
 ---
 
-### 5. Technical Stack
+## 4. Component Architecture
+
+### 4.1 The "Diagonal" Layouts
+- **angled-section:** A wrapper component that applies a `clip-path` or `skew` transformation to create diagonal boundaries between sections (e.g., `-3deg` or `5deg` tilt).
+- **slanted-card:** Cards that have a subtle skew on hover or a permanent diagonal accent border.
+- **hero-split:** A desktop split-screen where the division line is diagonal, separating text from the hero image.
+
+### 4.2 Interactive Elements
+- **Buttons:** Sharp corners or slightly skewed parallelograms to match the theme.
+- **Hover Effects:** "Sky Blue" glow or slide effects that follow diagonal vectors.
+- **Scroll Animations:** Parallax effects where background images move slightly slower than the foreground diagonal masks.
+
+---
+
+## 5. Technical Stack
 
 | Category | Technology | Rationale |
 | :--- | :--- | :--- |
-| **Framework** | Next.js 15+ (App Router) | SEO, SSR, and high-performance routing. |
-| **Styling** | Tailwind CSS v4 | Utility-first, optimized build size, design-system-friendly. |
-| **Component UI** | shadcn/ui | Radix UI primitives for world-class accessibility. |
-| **Icons** | Lucide Icons | Consistent stroke weight (2px) and vector precision. |
-| **Type** | next/font | Zero-layout shift, optimized local performance. |
+| **Framework** | **Next.js 15+** | The React framework for production. Server Components for performance. |
+| **UI Library** | **shadcn/ui** | Accessible, headless components (Radix UI) styled with Tailwind. |
+| **Styling** | **Tailwind CSS** | Rapid styling. Essential for creating complex `clip-path` and `skew` utilities. |
+| **Icons** | **Lucide Icons** | Clean, crisp, vector SVG icons. |
+| **Language** | **TypeScript** | Type safety and robust code structure. |
 
 ---
 
-### 6. Page Architecture
+## 6. Implementation Guidelines
 
-| Page | Primary Objective | Key UI Pattern |
-| :--- | :--- | :--- |
-| **Home** | Establish authority & trust | Hero Section + Vision Grid |
-| **Services** | Define solution sets | Feature-cards with technical specs |
-| **Systems** | Showcase methodology | Engineering diagrams & process steps |
-| **About** | The 'Crux' philosophy | Long-form reading optimized layout |
-| **Contact** | Conversion / Intake | Compact, frictionless form system |
+### 6.1 Desktop vs. Mobile
+- **Desktop:** Unleash the diagonals. Use `transform: skewY(-3deg)` on container backgrounds, then `transform: skewY(3deg)` on the content content so it remains straight.
+- **Mobile:** Reset skews (`transform: none`). Use CSS gradients (e.g., `bg-gradient-to-br`) to mimic the diagonal feel without breaking text flow.
+
+### 6.2 Code Structure
+```tsx
+// Example of a Diagonal Section Component
+export default function DiagonalSection({ children, className }: Props) {
+  return (
+    <div className="relative overflow-hidden py-24">
+      {/* Background with Diagonal Cut */}
+      <div className="absolute inset-0 transform -skew-y-3 origin-top-left bg-zinc-950 z-0" />
+      
+      {/* Content - Counter Skewed to be straight */}
+      <div className="relative z-10 container mx-auto">
+        {children}
+      </div>
+    </div>
+  )
+}
+```
+
+### 6.3 Performance
+- **LCP (Largest Contentful Paint):** Optimize the hero image as it will be large.
+- **CLS (Cumulative Layout Shift):** Be careful with transforms; ensure layout space is reserved.
 
 ---
 
-### 7. Performance & SEO Strategy
+## 7. Development Checklist
 
-- **Core Web Vitals:** Aiming for 95+ Score across all metrics.
-- **SEO Metadata:** Dynamic metadata generation per page.
-- **Semantics:** 100% adherence to WAI-ARIA and HTML5 semantic standards (`<main>`, `<section>`, `<article>`).
-- **Images:** LCP optimization via `next/image` with Blurhash placeholders.
-
----
-
-### 8. Scalability & Future Expansion
-This system is architected to transition seamlessly from a marketing site to a:
-1. **SaaS Dashboard:** Using the same design tokens for data visualization.
-2. **Internal Tools:** Structured grid systems for heavy data entry.
-3. **Product Documentation:** Leveraging the MDX-friendly typography scale.
-
----
-
-### 9. Final Assertion
-CruxLabs does not build websites; we build **growth-oriented infrastructure**. This specification ensures that our digital presence is as engineered, precise, and reliable as the solutions we provide to our clients.
-
+1.  [ ] **Setup Theme:** Update `tailwind.config.ts` with "Sky Blue", "Dark Black" variables.
+2.  [ ] **Create Layout Wrapper:** Build a `<DiagonalWrapper>` component for reusable section tilting.
+3.  [ ] **Hero Section:** Implement the "Diagonal Split" hero with a prompt-ready placeholder image.
+4.  [ ] **Image Audit:** Ensure every `<img>` component has a rich, descriptive `alt` property for future AI generation.
+5.  [ ] **Responsive Check:** Verify that diagonals turn into clean stacks on screens `< 768px`.

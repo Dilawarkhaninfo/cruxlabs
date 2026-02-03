@@ -5,6 +5,7 @@ import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
 import Topbar from "@/components/layout/Topbar"
+import GlobalLoader from "@/components/layout/GlobalLoader"
 import GlobalEffects from "@/components/layout/GlobalEffects"
 
 const geistSans = Geist({
@@ -52,6 +53,7 @@ export default function RootLayout({
           flex-col
         `}
       >
+        <GlobalLoader />
         <GlobalEffects />
         <Topbar />
         <Navbar />
