@@ -112,7 +112,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "fixed left-0 right-0 z-[100] transition-all duration-500 flex justify-center",
-        scrolled ? "top-0" : "top-10" // Sync with Topbar height (approx 40px)
+        scrolled ? "top-0" : "top-10" // Sync with Topbar height (10 = 40px)
       )}
     >
       <div
@@ -156,7 +156,7 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="flex flex-col skew-x-[6deg]">
-                <span className="text-xl font-black italic tracking-tighter leading-none text-zinc-950">
+                <span className="text-xl font-black italic tracking-tighter leading-none text-zinc-950 uppercase">
                   CruxLabs
                 </span>
                 <div className="flex items-center gap-2 mt-1">
@@ -180,12 +180,15 @@ export default function Navbar() {
                         <NavigationMenuItem key={item.name} value="services" className="h-full">
                           <NavigationMenuTrigger
                             className={cn(
-                              "bg-transparent h-full px-8 transition-all hover:bg-sky-50/50 rounded-none border-0",
+                              "group bg-transparent h-full px-8 transition-all hover:bg-sky-50/50 rounded-none border-0 flex items-center justify-center py-0 whitespace-nowrap",
                               "text-[11px] font-black italic uppercase tracking-[0.2em] text-zinc-800",
-                              isServicePage && "bg-sky-50"
+                              (isServicePage || navMenuValue === "services") && "bg-sky-50"
                             )}
                           >
-                            <span className="relative z-10">{item.name}</span>
+                            <span className="relative z-10 flex items-center gap-1">
+                              {item.name}
+                              <ChevronDown className="h-3 w-3 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                            </span>
                             {isServicePage && (
                               <motion.div
                                 layoutId="navActiveLine"
@@ -226,7 +229,7 @@ export default function Navbar() {
                         <Link href={item.href} legacyBehavior passHref>
                           <NavigationMenuLink
                             className={cn(
-                              "relative flex items-center h-full px-8 transition-all hover:bg-sky-50/50",
+                              "relative flex items-center justify-center h-full px-8 transition-all hover:bg-sky-50/50 py-0",
                               "text-[11px] font-black italic uppercase tracking-[0.2em] text-zinc-800",
                               isActive && "bg-sky-50"
                             )}
@@ -268,9 +271,9 @@ export default function Navbar() {
                     </Button>
                   </SheetTrigger>
                   <SheetContent side="right" className="w-full sm:w-[450px] border-l-2 border-zinc-900 bg-zinc-950 p-0 text-zinc-200">
-                    <div className="flex flex-col h-full">
+                    <div className="flex flex-col h-full bg-[radial-gradient(circle_at_top_right,#18181b,transparent)]">
                       <div className="p-8 border-b border-zinc-900 flex items-center justify-between">
-                        <span className="font-black italic text-xl tracking-tighter text-white uppercase">CRUXLABS</span>
+                        <span className="font-black italic text-xl tracking-tighter text-white uppercase tracking-[0.1em]">CRUXLABS</span>
                         <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
                           <X className="h-6 w-6 text-zinc-500" />
                         </Button>
@@ -282,17 +285,23 @@ export default function Navbar() {
                             href={item.href}
                             onClick={() => setMobileMenuOpen(false)}
                             className={cn(
-                              "flex items-center p-6 bg-zinc-900/50 border-l-4 transition-all",
-                              pathname === item.href ? "border-sky-500 text-white" : "border-transparent text-zinc-500"
+                              "flex items-center justify-between p-6 bg-zinc-900/50 border-l-4 transition-all overflow-hidden",
+                              pathname === item.href ? "border-sky-500 text-white bg-zinc-900" : "border-transparent text-zinc-500 hover:text-white"
                             )}
                           >
                             <span className="text-sm font-black italic uppercase tracking-[0.3em]">{item.name}</span>
+                            <span className="text-[10px] font-mono text-zinc-800">{item.id}</span>
                           </Link>
                         ))}
                       </div>
-                      <div className="p-8">
+                      <div className="p-8 border-t border-zinc-900">
                         <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                          <Button className="w-full h-16 bg-sky-500 text-zinc-950 font-black italic uppercase tracking-widest">INITIALIZE_INTERFACE</Button>
+                          <Button
+                            className="w-full h-16 bg-sky-500 text-zinc-950 font-black italic uppercase tracking-[0.3em] text-xs"
+                            style={{ clipPath: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)" }}
+                          >
+                            INITIALIZE_INTERFACE
+                          </Button>
                         </Link>
                       </div>
                     </div>
@@ -303,14 +312,16 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* BOTTOM DECORATIVE BAR (OPERATIONAL_EXCELLENCE) */}
+        {/* BOTTOM DECORATIVE BAR (MATCHING THE IMAGE) */}
         {!scrolled && (
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-4 px-12 mt-1 pointer-events-none"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-4 px-12 mt-2 pointer-events-none"
           >
-            <div className="h-[2px] w-12 bg-sky-500" />
+            <div className="h-6 w-6 bg-sky-500/10 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+              <Activity className="h-3 w-3 text-sky-500 skew-x-[12deg]" />
+            </div>
             <span className="text-[10px] font-black italic uppercase tracking-[0.5em] text-sky-500">
               OPERATIONAL_EXCELLENCE
             </span>
