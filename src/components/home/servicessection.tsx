@@ -14,43 +14,50 @@ import {
 import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import Image from "next/image"
 
 const services = [
   {
     icon: Layers,
     title: "Enterprise Web Systems",
     desc: "Engineered with Next.js 15 for sub-second performance and radical scalability.",
-    tag: "Primary Infrastructure"
+    tag: "Primary Infrastructure",
+    image: "/WebSystems.avif"
   },
   {
     icon: Server,
     title: "High-Frequency APIs",
     desc: "Robust Node.js & Go backends optimized for low-latency data throughput.",
-    tag: "Data Pipeline"
+    tag: "Data Pipeline",
+    image: "/Performance.avif"
   },
   {
     icon: Workflow,
     title: "Intelligent Automation",
     desc: "Eliminating operational friction through custom AI-driven workflow engines.",
-    tag: "Core Systems"
+    tag: "Core Systems",
+    image: "/BackendCRM.avif"
   },
   {
     icon: Database,
     title: "Relational Architecture",
     desc: "Hardened PostgreSQL systems designed for data integrity and complex logic.",
-    tag: "Persistence"
+    tag: "Persistence",
+    image: "/Infrastructure.avif"
   },
   {
     icon: ShieldCheck,
     title: "Hardened Security",
     desc: "Bank-grade authentication frameworks and zero-trust security layers.",
-    tag: "Resilience"
+    tag: "Resilience",
+    image: "/Security.avif"
   },
   {
     icon: Search,
     title: "Technical SEO",
     desc: "Architecture-level optimization for maximum indexability and authority.",
-    tag: "Growth Engine"
+    tag: "Growth Engine",
+    image: "/SEO.avif"
   }
 ]
 
@@ -89,9 +96,10 @@ export default function ServicesSection() {
     <motion.section
       ref={containerRef}
       style={{ opacity: sectionOpacity, scale: sectionScale }}
+      id="services"
       className="relative py-24 sm:py-32 px-6 overflow-hidden bg-[#fafafa] border-t border-slate-200"
     >
-      {/* 1. Unified Engineering Grid (Matching Hero & WhyChooseUs) */}
+      {/* 1. Unified Engineering Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
@@ -138,7 +146,7 @@ export default function ServicesSection() {
           </motion.div>
         </div>
 
-        {/* Services Matrix: Staggered Scroll Entrances */}
+        {/* Services Matrix: Image-Enhanced Technical Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
@@ -148,19 +156,37 @@ export default function ServicesSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group relative p-8 bg-white border border-slate-200 rounded-3xl transition-all hover:border-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
+              className="group relative bg-white border border-slate-200 rounded-3xl transition-all hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden flex flex-col h-full"
             >
-              {/* Card Decoration: Engineering marks */}
-              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-slate-100 rounded-tr-3xl" />
+              {/* Technical Image Area */}
+              <div className="relative h-48 w-full overflow-hidden bg-slate-100 border-b border-slate-100">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 ease-out opacity-80 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/60 pointer-events-none" />
 
-              <div className="relative z-10">
-                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-6 px-3 py-1 bg-slate-50 rounded-lg w-fit border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 group-hover:text-blue-500 transition-colors">
-                  Module ID: {index + 1} // {service.tag}
-                </span>
-
-                <div className="mb-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-[#0f172a] border border-slate-100 group-hover:bg-[#2563eb] group-hover:text-white group-hover:border-blue-400 transition-all duration-300">
-                  <service.icon className="h-6 w-6" />
+                {/* Module Tag */}
+                <div className="absolute top-4 left-4">
+                  <span className="text-[9px] font-mono font-bold text-[#0f172a] uppercase tracking-widest px-2.5 py-1 bg-white/90 backdrop-blur-md rounded-md border border-slate-200/50 shadow-sm">
+                    ID: {index + 1}
+                  </span>
                 </div>
+
+                {/* Icon Overlay */}
+                <div className="absolute bottom-4 left-6">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/90 backdrop-blur-md text-[#0f172a] border border-slate-200/50 group-hover:bg-[#2563eb] group-hover:text-white transition-all duration-300 shadow-sm">
+                    <service.icon className="h-5 w-5" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative z-10 p-8 pt-6 flex flex-col flex-grow">
+                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest block mb-4 group-hover:text-blue-500 transition-colors">
+                  {service.tag}
+                </span>
 
                 <h3 className="text-xl font-bold text-[#0f172a] mb-3 group-hover:text-blue-600 transition-colors flex items-center gap-2">
                   {service.title}
@@ -171,15 +197,16 @@ export default function ServicesSection() {
                   {service.desc}
                 </p>
 
-                <div className="h-[1px] w-full bg-slate-100 mb-6" />
-
-                <button className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
-                  Initialize Integration
-                </button>
+                <div className="mt-auto">
+                  <div className="h-[1px] w-full bg-slate-100 mb-6" />
+                  <button className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb] opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
+                    Initialize System
+                  </button>
+                </div>
               </div>
 
-              {/* Hover Interactive Glow Overlay */}
-              <div className="absolute bottom-[-20%] right-[-20%] w-[150px] h-[150px] bg-blue-500/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              {/* Engineering Corner Mark */}
+              <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-slate-200/50 rounded-tr-3xl pointer-events-none" />
             </motion.div>
           ))}
         </div>
