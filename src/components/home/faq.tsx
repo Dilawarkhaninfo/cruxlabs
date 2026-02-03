@@ -76,57 +76,88 @@ export default function FAQSection() {
       ref={containerRef}
       style={{ opacity: sectionOpacity, scale: sectionScale }}
       id="faq"
-      className="relative py-28 sm:py-36 px-6 overflow-hidden bg-white border-t border-slate-200"
+      className="relative py-28 sm:py-36 px-6 overflow-hidden bg-white"
     >
-      {/* 1. Global Engineering Grid */}
+      {/* 1. DIAGONAL BACKGROUND ACCENT */}
+      <div
+        className="absolute top-0 right-0 w-1/4 h-full bg-zinc-50 -z-10 hidden lg:block"
+        style={{ clipPath: "polygon(35% 0, 100% 0, 100% 100%, 0 100%)" }}
+      >
+        <div className="absolute inset-0 opacity-20"
+          style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      </div>
+
+      {/* Global Engineering Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
-      {/* 2. Interactive Mouse Glow */}
+      {/* Interactive Mouse Glow */}
       <motion.div
         style={{ x, y, translateX: "-50%", translateY: "-50%", left: "50%", top: "50%" }}
-        className="absolute w-[1000px] h-[1000px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"
+        className="absolute w-[1000px] h-[1000px] bg-sky-500/5 rounded-full blur-[150px] pointer-events-none"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* Header: Unified Left-Aligned Typography */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
-          <div className="max-w-2xl">
+        {/* Header: Diagonal Dynamic Style */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-28">
+          <div className="max-w-3xl transform -skew-x-[6deg]">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="flex items-center gap-4 mb-8"
             >
-              <Badge className="mb-6 rounded-full border-blue-200 bg-blue-50/50 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2563eb]">
-                System Documentation
-              </Badge>
-              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#0f172a] leading-[1.1] mb-6">
-                Frequently Asked <br />
-                <span className="text-[#2563eb]">Technical Queries</span>
+              <div className="h-12 w-12 bg-sky-500/10 border-2 border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+                <HelpCircle className="h-6 w-6 text-sky-500 skew-x-[12deg]" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="h-[2px] w-20 bg-sky-500" />
+                <span className="text-sky-500 font-black italic tracking-[0.3em] text-[10px] uppercase">
+                  System_Documentation_FAQ
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter text-zinc-950 leading-[0.85] mb-4">
+                TECHNICAL
               </h2>
-              <p className="text-lg text-[#64748b] leading-relaxed font-medium">
-                Everything you need to know about our engineering methodology,
-                deployment protocols, and proactive support systems.
-              </p>
+              <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter leading-[0.85] text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-purple-500">
+                QUERIES
+              </h2>
             </motion.div>
           </div>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col items-start lg:items-end gap-6"
           >
+            <p className="text-lg text-zinc-500 italic font-medium max-w-sm lg:text-right border-r-4 border-sky-500/30 pr-6">
+              Full transparency on our engineering methodology, deployment protocols, and proactive support.
+            </p>
             <Link href="/contact">
-              <button className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full text-sm font-bold text-[#0f172a] hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm">
-                Open Technical Ticket
-                <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button
+                className="h-14 px-10 bg-zinc-900 border-2 border-sky-500/30 hover:bg-sky-500 hover:text-white text-white font-black italic uppercase tracking-wider text-xs transition-all duration-300 group"
+                style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+              >
+                OPEN_SUPPORT_TICKET
+                <MoveRight className="inline-block ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             </Link>
           </motion.div>
         </div>
 
-        {/* FAQ Architecture: Accordion Component */}
-        <div className="max-w-4xl mx-auto space-y-4">
+        {/* FAQ Architecture: Skewed Accordion Matrix */}
+        <div className="max-w-4xl mx-auto space-y-6">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
@@ -134,99 +165,135 @@ export default function FAQSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className={`group relative border transition-all duration-500 overflow-hidden ${openIndex === index
-                  ? "bg-white border-blue-200 shadow-2xl shadow-blue-500/5 rounded-3xl"
-                  : "bg-slate-50/50 border-slate-100 rounded-2xl hover:bg-white hover:border-slate-200"
-                }`}
+              className="relative group h-full"
             >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between gap-6 p-6 md:p-8 text-left outline-none"
-              >
-                <div className="flex items-center gap-6">
-                  <span className="hidden sm:block text-[10px] font-mono font-bold text-slate-400 group-hover:text-blue-400 transition-colors">
-                    {faq.id}
-                  </span>
-                  <h3 className={`text-base md:text-lg font-bold tracking-tight transition-colors ${openIndex === index ? "text-blue-600" : "text-[#0f172a]"
-                    }`}>
-                    {faq.question}
-                  </h3>
-                </div>
-                <div className={`flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-xl border transition-all duration-500 ${openIndex === index
-                    ? "bg-blue-600 border-blue-400 text-white rotate-180"
-                    : "bg-white border-slate-200 text-[#0f172a]"
-                  }`}>
-                  {openIndex === index ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
-                </div>
-              </button>
+              {/* SKEWED ITEM BACKGROUND */}
+              <div
+                className={`absolute inset-0 border-2 transition-all duration-500 ${openIndex === index ? "bg-white border-zinc-950 shadow-2xl shadow-sky-500/10" : "bg-zinc-50 border-zinc-100 group-hover:bg-white group-hover:border-zinc-400"}`}
+                style={{ clipPath: "polygon(0 0, 100% 2%, 98% 100%, 2% 98%)" }}
+              />
 
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <div className="px-6 md:px-8 pb-8 md:pb-10 pt-0 ml-0 sm:ml-16">
-                      <div className="h-px w-full bg-slate-100 mb-8" />
-                      <p className="text-base text-[#64748b] leading-relaxed font-medium max-w-2xl">
-                        {faq.answer}
-                      </p>
-                      <div className="mt-8 flex items-center gap-4">
-                        <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-600 group/link">
-                          Initialize Full Doc
-                          <ArrowUpRight className="h-3 w-3 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
-                        </button>
-                      </div>
+              <div className="relative">
+                <button
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  className="w-full flex items-center justify-between gap-6 p-8 md:p-10 text-left outline-none"
+                >
+                  <div className="flex items-center gap-8">
+                    <div className={`h-10 px-3 flex items-center justify-center bg-zinc-900 border border-sky-500/30 transform -skew-x-[12deg]`}>
+                      <span className="text-[10px] font-black italic text-sky-500 uppercase tracking-widest skew-x-[12deg]">
+                        {faq.id}
+                      </span>
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <h3 className={`text-lg md:text-xl font-black italic tracking-tight transition-colors ${openIndex === index ? "text-sky-500" : "text-zinc-950"}`}>
+                      {faq.question}
+                    </h3>
+                  </div>
+                  <div className={`flex-shrink-0 h-12 w-12 flex items-center justify-center border-2 transition-all duration-500 ${openIndex === index
+                    ? "bg-zinc-950 border-zinc-950 text-white rotate-180"
+                    : "bg-white border-zinc-200 text-zinc-950"
+                    }`}
+                    style={{ clipPath: "polygon(20% 0, 100% 0, 80% 100%, 0 100%)" }}
+                  >
+                    {openIndex === index ? <Minus className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
+                  </div>
+                </button>
 
-              {/* Decorative Interaction Mark */}
+                <AnimatePresence>
+                  {openIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-10 md:px-14 pb-12 pt-0">
+                        <div className="h-[2px] w-full bg-zinc-100 mb-8 relative">
+                          <div className="absolute inset-y-0 left-0 w-1/4 bg-sky-500" />
+                        </div>
+                        <p className="text-base md:text-lg text-zinc-600 leading-relaxed italic font-medium max-w-2xl border-l-4 border-sky-500/30 pl-8">
+                          {faq.answer}
+                        </p>
+                        <div className="mt-10 flex items-center gap-6">
+                          <button className="flex items-center gap-2 text-[11px] font-black italic uppercase tracking-[0.3em] text-zinc-950 hover:text-sky-500 transition-colors group/link">
+                            INITIALIZE_FULL_DOC
+                            <ArrowUpRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Decorative Corner Accents */}
               {openIndex === index && (
-                <div className="absolute top-0 right-0 w-24 h-24 border-t border-r border-blue-100 rounded-tr-3xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"
+                  style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }}
+                />
               )}
             </motion.div>
           ))}
         </div>
 
-        {/* Subsystem Metadata Bar */}
+        {/* Global Metadata Terminal Bar */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-28 py-10 border-y border-dashed border-slate-200 flex flex-wrap justify-between gap-8 items-center px-4"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-32 p-10 bg-zinc-900 border-2 border-sky-500/30 relative overflow-hidden"
+          style={{ clipPath: "polygon(5% 0, 100% 0, 95% 100%, 0 100%)" }}
         >
-          <div className="flex items-center gap-6">
-            <div className="flex flex-col">
-              <span className="text-lg font-black text-[#0f172a]">FAQ_BUFFER</span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Registry Component</span>
+          {/* Animated Background Scan */}
+          <motion.div
+            animate={{ left: ["-100%", "200%"] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 w-1/2 h-full bg-gradient-to-r from-transparent via-sky-500/5 to-transparent skew-x-[30deg] pointer-events-none"
+          />
+
+          <div className="relative flex flex-wrap justify-center lg:justify-between gap-12 items-center">
+            <div className="flex items-center gap-10">
+              <div className="flex flex-col">
+                <span className="text-3xl font-black italic text-white tracking-widest uppercase">FAQ_BUFFER</span>
+                <span className="text-[10px] font-black italic text-sky-500 uppercase tracking-[0.4em] mt-2">Registry Component</span>
+              </div>
+              <div className="h-12 w-[2px] bg-zinc-800 rotate-12 hidden sm:block" />
+              <div className="flex flex-col">
+                <span className="text-3xl font-black italic text-white tracking-widest uppercase">v.4.2.0</span>
+                <span className="text-[10px] font-black italic text-purple-500 uppercase tracking-[0.4em] mt-2">Build Authorization</span>
+              </div>
             </div>
-            <div className="h-8 w-[1px] bg-slate-200" />
-            <div className="flex flex-col">
-              <span className="text-lg font-black text-[#0f172a]">v.4.2.0</span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Build Authorization</span>
+
+            <div className="flex items-center gap-8">
+              <div className="hidden lg:flex flex-col items-end">
+                <span className="text-[10px] font-mono font-black italic text-zinc-500 uppercase tracking-widest">SUBSYSTEM_STATUS</span>
+                <span className="text-xs font-black italic text-emerald-500 mt-1 uppercase tracking-widest">[ ALL OPERATIONAL ]</span>
+              </div>
+              <div className="h-14 w-1 flex bg-zinc-800 hidden lg:block" />
+              <div className="flex items-center gap-4">
+                <div className="h-3 w-3 rounded-full bg-sky-500 animate-pulse drop-shadow-[0_0_8px_rgba(14,165,233,0.5)]" />
+                <span className="text-[12px] font-black italic uppercase tracking-[0.3em] text-white">READY_FOR_DEPLOYMENT</span>
+              </div>
             </div>
-          </div>
-          <div className="hidden lg:flex items-center gap-4 text-[10px] font-mono font-bold text-slate-300 uppercase tracking-widest">
-            [ Status: All Subsystems Operational ]
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#2563eb]">Ready for Deployment</span>
           </div>
         </motion.div>
       </div>
 
-      {/* Support Metadata Overlay */}
-      <div className="absolute top-1/2 -left-8 translate-y-[-50%] text-[10px] font-mono text-slate-300 tracking-[1.2em] vertical-rl uppercase pointer-events-none opacity-40">
-        Support_Subsystem_A042
+      {/* Extreme Decorative Overlays */}
+      <div className="absolute top-1/2 -left-10 text-[9px] font-mono text-zinc-300 tracking-[1em] vertical-rl uppercase pointer-events-none opacity-30 italic">
+        SUPPORT_SUBSYSTEM_//_A042
       </div>
-      <div className="absolute bottom-12 right-12 text-[10px] font-mono text-slate-200 tracking-[0.4em] uppercase pointer-events-none">
-        CruxLabs Engineering // MMXXVI
+      <div className="absolute bottom-12 right-12 text-[10px] font-mono text-zinc-400 tracking-[0.4em] uppercase pointer-events-none italic opacity-40">
+        CRUXLABS_ENGINEERING_//_MMXXVI
       </div>
+
+      {/* BOTTOM SCAN LINE */}
+      <motion.div
+        animate={{ scaleX: [0, 1, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-500 to-transparent z-30 opacity-50"
+      />
     </motion.section>
   )
 }

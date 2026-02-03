@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion, useSpring, useMotionValue, useTransform, useScroll } from "framer-motion"
-import { Github, Linkedin, Twitter, Mail, MapPin, Phone, Globe, Cpu, Shield, Zap, ArrowUpRight, MoveRight } from "lucide-react"
+import { Github, Linkedin, Twitter, Mail, MapPin, Phone, Globe, Cpu, Shield, Zap, ArrowUpRight, MoveRight, Terminal } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import LogoImage from "../../../public/logo.png"
@@ -66,11 +66,9 @@ export default function Footer() {
       const centerY = canvas.height / 2
 
       dots.forEach((dot) => {
-        // Rotate around Y axis
         const x1 = dot.x * Math.cos(rotation) - dot.z * Math.sin(rotation)
         const z1 = dot.x * Math.sin(rotation) + dot.z * Math.cos(rotation)
 
-        // Perspective
         const fieldOfView = 800
         const scale = fieldOfView / (fieldOfView + z1 * radius)
         const xi = centerX + x1 * radius * scale
@@ -79,7 +77,7 @@ export default function Footer() {
         const opacity = (z1 + 1) / 2
         ctx.beginPath()
         ctx.arc(xi, yi, 1.5 * scale, 0, 2 * Math.PI)
-        ctx.fillStyle = `rgba(37, 99, 235, ${opacity * 0.6})`
+        ctx.fillStyle = `rgba(14, 165, 233, ${opacity * 0.6})`
         ctx.fill()
       })
       requestAnimationFrame(animate)
@@ -97,95 +95,126 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="relative bg-[#05070a] pt-32 pb-12 overflow-hidden border-t border-white/5">
-      {/* 1. Global Infrastructure Grid Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
+    <footer className="relative bg-zinc-950 pt-32 pb-12 overflow-hidden border-t border-zinc-900">
+      {/* 1. DIAGONAL BACKGROUND ACCENT */}
+      <div
+        className="absolute top-0 right-0 w-1/3 h-full bg-zinc-900/50 -z-10 hidden lg:block"
+        style={{ clipPath: "polygon(40% 0, 100% 0, 100% 100%, 0 100%)" }}
+      >
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      </div>
+
+      {/* Global Engineering Grid Background */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
 
-      {/* 2. Global Construction Line-Art (Expert Aesthetic) */}
-      <div className="absolute bottom-0 left-0 right-0 h-[400px] opacity-[0.03] pointer-events-none overflow-hidden">
+      {/* Construction Line-Art Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-[400px] opacity-[0.05] pointer-events-none overflow-hidden">
         <svg width="100%" height="100%" viewBox="0 0 1200 400" preserveAspectRatio="none">
           <path d="M0 400 L100 320 L200 350 L300 280 L400 340 L500 290 L600 330 L700 260 L800 310 L900 250 L1000 300 L1100 270 L1200 350 V400 H0 Z" fill="none" stroke="white" strokeWidth="1" />
           <path d="M0 400 L50 350 L150 310 L250 340 L350 290 L450 320 L550 270 L650 300 L750 250 L850 290 L950 240 L1050 280 L1150 230 L1200 280" fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="5,5" />
-          {/* Architectural Building Symbols */}
-          {[200, 400, 600, 800, 1000].map(x => (
-            <g key={x} transform={`translate(${x}, 300)`}>
-              <rect width="40" height="100" fill="none" stroke="white" strokeWidth="0.5" opacity="0.5" />
-              <line x1="10" y1="20" x2="30" y2="20" stroke="white" strokeWidth="0.5" />
-              <line x1="10" y1="40" x2="30" y2="40" stroke="white" strokeWidth="0.5" />
-            </g>
-          ))}
         </svg>
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-          {/* Brand & Global Presence */}
-          <div className="lg:col-span-5 space-y-10">
-            <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-              <Image src={LogoImage} alt="CruxLabs" width={40} height={40} className="h-10 w-10 object-contain" />
-              <span className="text-xl font-black tracking-tighter text-white uppercase italic">CruxLabs</span>
+          {/* Brand Architecture: Diagonal Style */}
+          <div className="lg:col-span-5 space-y-12 transform -skew-x-[6deg]">
+            <Link href="/" className="flex items-center gap-4 group transition-all skew-x-[6deg]">
+              <div className="h-10 w-10 bg-sky-500/10 border-2 border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+                <Image src={LogoImage} alt="CruxLabs" width={24} height={24} className="h-6 w-6 object-contain skew-x-[12deg]" />
+              </div>
+              <span className="text-2xl font-black italic tracking-tighter text-white uppercase leading-none">CruxLabs</span>
             </Link>
 
-            <h3 className="text-3xl sm:text-4xl font-black text-white leading-tight tracking-tight max-w-md">
-              Engineering the <br />
-              <span className="text-blue-500">Global Infrastructure</span>
-            </h3>
+            <div className="space-y-4">
+              <h3 className="text-5xl sm:text-6xl font-black italic text-white leading-[0.85] tracking-tighter">
+                ENGINEERING
+              </h3>
+              <h3 className="text-5xl sm:text-6xl font-black italic leading-[0.85] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">
+                INFRASTRUCTURE
+              </h3>
+            </div>
 
-            <p className="text-base text-white/50 leading-relaxed font-medium max-w-sm">
+            <p className="text-lg text-zinc-500 italic font-medium max-w-sm border-l-4 border-sky-500/30 pl-8 skew-x-[6deg]">
               We architect high-frequency systems that bridge the gap between complex logic
               and digital authority. Worldwide deployment, local impact.
             </p>
 
-            {/* Technical Node Metrics */}
-            <div className="flex flex-wrap gap-8 pt-4">
+            {/* Technical Node Metrics: Skewed Status */}
+            <div className="flex flex-wrap gap-10 pt-4 skew-x-[6deg]">
               {technologies.map((tech) => (
-                <div key={tech.name} className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <tech.icon className="h-4 w-4 text-blue-500" />
-                    <span className="text-[10px] font-mono font-bold text-white/80 uppercase tracking-widest">{tech.name}</span>
+                <div key={tech.name} className="flex flex-col gap-3 group">
+                  <div className="flex items-center gap-3">
+                    <tech.icon className="h-4 w-4 text-sky-500 transform group-hover:rotate-12 transition-transform" />
+                    <span className="text-[10px] font-black italic text-zinc-400 group-hover:text-white uppercase tracking-[0.2em]">{tech.name}</span>
                   </div>
-                  <div className="h-1 w-12 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full w-2/3 bg-blue-600" />
+                  <div className="h-[2px] w-20 bg-zinc-800 relative overflow-hidden">
+                    <motion.div
+                      initial={{ left: "-100%" }}
+                      whileInView={{ left: "0%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.5 }}
+                      className="absolute inset-y-0 left-0 w-2/3 bg-sky-500"
+                    />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Social & Contact Architecture */}
-            <div className="flex flex-wrap items-center gap-6 pt-6">
+            {/* Social Matrix */}
+            <div className="flex flex-wrap items-center gap-8 pt-6 skew-x-[6deg]">
               {socialLinks.map((social) => (
-                <a key={social.name} href={social.href} className="text-white/40 hover:text-blue-500 transition-all flex items-center gap-2 group">
-                  <social.icon className="h-4 w-4" />
-                  <span className="text-[11px] font-bold uppercase tracking-widest group-hover:translate-x-1 transition-transform">{social.name}</span>
+                <a key={social.name} href={social.href} className="text-zinc-500 hover:text-sky-500 transition-all flex items-center gap-3 group">
+                  <social.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
+                  <span className="text-[11px] font-black italic uppercase tracking-[0.3em] group-hover:translate-x-1 duration-300">{social.name}</span>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navigation Matrix */}
-          <div className="lg:col-span-4 grid grid-cols-2 gap-12">
+          {/* Navigation Matrix: Skewed Subsystems */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-12 pt-10">
             <div>
-              <h4 className="text-[11px] font-mono font-bold text-blue-500 uppercase tracking-[0.3em] mb-8">System_Services</h4>
-              <ul className="space-y-4">
+              <div className="flex flex-col gap-1 mb-10">
+                <div className="h-[2px] w-12 bg-sky-500" />
+                <h4 className="text-[11px] font-black italic text-sky-500 uppercase tracking-[0.4em]">SYSTEM_SERVICES</h4>
+              </div>
+              <ul className="space-y-6">
                 {services.map((service) => (
                   <li key={service.name}>
-                    <Link href={service.href} className="text-[13px] font-bold text-white/60 hover:text-white transition-all flex items-center gap-3 group">
-                      <span className="text-[9px] font-mono text-white/20 group-hover:text-blue-400 Transition-colors">{service.id}</span>
-                      {service.name}
+                    <Link href={service.href} className="flex items-center gap-4 group">
+                      <div className="h-7 w-7 bg-zinc-900 border border-zinc-800 group-hover:border-sky-500/50 flex items-center justify-center -skew-x-[12deg] transition-all">
+                        <span className="text-[9px] font-black italic text-zinc-600 group-hover:text-sky-500 skew-x-[12deg]">{service.id}</span>
+                      </div>
+                      <span className="text-[13px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-wider">
+                        {service.name}
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="text-[11px] font-mono font-bold text-blue-500 uppercase tracking-[0.3em] mb-8">Company_Logic</h4>
-              <ul className="space-y-4">
-                {["About Core", "Technical Portfolio", "Contact Architect", "System Status"].map((item) => (
-                  <li key={item}>
-                    <Link href="#" className="text-[13px] font-bold text-white/60 hover:text-white transition-all">
-                      {item}
+              <div className="flex flex-col gap-1 mb-10">
+                <div className="h-[2px] w-12 bg-purple-500" />
+                <h4 className="text-[11px] font-black italic text-purple-500 uppercase tracking-[0.4em]">COMPANY_LOGIC</h4>
+              </div>
+              <ul className="space-y-6">
+                {[
+                  { name: "About_Core", href: "/about" },
+                  { name: "Technical_Portfolio", href: "/portfolio" },
+                  { name: "Contact_Architect", href: "/contact" },
+                  { name: "System_Status", href: "/status" }
+                ].map((item) => (
+                  <li key={item.name}>
+                    <Link href={item.href} className="flex items-center gap-4 group">
+                      <div className="w-2 h-2 bg-zinc-800 group-hover:bg-purple-500 transform rotate-45 transition-colors" />
+                      <span className="text-[13px] font-black italic text-zinc-400 group-hover:text-white transition-all uppercase tracking-wider">
+                        {item.name}
+                      </span>
                     </Link>
                   </li>
                 ))}
@@ -193,69 +222,82 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 3. The 3D Globe Module */}
-          <div className="lg:col-span-3 flex flex-col items-center lg:items-end">
-            <div className="relative w-64 h-64 md:w-80 md:h-80">
-              {/* Globe Canvas */}
-              <canvas ref={globeRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
+          {/* 3D Global Infrastructure Monitor */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-end pt-10">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 group">
+              <div className="absolute inset-0 bg-sky-500/5 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <canvas ref={globeRef} className="relative z-10 w-full h-full cursor-grab active:cursor-grabbing grayscale group-hover:grayscale-0 transition-all duration-1000" />
 
-              {/* Floating Data Markers */}
-              <div className="absolute top-0 right-0 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold text-white/40 uppercase tracking-widest">Global_Nodes_Online</span>
+              {/* Technical Annotations */}
+              <div className="absolute top-0 right-0 p-4 border-t-2 border-r-2 border-zinc-800 group-hover:border-sky-500/50 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[10px] font-black italic text-zinc-500 uppercase tracking-widest leading-none">GLOBAL_NODES_ONLINE</span>
+                </div>
               </div>
-              <div className="absolute bottom-4 left-0">
-                <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-md">
-                  <span className="text-[9px] font-mono text-white/60 uppercase">Trajectory: Stable</span>
+
+              <div className="absolute bottom-4 left-0 -skew-x-[12deg]">
+                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800">
+                  <span className="text-[9px] font-black italic text-zinc-400 uppercase tracking-[0.2em] skew-x-[12deg] block">TRAJECTORY_STABLE_[0X01]</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 text-right space-y-4">
-              <p className="text-[11px] font-mono text-white/30 uppercase tracking-[0.2em] leading-relaxed max-w-[200px]">
+            <div className="mt-12 text-right space-y-4">
+              <p className="text-[11px] font-mono text-zinc-500 uppercase tracking-[0.3em] leading-relaxed max-w-[200px] border-r-2 border-zinc-800 pr-4">
                 Global Subsystem Registry <br />
-                Ref: 2026_CRUX_V4
+                <span className="text-white">REF: 2026_CRUX_V4</span>
               </p>
-              <div className="flex items-center justify-end gap-3 text-blue-500">
-                <Globe className="h-4 w-4" />
-                <span className="text-[10px] font-black uppercase tracking-widest">Multi-Region Deployment</span>
+              <div className="flex items-center justify-end gap-3 text-sky-500">
+                <Globe className="h-4 w-4 animate-spin-slow" />
+                <span className="text-[10px] font-black italic uppercase tracking-[0.4em]">MULTI_REGION_DEPLOYMENT</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar: Unified Architectural Mark */}
-        <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-8">
-            <p className="text-[11px] font-bold text-white/30 uppercase tracking-widest">
-              © {new Date().getFullYear()} CruxLabs Infrastructure
+        {/* Bottom Bar: Unified Deployment Protocol */}
+        <div className="mt-32 pt-12 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-10">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-8">
+            <p className="text-[11px] font-black italic text-zinc-500 uppercase tracking-[0.3em]">
+              © {new Date().getFullYear()} CRUXLABS_INFRASTRUCTURE
             </p>
-            <div className="h-4 w-[1px] bg-white/10 hidden md:block" />
-            <div className="flex gap-6">
-              <Link href="/privacy" className="text-[11px] font-bold text-white/30 hover:text-white uppercase tracking-widest transition-colors">Privacy_Protocol</Link>
-              <Link href="/terms" className="text-[11px] font-bold text-white/30 hover:text-white uppercase tracking-widest transition-colors">Usage_Agreement</Link>
+            <div className="h-4 w-[1px] bg-zinc-800 rotate-12 hidden md:block" />
+            <div className="flex gap-8">
+              <Link href="/privacy" className="text-[11px] font-black italic text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">PRIVACY_PROTOCOL</Link>
+              <Link href="/terms" className="text-[11px] font-black italic text-zinc-500 hover:text-white uppercase tracking-widest transition-colors">USAGE_AGREEMENT</Link>
             </div>
           </div>
 
           <div className="flex items-center gap-10">
-            {/* Engineering Coordinate */}
-            <div className="text-[10px] font-mono text-white/20 uppercase tracking-[0.5em] hidden sm:block">
-              LAT: 37.7749 / LONG: -122.4194
+            <div className="text-[10px] font-mono font-black italic text-zinc-600 uppercase tracking-[0.6em] hidden xl:block">
+              LAT: 37.7749 // LONG: -122.4194
             </div>
             <Link href="/contact">
-              <button className="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-full text-[11px] font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all group">
-                Initialize Technical Consultation
-                <ArrowUpRight className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <button
+                className="group relative h-14 px-10 bg-zinc-900 border-2 border-zinc-800 hover:border-sky-500 hover:bg-sky-500 hover:text-zinc-950 text-white font-black italic uppercase tracking-[0.3em] text-[10px] transition-all duration-300"
+                style={{ clipPath: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)" }}
+              >
+                <span className="flex items-center gap-4">
+                  INITIALIZE_CONSULTATION
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </span>
               </button>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Decorative Final Trace */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[9px] font-mono text-white/5 tracking-[2em] vertical-rl uppercase pointer-events-none">
-        Architectural_Finality // MMXXVI
+      {/* Extreme Decorative Tracing Overlay */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[9px] font-mono text-zinc-800 tracking-[2.5em] vertical-rl uppercase pointer-events-none opacity-20 italic">
+        ARCHITECTURAL_FINALITY_//_MMXXVI
       </div>
+
+      <motion.div
+        animate={{ scaleX: [0, 1, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-sky-500/30 to-transparent z-10"
+      />
     </footer>
   )
 }
