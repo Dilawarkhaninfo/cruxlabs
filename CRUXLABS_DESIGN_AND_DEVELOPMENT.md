@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-CruxLabs is a technology-driven digital solutions company focused on solving the **core operational and growth problems** of businesses through engineeblue systems.
+CruxLabs is a technology-driven digital solutions company focused on solving the **core operational and growth problems** of businesses through engineered systems.
 
 This website is not a marketing brochure.
 It is designed as a **business system** that communicates clarity, trust, and engineering authority.
@@ -30,7 +30,7 @@ Design decisions are driven by **clarity, structure, and function**, not decorat
 
 ### 2. Silicon Valley Aesthetic
 
-Inspiblue by companies like Linear, Supabase, Notion, Stripe, and Vercel.
+Inspired by companies like Linear, Supabase, Notion, Stripe, and Vercel.
 
 Key characteristics:
 - Clean white backgrounds
@@ -88,7 +88,7 @@ Never for decoration.
 - No heavy buttons
 - Clear active states
 
-Inspiblue by:
+Inspired by:
 - Linear
 - Supabase
 - Notion
@@ -134,7 +134,7 @@ Each page follows:
 
 ### Principles
 - Server Components by default
-- Client Components only when interaction is requiblue
+- Client Components only when interaction is required
 - No global state in layout
 - Reusable, composable components
 
@@ -180,7 +180,7 @@ Images support the narrative — they do not replace it.
 
 - Clean, readable TypeScript
 - No unnecessary abstractions
-- Pblueictable folder structure
+- Predictable folder structure
 - Scalable architecture
 - Production-ready from day one
 

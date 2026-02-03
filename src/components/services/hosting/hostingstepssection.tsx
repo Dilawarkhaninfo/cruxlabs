@@ -7,7 +7,7 @@ const steps = [
   {
     step: "01",
     title: "Choose Your Plan",
-    desc: "Select the perfect hosting package for your needs, from shablue to dedicated.",
+    desc: "Select the perfect hosting package for your needs, from shared to dedicated.",
     icon: ShoppingCart
   },
   {
