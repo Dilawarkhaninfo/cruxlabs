@@ -224,27 +224,28 @@ export default function Navbar() {
                       )
                     }
 
-                    return (
-                      <NavigationMenuItem key={item.name} className="h-full">
-                        <Link href={item.href} legacyBehavior passHref>
-                          <NavigationMenuLink
-                            className={cn(
-                              "relative flex items-center justify-center h-full px-8 transition-all hover:bg-sky-50/50 py-0",
-                              "text-[11px] font-black italic uppercase tracking-[0.2em] text-zinc-800",
-                              isActive && "bg-sky-50"
-                            )}
-                          >
-                            <span className="relative z-10">{item.name}</span>
-                            {isActive && (
-                              <motion.div
-                                layoutId="navActiveLine"
-                                className="absolute bottom-0 left-0 right-0 h-[4px] bg-sky-500"
-                              />
-                            )}
-                          </NavigationMenuLink>
-                        </Link>
-                      </NavigationMenuItem>
-                    )
+                 return (
+  <NavigationMenuItem key={item.name} className="h-full">
+    <NavigationMenuLink asChild>
+      <Link
+        href={item.href}
+        className={cn(
+          "relative flex items-center justify-center h-full px-8 transition-all hover:bg-sky-50/50 py-0",
+          "text-[11px] font-black italic uppercase tracking-[0.2em] text-zinc-800",
+          isActive && "bg-sky-50"
+        )}
+      >
+        <span className="relative z-10">{item.name}</span>
+        {isActive && (
+          <motion.div
+            layoutId="navActiveLine"
+            className="absolute bottom-0 left-0 right-0 h-[4px] bg-sky-500"
+          />
+        )}
+      </Link>
+    </NavigationMenuLink>
+  </NavigationMenuItem>
+)
                   })}
                 </NavigationMenuList>
               </NavigationMenu>
