@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { Activity, Terminal, Cpu, Shield, Zap } from "lucide-react"
+import { Activity  } from "lucide-react"
 
 export default function GlobalLoader() {
     const [isLoading, setIsLoading] = useState(true)
