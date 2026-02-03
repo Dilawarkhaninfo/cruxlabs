@@ -3,32 +3,34 @@
 import { useEffect, useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
+import { Activity, Terminal, Cpu, Shield, Zap } from "lucide-react"
 
 export default function GlobalLoader() {
     const [isLoading, setIsLoading] = useState(true)
+    const [statusIndex, setStatusIndex] = useState(0)
 
-    // Generate particles with random properties for the space effect
-    const particles = useMemo(() => {
-        return Array.from({ length: 50 }).map((_, i) => ({
-            id: i,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            size: Math.random() * 4 + 2, // 2px to 6px
-            duration: Math.random() * 20 + 10,
-            delay: Math.random() * 5,
-            opacity: Math.random() * 0.5 + 0.1,
-            moveX: Math.random() * 50 - 25,
-            moveY: Math.random() * 50 - 25,
-        }))
-    }, [])
+    const loadingStates = [
+        "INITIALIZING_CORE_RUNTIME",
+        "MOUNTING_DIAGONAL_MATRIX",
+        "ESTABLISHING_SKY_LINK",
+        "DECRYPTING_SYSTEM_REGISTRY",
+        "OPTIMIZING_RENDER_NODES",
+        "SYSTEM_READY_FOR_DEPLOYMENT"
+    ]
 
     useEffect(() => {
-        // Premium load duration
+        const interval = setInterval(() => {
+            setStatusIndex((prev) => (prev < loadingStates.length - 1 ? prev + 1 : prev))
+        }, 400)
+
         const timer = setTimeout(() => {
             setIsLoading(false)
-        }, 2500)
+        }, 2800)
 
-        return () => clearTimeout(timer)
+        return () => {
+            clearInterval(interval)
+            clearTimeout(timer)
+        }
     }, [])
 
     return (
@@ -36,127 +38,128 @@ export default function GlobalLoader() {
             {isLoading && (
                 <motion.div
                     key="loader"
-                    className="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-[#0A0A0A]"
+                    className="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-zinc-950"
                     initial={{ opacity: 1 }}
-                    exit={{
-                        opacity: 0,
-                        transition: { duration: 0.5, delay: 0.5 } // Fade out main container after slices start
-                    }}
+                    exit={{ opacity: 0, transition: { duration: 0.6, delay: 0.8 } }}
                 >
-                    {/* 
-            Background Gradient 
-            Deep Black (#0A0A0A) to Charcoal (#1E1E1E)
-          */}
-                    <div className="absolute inset-0 bg-gradient-radial from-[#1E1E1E] to-[#0A0A0A] opacity-80" />
+                    {/* GLOBAL ENGINEERING GRID */}
+                    <div className="absolute inset-0 pointer-events-none opacity-[0.05]"
+                        style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-                    {/* 
-            Floating Particles 
-            Creates the "Space/Tech" atmosphere
-          */}
+                    {/* INTERACTIVE BACKGROUND ELEMENTS */}
                     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                        {particles.map((particle) => (
-                            <motion.div
-                                key={particle.id}
-                                className="absolute rounded-full bg-sky-500/30 blur-[1px]"
-                                style={{
-                                    left: particle.left,
-                                    top: particle.top,
-                                    width: particle.size,
-                                    height: particle.size,
-                                    opacity: particle.opacity,
-                                    backgroundColor: particle.id % 2 === 0 ? "#0EA5E9" : "#FFFFFF", // Mix of SkyBlue and White
-                                }}
-                                animate={{
-                                    x: [0, particle.moveX],
-                                    y: [0, particle.moveY],
-                                    opacity: [particle.opacity, particle.opacity * 1.5, particle.opacity],
-                                }}
-                                transition={{
-                                    duration: particle.duration,
-                                    delay: particle.delay,
-                                    repeat: Infinity,
-                                    repeatType: "reverse",
-                                    ease: "linear",
-                                }}
-                            />
-                        ))}
+                        <motion.div
+                            animate={{ opacity: [0.1, 0.3, 0.1] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                            className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-[120px]"
+                        />
+                        <motion.div
+                            animate={{ opacity: [0.1, 0.2, 0.1] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 1 }}
+                            className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-sky-600/5 rounded-full blur-[150px]"
+                        />
                     </div>
 
-                    {/* 
-            Center Content: Logo & Text 
-          */}
+                    {/* CENTER CONTENT: HUD DESIGN */}
                     <motion.div
                         className="relative z-50 flex flex-col items-center justify-center"
-                        initial={{ opacity: 0, scale: 0.95 }}
+                        initial={{ opacity: 0, scale: 0.98 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)", transition: { duration: 0.5 } }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        exit={{ opacity: 0, scale: 1.05, filter: "blur(20px)", transition: { duration: 0.5 } }}
                     >
-                        {/* Logo Image */}
-                        <div className="relative w-32 h-32 md:w-40 md:h-40 mb-6 drop-shadow-2xl">
-                            {/* 
-                  Using direct path to public folder image. 
-                  Ensure logo.png has the white diamond + text if possible, 
-                  or we rely on just the image provided.
-               */}
-                            <Image
-                                src="/logo.png"
-                                alt="CruxLabs Logo"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
+                        {/* THE CORE LOGO MODULE */}
+                        <div className="relative group mb-12">
+                            {/* Skewed Frame */}
+                            <div className="absolute inset-[-20px] border border-sky-500/20 -skew-x-[12deg] pointer-events-none">
+                                <motion.div
+                                    animate={{ width: ["0%", "100%", "0%"], left: ["0%", "0%", "100%"] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                    className="absolute top-0 h-[1px] bg-sky-500"
+                                />
+                                <motion.div
+                                    animate={{ height: ["0%", "100%", "0%"], top: ["0%", "0%", "100%"] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                                    className="absolute right-0 w-[1px] bg-sky-500"
+                                />
+                            </div>
+
+                            <div className="relative w-32 h-32 md:w-36 md:h-36 flex items-center justify-center">
+                                <Image
+                                    src="/logo.png"
+                                    alt="CruxLabs"
+                                    fill
+                                    className="object-contain drop-shadow-[0_0_30px_rgba(14,165,233,0.3)]"
+                                    priority
+                                />
+                            </div>
+
+                            {/* Corner HUD Data */}
+                            <div className="absolute -top-4 -right-8">
+                                <span className="text-[10px] font-mono text-sky-500 font-bold italic tracking-widest">BOOT_SEQ://0X2A</span>
+                            </div>
+                            <div className="absolute -bottom-4 -left-8">
+                                <span className="text-[10px] font-mono text-zinc-500 italic">ARCH: V4.2_STABLE</span>
+                            </div>
                         </div>
 
-                        {/* Loading Status Text */}
-                        <motion.div
-                            className="flex flex-col items-center space-y-2"
-                        >
-                            {/* 
-                    "SYSTEM LOADING" 
-                    Small, spaced out, Sky Blue
-                */}
-                            <div className="flex items-center gap-3">
-                                <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-sky-500/50" />
-                                <span className="text-xs md:text-sm font-mono tracking-[0.3em] text-sky-500 uppercase font-semibold">
-                                    System Loading
-                                </span>
-                                <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-sky-500/50" />
+                        {/* STATUS MATRIX */}
+                        <div className="flex flex-col items-center gap-6">
+                            <div className="flex items-center gap-4">
+                                <div className="h-10 w-10 bg-zinc-900 border border-sky-500/30 flex items-center justify-center -skew-x-[12deg]">
+                                    <Activity className="h-5 w-5 text-sky-500 animate-pulse skew-x-[12deg]" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="h-[2px] w-24 bg-sky-500/20 relative overflow-hidden mb-2">
+                                        <motion.div
+                                            animate={{ left: ["-100%", "100%"] }}
+                                            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                            className="absolute inset-y-0 w-1/3 bg-sky-500 shadow-[0_0_10px_#0ea5e9]"
+                                        />
+                                    </div>
+                                    <span className="text-[11px] font-black italic tracking-[0.4em] text-white uppercase">
+                                        {loadingStates[statusIndex]}
+                                    </span>
+                                </div>
                             </div>
-                        </motion.div>
+
+                            {/* BITS STREAM */}
+                            <div className="flex gap-1.5 overflow-hidden h-1">
+                                {Array.from({ length: 12 }).map((_, i) => (
+                                    <motion.div
+                                        key={i}
+                                        animate={{ opacity: [0.2, 1, 0.2] }}
+                                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }}
+                                        className="h-full w-4 bg-sky-500/40 -skew-x-[20deg]"
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </motion.div>
 
-
-                    {/* 
-            Exit Animation: Diagonal Slices 
-            These overlay the dark screen and wipe it away to reveal the site
-          */}
-                    <motion.div
-                        className="absolute inset-0 z-[60] pointer-events-none"
-                        initial={{ opacity: 1 }}
-                    >
-                        {/* Slice 1: Sky Blue Wipe */}
+                    {/* DIAGONAL TRANSITION WIPE */}
+                    <div className="absolute inset-0 pointer-events-none z-[100]">
                         <motion.div
-                            className="absolute inset-0 bg-sky-500 transform origin-bottom-left"
-                            initial={{ x: "-100%", skewX: 20 }}
+                            className="absolute inset-0 bg-sky-500 origin-bottom-left"
+                            initial={{ x: "-100%", skewX: 12 }}
                             exit={{
                                 x: "200%",
-                                skewX: 20,
-                                transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+                                transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
                             }}
                         />
-                        {/* Slice 2: White Follower */}
                         <motion.div
-                            className="absolute inset-0 bg-white transform origin-bottom-left"
-                            initial={{ x: "-100%", skewX: 20 }}
+                            className="absolute inset-0 bg-zinc-950 origin-bottom-left"
+                            initial={{ x: "-110%", skewX: 12 }}
                             exit={{
                                 x: "200%",
-                                skewX: 20,
-                                transition: { duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }
+                                transition: { duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }
                             }}
                         />
-                    </motion.div>
+                    </div>
 
+                    {/* SIDE MARKINGS */}
+                    <div className="absolute bottom-10 left-10 text-[9px] font-mono text-zinc-500 tracking-[1em] uppercase vertical-rl rotate-180 opacity-30 italic">
+                        SYSTEM_BOOTLOADER_v4.2.0_CRUX
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>
